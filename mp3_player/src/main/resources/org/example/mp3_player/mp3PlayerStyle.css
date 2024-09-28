@@ -1,0 +1,27 @@
+#musicNameLabel{
+    -fx-font-family: "Bodoni MT";
+    -fx-text-fill: #3c284b;
+
+}
+
+.root{
+    -fx-background-color: #c7d7fb;
+}
+
+.button{
+    -fx-background-color: #d7f9fa;
+    -fx-text-fill: #3c284b;
+}
+
+#musicProgressBar{
+-fx-accent: #f1b0da;
+}
+
+#speedBox{
+    -fx-background-color: #d7f9fa;
+    -fx-text-fill: #3c284b;
+}
+
+#volumeSlider{
+    -fx-background-color: #d7f9fa;
+}
