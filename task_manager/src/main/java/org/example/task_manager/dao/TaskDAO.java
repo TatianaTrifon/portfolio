@@ -16,5 +16,7 @@ public interface TaskDAO extends DAO<Task> {
 
     List<Task> findByPriority(String priority);
 
+    List<Task> findAll();
+
 
 }

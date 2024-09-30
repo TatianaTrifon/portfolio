@@ -50,13 +50,24 @@ public class SignInController {
 
         String login = username.getText();
         String userPassword = password.getText();
+
         User foundUser = userDAOImpl.findByLogin(login);
 
+
 if(foundUser.getPassword().equals(userPassword)) {
+
+    int currentUser = foundUser.getId();
+
+
     root = new FXMLLoader(getClass().getResource("/org/example/task_manager/task-manager.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root.load());
     stage.setScene(scene);
+
+    TaskManagerController controller = root.getController();
+    controller.setUserId(currentUser);
+
+
     stage.show();
 } else {
     alert.showAndWait();

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class TaskDAOImpl implements TaskDAO {
             createTask.setString(2, task.getDescription());
             createTask.setString(3, task.getPriority());
             createTask.setString(4, task.getCategory());
-            createTask.setDate(5, task.getDeadline());
+            createTask.setDate(5, Date.valueOf(task.getDeadline()));
             createTask.setInt(6, task.getUserId());
 
             createTask.executeUpdate();
@@ -44,7 +45,7 @@ public class TaskDAOImpl implements TaskDAO {
     @Override
     public Task update(Task task) {
 
-        String sql = "UPDATE task SET name = ?, description = ?, priority = ?, category = ?, deadline = ? WHERE task_id = ?";
+        String sql = "UPDATE task SET task_name = ?, task_description = ?, priority = ?, category = ?, deadline = ? WHERE task_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateTask = conn.prepareCall(sql)) {
@@ -53,8 +54,10 @@ public class TaskDAOImpl implements TaskDAO {
             updateTask.setString(2, task.getDescription());
             updateTask.setString(3, task.getPriority());
             updateTask.setString(4, task.getCategory());
-            updateTask.setDate(5, task.getDeadline());
+            updateTask.setDate(5, Date.valueOf(task.getDeadline()));
             updateTask.setInt(6, task.getId());
+
+            updateTask.executeUpdate();
 
         } catch (SQLException e) {
             LOGGER.error("Failed to update the task with id: " + task.getId() + e);
@@ -104,7 +107,7 @@ public class TaskDAOImpl implements TaskDAO {
                 String description = resultSet.getString("task_description");
                 String priority = resultSet.getString("priority");
                 String taskCategory = resultSet.getString("category");
-                Date deadline = resultSet.getDate("deadline");
+                LocalDate deadline = resultSet.getDate("deadline").toLocalDate();
                 Integer user_id = resultSet.getInt("user_id");
 
                 task = new Task(id, name, description, priority, taskCategory, deadline, user_id);
@@ -140,7 +143,7 @@ public class TaskDAOImpl implements TaskDAO {
                 String description = resultSet.getString("task_description");
                 String taskPriority = resultSet.getString("priority");
                 String category = resultSet.getString("category");
-                Date deadline = resultSet.getDate("deadline");
+                LocalDate deadline = resultSet.getDate("deadline").toLocalDate();
                 Integer userId = resultSet.getInt("user_id");
 
                 task = new Task(id, name, description, taskPriority, category, deadline, userId);
@@ -149,6 +152,40 @@ public class TaskDAOImpl implements TaskDAO {
 
         } catch (SQLException e) {
             LOGGER.error("Failed to find any task with priority: " + priority + e);
+        }
+
+        return tasks;
+    }
+
+    @Override
+    public List<Task> findAll() {
+        List<Task> tasks = new ArrayList<>();
+        Task task;
+
+        String sql = "SELECT * FROM task";
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findTasks = conn.prepareCall(sql)) {
+
+
+
+            ResultSet resultSet = findTasks.executeQuery();
+
+            while (resultSet.next()) {
+                Integer id = resultSet.getInt("task_id");
+                String name = resultSet.getString("task_name");
+                String description = resultSet.getString("task_description");
+                String taskPriority = resultSet.getString("priority");
+                String category = resultSet.getString("category");
+                LocalDate deadline = resultSet.getDate("deadline").toLocalDate();
+                Integer userId = resultSet.getInt("user_id");
+
+                task = new Task(id, name, description, taskPriority, category, deadline, userId);
+                tasks.add(task);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Failed to find any task with priority: " + e);
         }
 
         return tasks;

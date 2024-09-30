@@ -1,6 +1,7 @@
 package org.example.task_manager.entities;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Task {
@@ -15,14 +16,14 @@ public class Task {
 
     private String category;
 
-    private Date deadline;
+    private LocalDate deadline;
 
     private int userId;
 
     public Task() {
     }
 
-    public Task(int id, String name, String description, String priority, String category, Date deadline, int userId) {
+    public Task(int id, String name, String description, String priority, String category, LocalDate deadline, int userId) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -32,7 +33,7 @@ public class Task {
         this.userId = userId;
     }
 
-    public Task(String name, String description, String priority, String category, Date deadline, int userId) {
+    public Task(String name, String description, String priority, String category, LocalDate deadline, int userId) {
         this.name = name;
         this.description = description;
         this.priority = priority;
@@ -81,11 +82,11 @@ public class Task {
         this.category = category;
     }
 
-    public Date getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(LocalDate deadline) {
         this.deadline = deadline;
     }
 
@@ -108,5 +109,10 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id, name, description, priority, category, userId);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

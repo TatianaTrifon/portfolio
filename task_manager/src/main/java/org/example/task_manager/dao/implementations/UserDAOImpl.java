@@ -22,14 +22,14 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User create(User user) {
 
-        String sql = "INSERT INTO user(user_email,username,username_password) VALUES(?,?,?)";
+        String sql = "INSERT INTO user(username,username_password,user_email) VALUES(?,?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createUser = conn.prepareCall(sql)) {
 
-            createUser.setString(1, user.getEmail());
-            createUser.setString(2, user.getUsername());
-            createUser.setString(3, user.getPassword());
+            createUser.setString(1, user.getUsername());
+            createUser.setString(2, user.getPassword());
+            createUser.setString(3, user.getEmail());
 
             createUser.executeUpdate();
 
