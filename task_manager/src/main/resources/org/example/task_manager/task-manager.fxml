@@ -22,5 +22,10 @@
       </Button>
       <ComboBox fx:id="priorityBox" layoutX="14.0" layoutY="69.0" onAction="#choosePriority" prefHeight="26.0" prefWidth="134.0" promptText="Priority" />
       <ComboBox fx:id="categoryBox" layoutX="14.0" layoutY="110.0" onAction="#chooseCategory" prefHeight="26.0" prefWidth="134.0" promptText="Category" />
+      <Button fx:id="accountButton" layoutX="14.0" layoutY="277.0" mnemonicParsing="false" onAction="#goToSettings" prefHeight="26.0" prefWidth="134.0" text="Account Settings">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

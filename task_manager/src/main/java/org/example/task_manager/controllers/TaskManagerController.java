@@ -1,5 +1,6 @@
 package org.example.task_manager.controllers;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -11,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.task_manager.dao.implementations.TaskDAOImpl;
@@ -64,8 +66,16 @@ public class TaskManagerController implements Initializable {
 
         stage.setScene(scene);
 
+
+        stage.setOnCloseRequest(event -> {
+            closeEditWindow(stage);
+            closeEditWindow(stage);
+        });
+
+
         TaskController controller = root.getController();
         controller.setUserId(userId);
+
 
         stage.showAndWait();
 
@@ -89,6 +99,11 @@ public class TaskManagerController implements Initializable {
         stage.setScene(scene);
 
 
+        stage.setOnCloseRequest(event -> {
+            closeEditWindow(stage);
+            closeEditWindow(stage);
+        });
+
 
         stage.show();
 
@@ -102,25 +117,6 @@ public class TaskManagerController implements Initializable {
         taskListView.getItems().clear();
         taskListView.getItems().addAll(taskDAOImpl.findByPriority(priorityBox.getValue()));
 
-        taskListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
-            @Override
-            public void changed(ObservableValue<? extends Task> observableValue, Task task, Task t1) {
-
-                Task currentTask = taskListView.getSelectionModel().getSelectedItem();
-
-                //NOT SURE ABOUT EVENT HERE
-
-                try {
-                    changeToEditTask(currentTask);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-
-        });
-
 
     }
 
@@ -130,24 +126,7 @@ public class TaskManagerController implements Initializable {
         taskListView.getItems().clear();
         taskListView.getItems().addAll(taskDAOImpl.findByCategory(categoryBox.getValue()));
 
-        taskListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
-            @Override
-            public void changed(ObservableValue<? extends Task> observableValue, Task task, Task t1) {
 
-                Task currentTask = taskListView.getSelectionModel().getSelectedItem();
-
-                //NOT SURE ABOUT EVENT HERE
-
-                try {
-                    changeToEditTask(currentTask);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-
-        });
     }
 
 
@@ -155,23 +134,25 @@ public class TaskManagerController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
-taskListView.getItems().clear();
+        taskListView.getItems().clear();
         taskListView.getItems().addAll(taskDAOImpl.findAll());
 
-        
+
         taskListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Task>() {
             @Override
             public void changed(ObservableValue<? extends Task> observableValue, Task task, Task t1) {
 
                 Task currentTask = taskListView.getSelectionModel().getSelectedItem();
 
-                //NOT SURE ABOUT EVENT HERE
 
                 try {
                     changeToEditTask(currentTask);
+
+
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
 
             }
 
@@ -192,6 +173,18 @@ taskListView.getItems().clear();
         }
 
         categoryBox.setOnAction(this::chooseCategory);
+
+    }
+
+    public void closeEditWindow(Stage stage) {
+        stage.close();
+        clearTaskSelection();
+
+
+    }
+
+    public void clearTaskSelection() {
+        taskListView.getSelectionModel().clearSelection();
 
     }
 }
