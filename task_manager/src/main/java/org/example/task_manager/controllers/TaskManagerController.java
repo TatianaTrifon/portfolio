@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.example.task_manager.dao.implementations.TaskDAOImpl;
 import org.example.task_manager.entities.Task;
+import org.example.task_manager.entities.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -39,6 +41,7 @@ public class TaskManagerController implements Initializable {
     @FXML
     private ComboBox<String> categoryBox;
 
+
     String[] categories = {"Education", "Work", "Hobby", "Sport", "Chores", "Finance"};
 
     private FXMLLoader root;
@@ -47,12 +50,14 @@ public class TaskManagerController implements Initializable {
 
     private Scene scene;
 
-    private int userId;
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+
+    private User user = new User();
+
+
+    public void setUser(User user) {
+        this.user = user;
     }
-
 
     @FXML
     public void changeToCreateTask() throws IOException {
@@ -74,10 +79,34 @@ public class TaskManagerController implements Initializable {
 
 
         TaskController controller = root.getController();
-        controller.setUserId(userId);
+        controller.setUserId(user.getId());
+        controller.getDoneButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    controller.editTask();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                closeEditWindow(stage);
+                closeEditWindow(stage);
+            }
+        });
+        controller.getDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    controller.deleteTask();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                closeEditWindow(stage);
+                closeEditWindow(stage);
+            }
+        });
 
 
-        stage.showAndWait();
+        stage.show();
 
 
     }
@@ -92,7 +121,7 @@ public class TaskManagerController implements Initializable {
 
         TaskController controller = root.getController();
         controller.setTask(task);
-        controller.setUserId(userId);
+        controller.setUserId(user.getId());
 
         stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -104,11 +133,38 @@ public class TaskManagerController implements Initializable {
             closeEditWindow(stage);
         });
 
+        controller.getDoneButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    controller.editTask();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                closeEditWindow(stage);
+                closeEditWindow(stage);
+            }
+        });
+
+        controller.getDeleteButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    controller.deleteTask();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                closeEditWindow(stage);
+                closeEditWindow(stage);
+            }
+        });
+
 
         stage.show();
 
-
     }
+
+
 
     @FXML
     public void choosePriority(ActionEvent event) {
@@ -178,6 +234,7 @@ public class TaskManagerController implements Initializable {
 
     public void closeEditWindow(Stage stage) {
         stage.close();
+        refreshListView();
         clearTaskSelection();
 
 
@@ -187,4 +244,30 @@ public class TaskManagerController implements Initializable {
         taskListView.getSelectionModel().clearSelection();
 
     }
+
+    @FXML
+    public void goToSettings(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/task_manager/account.fxml"));
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        scene = new Scene(root.load());
+        AccountController controller = root.getController();
+        controller.setUser(user);
+        stage.setScene(scene);
+
+
+
+
+        stage.show();
+    }
+
+    public void refreshListView(){
+        TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
+        taskListView.getItems().clear();
+        taskListView.getItems().addAll(taskDAOImpl.findAll());
+
+    }
+
+
 }

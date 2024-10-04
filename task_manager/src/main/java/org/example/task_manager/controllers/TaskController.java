@@ -1,6 +1,7 @@
 package org.example.task_manager.controllers;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -39,13 +40,16 @@ public class TaskController implements Initializable {
     @FXML
     private Button doneButton;
 
+    @FXML
+    private Button deleteButton;
+
     private FXMLLoader root;
 
     private AnchorPane pane;
 
     private Stage stage;
 
-    private int userId;
+    private Integer userId;
 
     private Scene scene;
 
@@ -69,29 +73,28 @@ public class TaskController implements Initializable {
         }
     }
 
+    public Button getDoneButton() {
+        return doneButton;
+    }
+
+    public Button getDeleteButton() {
+        return deleteButton;
+    }
+
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
     @FXML
-    public void editTask() {
+    public void editTask() throws IOException {
 
         TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
-        if (task != null) {
 
-
-            Task updatedTask = taskDAOImpl.update(new Task(task.getId(),taskName.getText(), taskDescription.getText(), taskPriorityBox.getValue(), taskCategoryBox.getValue(), taskDeadlinePicker.getValue(), userId));
-
-            if (updatedTask != null) {
-                stage = (Stage) doneButton.getScene().getWindow();
-                stage.close();
-            }
-
-        } else {
+        if (task.getName() == null)  {
             String name = taskName.getText();
             String desription = taskDescription.getText();
             String priority = taskPriorityBox.getValue();
@@ -103,7 +106,6 @@ public class TaskController implements Initializable {
             if (newTask != null) {
 
                 stage = (Stage) doneButton.getScene().getWindow();
-                stage.close();
 
             } else {
 
@@ -112,7 +114,29 @@ public class TaskController implements Initializable {
             }
 
 
+        } else {
+
+
+            Task updatedTask = taskDAOImpl.update(new Task(task.getId(),taskName.getText(), taskDescription.getText(), taskPriorityBox.getValue(), taskCategoryBox.getValue(), taskDeadlinePicker.getValue(), userId));
+
+            if (updatedTask != null) {
+                stage = (Stage) doneButton.getScene().getWindow();
+
+            }
+
         }
+
+    }
+
+    @FXML
+    public void deleteTask() throws IOException {
+
+        TaskDAOImpl taskDAOImpl = new TaskDAOImpl();
+
+        taskDAOImpl.deleteById(task.getId());
+
+
+
 
     }
 

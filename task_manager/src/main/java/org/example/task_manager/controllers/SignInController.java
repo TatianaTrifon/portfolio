@@ -53,10 +53,10 @@ public class SignInController {
 
         User foundUser = userDAOImpl.findByLogin(login);
 
-
-if(foundUser.getPassword().equals(userPassword)) {
-
-    int currentUser = foundUser.getId();
+        if(foundUser.getUsername() == null){
+            alert.setContentText("This user doesn't exist!");
+            alert.showAndWait();
+        } else if(foundUser.getPassword().equals(userPassword)) {
 
 
     root = new FXMLLoader(getClass().getResource("/org/example/task_manager/task-manager.fxml"));
@@ -65,7 +65,7 @@ if(foundUser.getPassword().equals(userPassword)) {
     stage.setScene(scene);
 
     TaskManagerController controller = root.getController();
-    controller.setUserId(currentUser);
+    controller.setUser(foundUser);
 
 
     stage.show();

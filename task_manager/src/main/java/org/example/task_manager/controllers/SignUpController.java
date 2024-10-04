@@ -32,6 +32,9 @@ public class SignUpController {
 @FXML
     private Button signUpButton;
 
+@FXML
+private Button goBackButton;
+
 private FXMLLoader root;
 
 private Stage stage;
@@ -42,10 +45,10 @@ private Scene scene;
 @FXML
     public void signUp(ActionEvent event) throws IOException {
 
-    Alert alert = new Alert(Alert.AlertType.WARNING);
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
     alert.setContentText("The passwords should be te same");
     UserDAOImpl userDAOImpl = new UserDAOImpl();
-    int currentUserId;
+
 
     String userEmail = email.getText();
     String login = username.getText();
@@ -54,28 +57,38 @@ private Scene scene;
 
 if(userPassword.equals(confirmationPassword)) {
     User createdUser = userDAOImpl.create(new User(login, userPassword,userEmail));
-    currentUserId = createdUser.getId();
+
     alert.setContentText("Registration completed!");
     alert.showAndWait();
 
     root = new FXMLLoader(getClass().getResource("/org/example/task_manager/task-manager.fxml"));
 
-    TaskManagerController controller = root.getController();
-    controller.setUserId(currentUserId);
+
 
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root.load());
+    TaskManagerController controller = root.getController();
+    controller.setUser(createdUser);
     stage.setScene(scene);
     stage.show();
 
-    //TO-DO:
-    // pass the user id to the TaskManagerController
 
 } else {
     alert.showAndWait();
 }
 
 }
+
+    @FXML
+    public void goBackToSignIn(ActionEvent event) throws IOException {
+
+    root = new FXMLLoader(getClass().getResource("/org/example/task_manager/sign-in.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root.load());
+    stage.setScene(scene);
+    stage.show();
+
+    }
 
 
 

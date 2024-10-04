@@ -45,7 +45,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public User update(User user) {
 
-        String sql = "UPDATE user SET password = ? WHERE user_id = ?";
+        String sql = "UPDATE user SET username_password = ? WHERE user_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateUser = conn.prepareCall(sql)) {
@@ -66,12 +66,16 @@ public class UserDAOImpl implements UserDAO {
     public boolean deleteById(Integer id) {
 
         String sql = "DELETE FROM user WHERE user_id = ?";
+        String deleteTask = "DELETE FROM task WHERE user_id =?";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement deleteUser = conn.prepareCall(sql)) {
+             PreparedStatement deleteUser = conn.prepareCall(sql);
+             PreparedStatement deleteUserTask = conn.prepareCall(deleteTask)) {
 
+            deleteUserTask.setInt(1,id);
             deleteUser.setInt(1, id);
 
+            deleteUserTask.executeUpdate();
             deleteUser.executeUpdate();
 
         } catch (SQLException e) {
