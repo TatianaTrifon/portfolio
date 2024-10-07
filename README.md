@@ -24,7 +24,8 @@ Application's functionality:
 - Change the user's password
 - Delete account
 
-  The final result in presented below:
+
+The final result in presented below:
 
 **Sign In:**
 
