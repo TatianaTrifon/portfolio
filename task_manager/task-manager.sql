@@ -1,0 +1,26 @@
+CREATE TABLE IF NOT EXISTS user(
+user_id INT PRIMARY KEY AUTO_INCREMENT,
+username VARCHAR(50) NOT NULL UNIQUE,
+username_password VARCHAR(50) NOT NULL,
+user_email VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS task(
+task_id INT PRIMARY KEY AUTO_INCREMENT,
+task_name VARCHAR(50) NOT NULL,
+task_description VARCHAR(200) NOT NULL,
+priority VARCHAR(50) NOT NULL,
+category VARCHAR(50) NOT NULL,
+deadline DATE NOT NULL,
+user_id INT NOT NULL,
+FOREIGN KEY (user_id) REFERENCES user (user_id)
+);
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456789';
+
+SELECT * FROM user;
+
+SELECT * FROM task;
+
+DELETE FROM user WHERE user_id = 4;
+
