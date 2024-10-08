@@ -51,3 +51,16 @@ The final result in presented below:
 
 
 ![settings](https://github.com/user-attachments/assets/9283b20c-33aa-4b84-bc7b-70064d126c38)
+
+
+
+3. fbs-backend
+
+This project implements functionality of a flight booking service using SpringBoot and JDBC.
+In this project, I implemented these functionality:
+- Creating/editing/deleting airports
+- Creating/editing/deleting airlines
+- Creating/editing/deleting users
+- Creating/editing/deleting flights by assigning them to the users and airlines
+
+The functionality was checked using Postman and by doing tests using JUnit and Mockito
