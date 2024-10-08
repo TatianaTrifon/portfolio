@@ -54,7 +54,9 @@ The final result in presented below:
 
 
 
-3. fbs-backend
+
+
+**3. fbs-backend**
 
 This project implements functionality of a flight booking service using SpringBoot and JDBC.
 In this project, I implemented these functionality:
