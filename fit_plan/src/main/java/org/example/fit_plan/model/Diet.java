@@ -1,7 +1,6 @@
 package org.example.fit_plan.model;
 
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,17 +17,19 @@ public class Diet {
 
     private String dietName;
 
-    private String description;
+    private String dietDescription;
+
+    private String dietCategory;
 
     private String allowedFood;
 
     private String forbiddenFood;
 
-    public Diet(String dietName, String description, String allowedFood, String forbiddenFood) {
+    public Diet(String dietName, String dietDescription, String dietCategory, String allowedFood, String forbiddenFood) {
         this.dietName = dietName;
-        this.description = description;
+        this.dietDescription = dietDescription;
+        this.dietCategory = dietCategory;
         this.allowedFood = allowedFood;
         this.forbiddenFood = forbiddenFood;
     }
-
 }
