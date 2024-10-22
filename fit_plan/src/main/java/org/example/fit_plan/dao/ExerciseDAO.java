@@ -12,6 +12,8 @@ public interface ExerciseDAO extends DAO<Exercise> {
 
     boolean deleteById(Integer id);
 
+    Exercise findById(Integer id);
+
     List<Exercise>  findByCategory(String category);
 
     List<Exercise> findAll();
