@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class DietDAOImpl implements DietDAO {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DietDAOImpl.class);
@@ -26,7 +27,7 @@ public class DietDAOImpl implements DietDAO {
 
 
         try(Connection conn = jdbcConnection.getConnection();
-            PreparedStatement createDiet = conn.prepareCall(sql)){
+            PreparedStatement createDiet = conn.prepareStatement(sql)){
 
             createDiet.setString(1, diet.getDietName());
             createDiet.setString(2, diet.getDietDescription());
@@ -49,7 +50,7 @@ createDiet.executeUpdate();
         String sql = "UPDATE diet SET diet_name = ? WHERE diet_id = ?";
 
         try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement updateDiet = conn.prepareCall(sql)){
+        PreparedStatement updateDiet = conn.prepareStatement(sql)){
 
             updateDiet.setString(1, diet.getDietName());
             updateDiet.setInt(2, diet.getDietId());
@@ -69,7 +70,7 @@ createDiet.executeUpdate();
         String sql = "DELETE FROM diet WHERE diet_id = ?";
 
         try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement deleteDiet = conn.prepareCall(sql)){
+        PreparedStatement deleteDiet = conn.prepareStatement(sql)){
 
             deleteDiet.setInt(1, id);
 
@@ -90,7 +91,7 @@ createDiet.executeUpdate();
         String sql = "SELECT * FROM diet WHERE diet_id = ?";
 
         try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement findDiet = conn.prepareCall(sql)){
+        PreparedStatement findDiet = conn.prepareStatement(sql)){
 
             findDiet.setInt(1, id);
 
@@ -120,7 +121,7 @@ createDiet.executeUpdate();
         String sql = "SELECT * FROM diet WHERE diet_category = ?";
 
         try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement findDiet = conn.prepareCall(sql)){
+        PreparedStatement findDiet = conn.prepareStatement(sql)){
 
             findDiet.setString(1, category);
 
@@ -153,7 +154,7 @@ createDiet.executeUpdate();
         String sql = "SELECT * FROM diet";
 
         try(Connection conn = jdbcConnection.getConnection();
-            PreparedStatement findDiet = conn.prepareCall(sql)){
+            PreparedStatement findDiet = conn.prepareStatement(sql)){
 
 
             ResultSet resultSet = findDiet.executeQuery();
