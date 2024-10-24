@@ -7,7 +7,7 @@ module org.example.fit_plan {
     requires static lombok;
 
 
-    // Export controllers package to javafx.fxml for reflection access
+    
     opens org.example.fit_plan.controllers to javafx.fxml;
 
     opens org.example.fit_plan to javafx.fxml;
