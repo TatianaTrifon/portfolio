@@ -1,11 +1,14 @@
 module org.example.fit_plan {
     requires javafx.controls;
     requires javafx.fxml;
-    requires lombok;
     requires jdk.jdi;
     requires java.sql;
     requires org.slf4j;
+    requires static lombok;
 
+
+    // Export controllers package to javafx.fxml for reflection access
+    opens org.example.fit_plan.controllers to javafx.fxml;
 
     opens org.example.fit_plan to javafx.fxml;
     exports org.example.fit_plan;

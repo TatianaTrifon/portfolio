@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.SignUpController">
+   <children>
+      <Label alignment="CENTER" layoutY="14.0" prefHeight="18.0" prefWidth="900.0" text="FitPlan">
+         <font>
+            <Font size="65.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="341.0" layoutY="159.0" prefHeight="18.0" prefWidth="217.0" text="Sign Up">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label layoutX="93.0" layoutY="234.0" prefHeight="18.0" prefWidth="264.0" text="Email">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="emailField" layoutX="93.0" layoutY="264.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your email" />
+      <Label layoutX="93.0" layoutY="325.0" prefHeight="18.0" prefWidth="264.0" text="Username">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <TextField fx:id="usernameField" layoutX="93.0" layoutY="355.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your username" />
+      <Label layoutX="550.0" layoutY="234.0" prefHeight="18.0" prefWidth="264.0" text="Password">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="passwordField" layoutX="550.0" layoutY="264.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your password" />
+      <Label layoutX="550.0" layoutY="325.0" prefHeight="18.0" prefWidth="264.0" text="Password confirmation">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="repeatedPasswordField" layoutX="550.0" layoutY="355.0" prefHeight="40.0" prefWidth="264.0" promptText="Repeat your password" />
+      <Button fx:id="signUpButton" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="90.0" text="Sign Up">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Button>
+      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToSignIn" prefHeight="40.0" prefWidth="47.0" text="&lt;">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>
