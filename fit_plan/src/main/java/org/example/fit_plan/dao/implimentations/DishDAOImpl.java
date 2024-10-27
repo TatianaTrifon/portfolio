@@ -96,15 +96,16 @@ public class DishDAOImpl implements DishDAO {
 
             ResultSet resultSet = findDish.executeQuery();
 
-            int dishId = resultSet.getInt("dish_id");
-            String name = resultSet.getString("dish_name");
-            String ingredients = resultSet.getString("ingredients");
-            String instructions = resultSet.getString("instructions");
-            double calories = resultSet.getDouble("calories");
-            String nutrients = resultSet.getString("nutrients");
+            while (resultSet.next()) {
+                int dishId = resultSet.getInt("dish_id");
+                String name = resultSet.getString("dish_name");
+                String ingredients = resultSet.getString("ingredients");
+                String instructions = resultSet.getString("instructions");
+                double calories = resultSet.getDouble("calories");
+                String nutrients = resultSet.getString("nutrients");
 
-            dish = new Dish(dishId, name, ingredients, instructions, calories, nutrients);
-
+                dish = new Dish(dishId, name, ingredients, instructions, calories, nutrients);
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a diet with id: " + id + e);
         }
@@ -127,15 +128,16 @@ public class DishDAOImpl implements DishDAO {
 
             ResultSet resultSet = findDish.executeQuery();
 
-            int dishId = resultSet.getInt("dish_id");
-            String name = resultSet.getString("dish_name");
-            String ingredients = resultSet.getString("ingredients");
-            String instructions = resultSet.getString("instructions");
-            double calories = resultSet.getDouble("calories");
-            String nutrients = resultSet.getString("nutrients");
+            while (resultSet.next()) {
+                int dishId = resultSet.getInt("dish_id");
+                String name = resultSet.getString("dish_name");
+                String ingredients = resultSet.getString("ingredients");
+                String instructions = resultSet.getString("instructions");
+                double calories = resultSet.getDouble("calories");
+                String nutrients = resultSet.getString("nutrients");
 
-            dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
-
+                dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a dish with ingredient: " + ingredient + e);
         }
@@ -156,15 +158,16 @@ public class DishDAOImpl implements DishDAO {
 
             ResultSet resultSet = findDish.executeQuery();
 
-            int dishId = resultSet.getInt("dish_id");
-            String dishName = resultSet.getString("dish_name");
-            String ingredients = resultSet.getString("ingredients");
-            String instructions = resultSet.getString("instructions");
-            double calories = resultSet.getDouble("calories");
-            String nutrients = resultSet.getString("nutrients");
+            while (resultSet.next()) {
+                int dishId = resultSet.getInt("dish_id");
+                String dishName = resultSet.getString("dish_name");
+                String ingredients = resultSet.getString("ingredients");
+                String instructions = resultSet.getString("instructions");
+                double calories = resultSet.getDouble("calories");
+                String nutrients = resultSet.getString("nutrients");
 
-            dishes.add(new Dish(dishId, dishName, ingredients, instructions, calories, nutrients));
-
+                dishes.add(new Dish(dishId, dishName, ingredients, instructions, calories, nutrients));
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a dish with the name: " + name + e);
         }
@@ -184,15 +187,16 @@ public class DishDAOImpl implements DishDAO {
 
             ResultSet resultSet = findDish.executeQuery();
 
-            int dishId = resultSet.getInt("dish_id");
-            String name = resultSet.getString("dish_name");
-            String ingredients = resultSet.getString("ingredients");
-            String instructions = resultSet.getString("instructions");
-            double calories = resultSet.getDouble("calories");
-            String nutrients = resultSet.getString("nutrients");
+            while (resultSet.next()) {
+                int dishId = resultSet.getInt("dish_id");
+                String name = resultSet.getString("dish_name");
+                String ingredients = resultSet.getString("ingredients");
+                String instructions = resultSet.getString("instructions");
+                double calories = resultSet.getDouble("calories");
+                String nutrients = resultSet.getString("nutrients");
 
-            dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
-
+                dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any dish! " + e);
         }

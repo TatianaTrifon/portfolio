@@ -7,7 +7,6 @@ module org.example.fit_plan {
     requires static lombok;
 
 
-    
     opens org.example.fit_plan.controllers to javafx.fxml;
 
     opens org.example.fit_plan to javafx.fxml;

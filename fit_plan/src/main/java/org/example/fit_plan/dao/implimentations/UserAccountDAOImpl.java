@@ -20,7 +20,7 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     @Override
     public UserAccount create(UserAccount user) {
 
-        String sql = "INSERT INTO user_account(user_id,gender,height,weight,diet_id) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO user_account(user_id,gender,height,weight,activity,diet_id) VALUES(?,?,?,?,?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createUserAccount = conn.prepareStatement(sql)) {
@@ -29,7 +29,8 @@ public class UserAccountDAOImpl implements UserAccountDAO {
             createUserAccount.setString(2, user.getGender());
             createUserAccount.setDouble(3, user.getHeight());
             createUserAccount.setDouble(4, user.getWeight());
-            createUserAccount.setInt(5, user.getDietId());
+            createUserAccount.setString(5, user.getActivity());
+            createUserAccount.setInt(6, user.getDietId());
 
             createUserAccount.executeUpdate();
 
@@ -43,14 +44,15 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     @Override
     public UserAccount update(UserAccount user) {
 
-        String sql = "UPDATE user_account SET height = ?, weight = ? WHERE user_id = ?";
+        String sql = "UPDATE user_account SET height = ?, weight = ?, activity = ? WHERE user_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateUser = conn.prepareStatement(sql)) {
 
             updateUser.setDouble(1, user.getHeight());
             updateUser.setDouble(2, user.getWeight());
-            updateUser.setInt(3, user.getUserId());
+            updateUser.setString(3, user.getActivity());
+            updateUser.setInt(4, user.getUserId());
 
             updateUser.executeUpdate();
 
@@ -66,9 +68,19 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     public boolean deleteById(Integer id) {
 
         String sql = "DELETE FROM user_account WHERE user_id = ?";
+        String userAccountDish = "DELETE FROM user_account_dishes WHERE user_id = ?";
+        String userAccountExercise = "DELETE FROM user_account_exercises WHERE user_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement deleteUser = conn.prepareStatement(sql)) {
+             PreparedStatement deleteUser = conn.prepareStatement(sql);
+             PreparedStatement deleteUserDish = conn.prepareStatement(userAccountDish);
+             PreparedStatement deleteUserExercise = conn.prepareStatement(userAccountExercise)) {
+
+            deleteUserDish.setInt(1, id);
+            deleteUserDish.executeUpdate();
+
+            deleteUserExercise.setInt(1, id);
+            deleteUserExercise.executeUpdate();
 
             deleteUser.setInt(1, id);
             deleteUser.executeUpdate();
@@ -114,14 +126,16 @@ public class UserAccountDAOImpl implements UserAccountDAO {
 
             ResultSet resultSet = findUser.executeQuery();
 
-            int userId = resultSet.getInt("user_id");
-            String gender = resultSet.getString("gender");
-            double height = resultSet.getDouble("height");
-            double weight = resultSet.getDouble("weight");
-            int dietId = resultSet.getInt("diet_id");
+            while (resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String gender = resultSet.getString("gender");
+                double height = resultSet.getDouble("height");
+                double weight = resultSet.getDouble("weight");
+                String activity = resultSet.getString("activity");
+                int dietId = resultSet.getInt("diet_id");
 
-            userAccount = new UserAccount(userId, gender, height, weight, dietId);
-
+                userAccount = new UserAccount(userId, gender, height, weight,activity, dietId);
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any user account with id: " + id + e);
         }

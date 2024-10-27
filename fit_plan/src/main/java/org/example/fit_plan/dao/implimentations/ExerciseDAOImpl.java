@@ -98,15 +98,16 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
             ResultSet resultSet = findExercise.executeQuery();
 
-            int exerciseId = resultSet.getInt("exercise_id");
-            String name = resultSet.getString("exercise_name");
-            String description = resultSet.getString("exercise_description");
-            String muscleCategory = resultSet.getString("muscle_category");
-            byte[] media = resultSet.getBytes("media");
-            String sets = resultSet.getString("sets");
+            while(resultSet.next()) {
+                int exerciseId = resultSet.getInt("exercise_id");
+                String name = resultSet.getString("exercise_name");
+                String description = resultSet.getString("exercise_description");
+                String muscleCategory = resultSet.getString("muscle_category");
+                byte[] media = resultSet.getBytes("media");
+                String sets = resultSet.getString("sets");
 
-            exercise = new Exercise(exerciseId, name, description, muscleCategory, media, sets);
-
+                exercise = new Exercise(exerciseId, name, description, muscleCategory, media, sets);
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find an exercise with id: " + id + e);
         }
@@ -129,15 +130,17 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
             ResultSet resultSet = findExercise.executeQuery();
 
-            int exerciseId = resultSet.getInt("exercise_id");
-            String name = resultSet.getString("exercise_name");
-            String description = resultSet.getString("exercise_description");
-            String muscleCategory = resultSet.getString("muscle_category");
-            byte[] media = resultSet.getBytes("media");
-            String sets = resultSet.getString("sets");
+            while(resultSet.next()) {
+                int exerciseId = resultSet.getInt("exercise_id");
+                String name = resultSet.getString("exercise_name");
+                String description = resultSet.getString("exercise_description");
+                String muscleCategory = resultSet.getString("muscle_category");
+                byte[] media = resultSet.getBytes("media");
+                String sets = resultSet.getString("sets");
 
-            exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
+                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
 
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any exercise" + e);
         }
@@ -158,15 +161,16 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
             ResultSet resultSet = findExercise.executeQuery();
 
-            int exerciseId = resultSet.getInt("exercise_id");
-            String name = resultSet.getString("exercise_name");
-            String description = resultSet.getString("exercise_description");
-            String muscleCategory = resultSet.getString("muscle_category");
-            byte[] media = resultSet.getBytes("media");
-            String sets = resultSet.getString("sets");
+            while(resultSet.next()) {
+                int exerciseId = resultSet.getInt("exercise_id");
+                String name = resultSet.getString("exercise_name");
+                String description = resultSet.getString("exercise_description");
+                String muscleCategory = resultSet.getString("muscle_category");
+                byte[] media = resultSet.getBytes("media");
+                String sets = resultSet.getString("sets");
 
-            exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
-
+                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
+            }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any exercise" + e);
         }

@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.fit_plan.dao.implimentations.UserDAOImpl;
+import org.example.fit_plan.model.User;
 
 import java.io.IOException;
 
@@ -40,7 +42,9 @@ public class SignUpController {
     private Scene scene;
 
     @FXML
-    public void signUp(){
+    public void signUp(ActionEvent event) throws IOException {
+
+        UserDAOImpl userDAOImpl = new UserDAOImpl();
 
         String email = emailField.getText();
         String login = usernameField.getText();
@@ -48,6 +52,21 @@ public class SignUpController {
         String repeatedPassword = repeatedPasswordField.getText();
 
 
+        //SEND THE USER ID TO USER ACCOUNT
+
+
+
+        if(password.equals(repeatedPassword)) {
+
+            userDAOImpl.create(new User(email,login,password));
+
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
+            scene = new Scene(root.load());
+            stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        }
 
     }
 

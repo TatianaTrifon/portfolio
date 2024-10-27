@@ -5,10 +5,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.example.fit_plan.dao.implimentations.UserDAOImpl;
+import org.example.fit_plan.model.User;
 
 import java.io.IOException;
 
@@ -33,7 +36,37 @@ public class SignInController {
     private Stage stage;
 
     @FXML
-    public void signIn(ActionEvent event) {
+    public void signIn(ActionEvent event) throws IOException {
+
+        UserDAOImpl userDAOImpl = new UserDAOImpl();
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+
+
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+
+        User foundUser = userDAOImpl.findByName(username);
+
+        if(password.equals(foundUser.getPassword())){
+
+
+            //SEND THE USER ID TO THE USER ACCOUNT
+
+
+
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
+            scene = new Scene(root.load());
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+            stage.setScene(scene);
+            stage.show();
+
+        } else {
+            alert.setContentText("Wrong username or password. Try again!");
+            alert.showAndWait();
+        }
+
+
     }
 
     @FXML

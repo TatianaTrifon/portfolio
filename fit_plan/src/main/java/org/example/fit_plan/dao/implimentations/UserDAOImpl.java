@@ -25,10 +25,9 @@ public class UserDAOImpl implements UserDAO {
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createUser = conn.prepareStatement(sql)) {
 
-            createUser.setInt(1, user.getUserId());
-            createUser.setString(2, user.getEmail());
-            createUser.setString(3, user.getUsername());
-            createUser.setString(4, user.getPassword());
+            createUser.setString(1, user.getEmail());
+            createUser.setString(2, user.getUsername());
+            createUser.setString(3, user.getPassword());
 
             createUser.executeUpdate();
 
@@ -94,15 +93,48 @@ public class UserDAOImpl implements UserDAO {
 
             ResultSet resultSet = findUser.executeQuery();
 
-            int userId = resultSet.getInt("user_id");
-            String email = resultSet.getString("user_email");
-            String username = resultSet.getString("username");
-            String password = resultSet.getString("user_password");
+            while(resultSet.next()) {
+                int userId = resultSet.getInt("user_id");
+                String email = resultSet.getString("user_email");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("user_password");
 
-            user = new User(userId, email, username, password);
+                user = new User(userId, email, username, password);
+
+            }
 
         } catch (SQLException e) {
             LOGGER.error("Failed to find any user with id: " + id + e);
+        }
+
+        return user;
+    }
+
+    @Override
+    public User findByName(String name) {
+        User user = new User();
+
+        String sql = "SELECT * FROM user WHERE username = ?";
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findUser = conn.prepareStatement(sql)) {
+
+            findUser.setString(1, name);
+
+            ResultSet resultSet = findUser.executeQuery();
+
+            while(resultSet.next()) {
+
+                int userId = resultSet.getInt("user_id");
+                String email = resultSet.getString("user_email");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("user_password");
+
+                user = new User(userId, email, username, password);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Failed to find any user with the name: " + name + e);
         }
 
         return user;

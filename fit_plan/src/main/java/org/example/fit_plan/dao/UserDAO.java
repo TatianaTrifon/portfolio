@@ -14,5 +14,7 @@ public interface UserDAO extends DAO<User>{
 
     User findById(Integer id);
 
+    User findByName(String name);
+
 
 }

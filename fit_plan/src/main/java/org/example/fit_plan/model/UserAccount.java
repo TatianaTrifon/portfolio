@@ -18,6 +18,8 @@ public class UserAccount {
 
     private double weight;
 
+    private String activity;
+
     private int dietId;
 
 

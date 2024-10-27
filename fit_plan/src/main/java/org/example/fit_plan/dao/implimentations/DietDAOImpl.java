@@ -97,15 +97,16 @@ createDiet.executeUpdate();
 
             ResultSet resultSet = findDiet.executeQuery();
 
-            int dietId = resultSet.getInt("diet_id");
-            String name = resultSet.getString("diet_name");
-            String description = resultSet.getString("diet_description");
-            String category = resultSet.getString("diet_category");
-            String allowedFood = resultSet.getString("allowed_food");
-            String forbiddenFood = resultSet.getString("forbidden_food");
+            while(resultSet.next()) {
+                int dietId = resultSet.getInt("diet_id");
+                String name = resultSet.getString("diet_name");
+                String description = resultSet.getString("diet_description");
+                String category = resultSet.getString("diet_category");
+                String allowedFood = resultSet.getString("allowed_food");
+                String forbiddenFood = resultSet.getString("forbidden_food");
 
-            diet = new Diet(dietId,name,description,category,allowedFood,forbiddenFood);
-
+                diet = new Diet(dietId, name, description, category, allowedFood, forbiddenFood);
+            }
         }catch (SQLException e){
             LOGGER.error("Failed to find a diet with id: " + id + e);
         }

@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -13,9 +14,10 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("sign-in.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 900,600);
         stage.setTitle("FitPlan");
+//stage.initStyle(StageStyle.UNDECORATED);
 
 
-    stage.setScene(scene);
+        stage.setScene(scene);
         stage.show();
     }
 
