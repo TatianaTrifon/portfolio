@@ -1,6 +1,7 @@
 package org.example.fit_plan.model;
 
 
+import javafx.scene.image.Image;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,8 @@ public class Diet {
 
     private int dietId;
 
+    private byte[] picture;
+
     private String dietName;
 
     private String dietDescription;
@@ -25,7 +28,8 @@ public class Diet {
 
     private String forbiddenFood;
 
-    public Diet(String dietName, String dietDescription, String dietCategory, String allowedFood, String forbiddenFood) {
+    public Diet(byte[] picture, String dietName, String dietDescription, String dietCategory, String allowedFood, String forbiddenFood) {
+       this.picture = picture;
         this.dietName = dietName;
         this.dietDescription = dietDescription;
         this.dietCategory = dietCategory;

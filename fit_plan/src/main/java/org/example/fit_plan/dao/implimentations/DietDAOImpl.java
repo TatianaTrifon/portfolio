@@ -6,6 +6,7 @@ import org.example.fit_plan.model.Diet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -23,21 +24,22 @@ public class DietDAOImpl implements DietDAO {
     @Override
     public Diet create(Diet diet) {
 
-        String sql = "INSERT INTO diet (diet_name,diet_description,diet_category,allowed_food,forbidden_food) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO diet (picture, diet_name,diet_description,diet_category,allowed_food,forbidden_food) VALUES (?,?,?,?,?,?)";
 
 
-        try(Connection conn = jdbcConnection.getConnection();
-            PreparedStatement createDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement createDiet = conn.prepareStatement(sql)) {
 
-            createDiet.setString(1, diet.getDietName());
-            createDiet.setString(2, diet.getDietDescription());
-            createDiet.setString(3, diet.getDietCategory());
-            createDiet.setString(4, diet.getAllowedFood());
-            createDiet.setString(5, diet.getForbiddenFood());
+            createDiet.setBlob(1, new ByteArrayInputStream(diet.getPicture()));
+            createDiet.setString(2, diet.getDietName());
+            createDiet.setString(3, diet.getDietDescription());
+            createDiet.setString(4, diet.getDietCategory());
+            createDiet.setString(5, diet.getAllowedFood());
+            createDiet.setString(6, diet.getForbiddenFood());
 
-createDiet.executeUpdate();
+            createDiet.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to create a diet! ", e);
         }
 
@@ -49,15 +51,15 @@ createDiet.executeUpdate();
 
         String sql = "UPDATE diet SET diet_name = ? WHERE diet_id = ?";
 
-        try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement updateDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement updateDiet = conn.prepareStatement(sql)) {
 
             updateDiet.setString(1, diet.getDietName());
             updateDiet.setInt(2, diet.getDietId());
 
             updateDiet.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to update diet with id: " + diet.getDietId() + e);
         }
 
@@ -69,14 +71,14 @@ createDiet.executeUpdate();
 
         String sql = "DELETE FROM diet WHERE diet_id = ?";
 
-        try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement deleteDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement deleteDiet = conn.prepareStatement(sql)) {
 
             deleteDiet.setInt(1, id);
 
             deleteDiet.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to delete the diet with id: " + id + e);
         }
 
@@ -90,24 +92,25 @@ createDiet.executeUpdate();
 
         String sql = "SELECT * FROM diet WHERE diet_id = ?";
 
-        try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement findDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findDiet = conn.prepareStatement(sql)) {
 
             findDiet.setInt(1, id);
 
             ResultSet resultSet = findDiet.executeQuery();
 
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 int dietId = resultSet.getInt("diet_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("diet_name");
                 String description = resultSet.getString("diet_description");
                 String category = resultSet.getString("diet_category");
                 String allowedFood = resultSet.getString("allowed_food");
                 String forbiddenFood = resultSet.getString("forbidden_food");
 
-                diet = new Diet(dietId, name, description, category, allowedFood, forbiddenFood);
+                diet = new Diet(dietId, image, name, description, category, allowedFood, forbiddenFood);
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to find a diet with id: " + id + e);
         }
 
@@ -121,27 +124,60 @@ createDiet.executeUpdate();
 
         String sql = "SELECT * FROM diet WHERE diet_category = ?";
 
-        try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement findDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findDiet = conn.prepareStatement(sql)) {
 
             findDiet.setString(1, category);
 
             ResultSet resultSet = findDiet.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
 
                 int dietId = resultSet.getInt("diet_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("diet_name");
                 String description = resultSet.getString("diet_description");
                 String dietCategory = resultSet.getString("diet_category");
                 String allowedFood = resultSet.getString("allowed_food");
                 String forbiddenFood = resultSet.getString("forbidden_food");
 
-                diets.add(new Diet(dietId,name,description,dietCategory,allowedFood,forbiddenFood));
+                diets.add(new Diet(dietId, image, name, description, dietCategory, allowedFood, forbiddenFood));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to find any diet with category: " + category);
+        }
+
+        return diets;
+    }
+
+    @Override
+    public List<Diet> findRecommendedDiets() {
+        List<Diet> diets = new ArrayList<>();
+
+        String sql = "SELECT * FROM diet LIMIT 3";
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findDiet = conn.prepareStatement(sql)) {
+
+
+            ResultSet resultSet = findDiet.executeQuery();
+
+            while (resultSet.next()) {
+
+                int dietId = resultSet.getInt("diet_id");
+                byte[] image = resultSet.getBytes("picture");
+                String name = resultSet.getString("diet_name");
+                String description = resultSet.getString("diet_description");
+                String dietCategory = resultSet.getString("diet_category");
+                String allowedFood = resultSet.getString("allowed_food");
+                String forbiddenFood = resultSet.getString("forbidden_food");
+
+                diets.add(new Diet(dietId, image, name, description, dietCategory, allowedFood, forbiddenFood));
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("Failed to find any diet");
         }
 
         return diets;
@@ -154,25 +190,26 @@ createDiet.executeUpdate();
 
         String sql = "SELECT * FROM diet";
 
-        try(Connection conn = jdbcConnection.getConnection();
-            PreparedStatement findDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findDiet = conn.prepareStatement(sql)) {
 
 
             ResultSet resultSet = findDiet.executeQuery();
 
-            while(resultSet.next()){
+            while (resultSet.next()) {
 
                 int dietId = resultSet.getInt("diet_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("diet_name");
                 String description = resultSet.getString("diet_description");
                 String dietCategory = resultSet.getString("diet_category");
                 String allowedFood = resultSet.getString("allowed_food");
                 String forbiddenFood = resultSet.getString("forbidden_food");
 
-                diets.add(new Diet(dietId,name,description,dietCategory,allowedFood,forbiddenFood));
+                diets.add(new Diet(dietId, image, name, description, dietCategory, allowedFood, forbiddenFood));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             LOGGER.error("Failed to find any diet");
         }
 

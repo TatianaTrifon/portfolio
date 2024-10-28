@@ -52,16 +52,17 @@ public class SignUpController {
         String repeatedPassword = repeatedPasswordField.getText();
 
 
-        //SEND THE USER ID TO USER ACCOUNT
-
-
-
         if(password.equals(repeatedPassword)) {
 
-            userDAOImpl.create(new User(email,login,password));
+            User user = new User(email,login,password);
+            userDAOImpl.create(user);
 
             root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
             scene = new Scene(root.load());
+
+            UserAccountController controller = root.getController();
+            controller.setUserId(user.getUserId());
+
             stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();

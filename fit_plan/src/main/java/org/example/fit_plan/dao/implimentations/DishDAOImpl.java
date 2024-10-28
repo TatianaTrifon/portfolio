@@ -6,10 +6,9 @@ import org.example.fit_plan.model.Dish;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,16 +21,17 @@ public class DishDAOImpl implements DishDAO {
     @Override
     public Dish create(Dish dish) {
 
-        String sql = "INSERT INTO dish(dish_name,ingredients,instructions,calories,nutrients) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO dish(picture,dish_name,ingredients,instructions,calories,nutrients) VALUES (?,?,?,?,?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createDish = conn.prepareCall(sql)) {
 
-            createDish.setString(1, dish.getDishName());
-            createDish.setString(2, dish.getIngredients());
-            createDish.setString(3, dish.getInstructions());
-            createDish.setDouble(4, dish.getCalories());
-            createDish.setString(5, dish.getNutrients());
+            createDish.setBlob(1, new ByteArrayInputStream(dish.getPicture()));
+            createDish.setString(2, dish.getDishName());
+            createDish.setString(3, dish.getIngredients());
+            createDish.setString(4, dish.getInstructions());
+            createDish.setDouble(5, dish.getCalories());
+            createDish.setString(6, dish.getNutrients());
 
             createDish.executeUpdate();
 
@@ -98,13 +98,14 @@ public class DishDAOImpl implements DishDAO {
 
             while (resultSet.next()) {
                 int dishId = resultSet.getInt("dish_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("dish_name");
                 String ingredients = resultSet.getString("ingredients");
                 String instructions = resultSet.getString("instructions");
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dish = new Dish(dishId, name, ingredients, instructions, calories, nutrients);
+                dish = new Dish(dishId,image, name, ingredients, instructions, calories, nutrients);
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a diet with id: " + id + e);
@@ -119,7 +120,7 @@ public class DishDAOImpl implements DishDAO {
 
         List<Dish> dishes = new ArrayList<>();
 
-        String sql = "SELECT * FROM dish WHERE ingredients = ?";
+        String sql = "SELECT * FROM dish WHERE ingredients LIKE '%" + ingredient + "%'";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement findDish = conn.prepareCall(sql)) {
@@ -130,13 +131,14 @@ public class DishDAOImpl implements DishDAO {
 
             while (resultSet.next()) {
                 int dishId = resultSet.getInt("dish_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("dish_name");
                 String ingredients = resultSet.getString("ingredients");
                 String instructions = resultSet.getString("instructions");
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
+                dishes.add(new Dish(dishId,image, name, ingredients, instructions, calories, nutrients));
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a dish with ingredient: " + ingredient + e);
@@ -160,13 +162,14 @@ public class DishDAOImpl implements DishDAO {
 
             while (resultSet.next()) {
                 int dishId = resultSet.getInt("dish_id");
+                byte[] image = resultSet.getBytes("picture");
                 String dishName = resultSet.getString("dish_name");
                 String ingredients = resultSet.getString("ingredients");
                 String instructions = resultSet.getString("instructions");
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dishes.add(new Dish(dishId, dishName, ingredients, instructions, calories, nutrients));
+                dishes.add(new Dish(dishId, image, dishName, ingredients, instructions, calories, nutrients));
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find a dish with the name: " + name + e);
@@ -189,13 +192,14 @@ public class DishDAOImpl implements DishDAO {
 
             while (resultSet.next()) {
                 int dishId = resultSet.getInt("dish_id");
+                byte[] image = resultSet.getBytes("picture");
                 String name = resultSet.getString("dish_name");
                 String ingredients = resultSet.getString("ingredients");
                 String instructions = resultSet.getString("instructions");
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dishes.add(new Dish(dishId, name, ingredients, instructions, calories, nutrients));
+                dishes.add(new Dish(dishId, image, name, ingredients, instructions, calories, nutrients));
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any dish! " + e);

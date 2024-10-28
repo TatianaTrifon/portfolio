@@ -22,7 +22,12 @@ public class UserAccount {
 
     private int dietId;
 
-
-
+    public UserAccount(int userId, String gender, double height, double weight, String activity) {
+        this.userId = userId;
+        this.gender = gender;
+        this.height = height;
+        this.weight = weight;
+        this.activity = activity;
+    }
 }
 

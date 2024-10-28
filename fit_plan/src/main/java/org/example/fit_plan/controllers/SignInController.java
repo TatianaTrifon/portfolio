@@ -49,13 +49,13 @@ public class SignInController {
 
         if(password.equals(foundUser.getPassword())){
 
-
-            //SEND THE USER ID TO THE USER ACCOUNT
-
-
-
             root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
             scene = new Scene(root.load());
+
+            UserAccountController controller = root.getController();
+            controller.setUserId(foundUser.getUserId());
+
+
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
             stage.setScene(scene);

@@ -16,5 +16,7 @@ public interface DietDAO extends DAO<Diet> {
 
     List<Diet> findDietsByCategory(String category);
 
+    List<Diet> findRecommendedDiets();
+
     List<Diet> findAllDiets();
 }
