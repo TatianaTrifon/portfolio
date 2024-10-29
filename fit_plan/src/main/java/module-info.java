@@ -5,6 +5,7 @@ module org.example.fit_plan {
     requires java.sql;
     requires org.slf4j;
     requires static lombok;
+    requires com.jfoenix;
 
 
     opens org.example.fit_plan.controllers to javafx.fxml;

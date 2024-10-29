@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.DietsAdminController">
+    <children>
+        <AnchorPane prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #072f4b;">
+            <children>
+                <ImageView fx:id="menuView" fitHeight="32.0" fitWidth="25.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0">
+                    <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/menu.png" />
+                    </image>
+                </ImageView>
+                <ImageView fx:id="exitView" fitHeight="32.0" fitWidth="25.0" layoutX="861.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="buttonsPane" layoutX="44.0" layoutY="50.0" prefHeight="549.0" prefWidth="200.0" style="-fx-background-color: D3D3D3FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="48.0">
+            <children>
+                <VBox layoutY="102.0" prefHeight="452.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="0.0">
+                    <children>
+                        <JFXButton fx:id="homeButton" onAction="#goToHome" prefHeight="41.0" prefWidth="203.0" text="Home">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </JFXButton>
+                        <JFXButton fx:id="dietsButton" onAction="#goToDiets" prefHeight="41.0" prefWidth="203.0" text="Diets">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </JFXButton>
+                        <JFXButton fx:id="dishesButton" onAction="#goToDishes" prefHeight="41.0" prefWidth="203.0" text="Dishes">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </JFXButton>
+                        <JFXButton fx:id="exerciseButton" onAction="#goToExercise" prefHeight="41.0" prefWidth="203.0" text="Exercises">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </JFXButton>
+                        <JFXButton fx:id="logOutButton" onAction="#goToUserAccount" prefHeight="41.0" prefWidth="203.0" text="Log Out">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                            <VBox.margin>
+                                <Insets top="180.0" />
+                            </VBox.margin>
+                        </JFXButton>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="iconPane" layoutY="46.0" prefHeight="554.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="-0.0" AnchorPane.topAnchor="48.0">
+            <children>
+                <VBox alignment="TOP_CENTER" layoutY="107.0" prefHeight="448.0" prefWidth="44.0" spacing="25.0" AnchorPane.bottomAnchor="0.0">
+                    <children>
+                        <ImageView fx:id="homeView" fitHeight="32.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../java/org/example/fit_plan/images/home.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="dietsView" fitHeight="32.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../java/org/example/fit_plan/images/diets.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="dishesView" fitHeight="32.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../java/org/example/fit_plan/images/dishIdeas.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="exerciseView" fitHeight="32.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../java/org/example/fit_plan/images/workoutPlan.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="logOutView" fitHeight="32.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../java/org/example/fit_plan/images/logOut.png" />
+                            </image>
+                            <VBox.margin>
+                                <Insets top="180.0" />
+                            </VBox.margin>
+                        </ImageView>
+                    </children>
+                </VBox>
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

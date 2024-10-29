@@ -46,15 +46,22 @@ public class SignInController {
         String password = passwordField.getText();
 
         User foundUser = userDAOImpl.findByName(username);
+        if (username.equals("admin") && password.equals(foundUser.getPassword())) {
 
-        if(password.equals(foundUser.getPassword())){
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/admin.fxml"));
+            scene = new Scene(root.load());
+
+            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+
+        } else if (password.equals(foundUser.getPassword())) {
 
             root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
             scene = new Scene(root.load());
 
             UserAccountController controller = root.getController();
             controller.setUserId(foundUser.getUserId());
-
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
