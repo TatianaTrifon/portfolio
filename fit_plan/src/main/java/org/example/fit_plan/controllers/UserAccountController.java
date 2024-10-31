@@ -65,6 +65,8 @@ public class UserAccountController implements Initializable {
     @FXML
     private GridPane pageGridPane;
 
+
+
     private Parent root;
 
     private Stage stage;
@@ -150,7 +152,7 @@ public class UserAccountController implements Initializable {
         double weight = Double.parseDouble(weightField.getText());
         String activity = activityComboBox.getValue();
 
-        UserAccount userAccount = new UserAccount(userId, gender, height, weight, activity);
+        UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
         userAccountDAOImpl.create(userAccount);
 
         DietDAOImpl dietDAOImpl = new DietDAOImpl();
@@ -181,7 +183,7 @@ public class UserAccountController implements Initializable {
             columnIndex++;
 
         }
-
+mainPane.getChildren().add(pageGridPane);
 
     }
 

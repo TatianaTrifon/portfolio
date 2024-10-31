@@ -9,6 +9,8 @@ public interface UserAccountDAO extends DAO<UserAccount> {
 
     UserAccount update(UserAccount user);
 
+    UserAccount addDietToUserById(Integer dietId, Integer userId);
+
     boolean deleteById(Integer id);
 
     boolean deleteDietById(Integer id);

@@ -49,13 +49,16 @@ public class DietDAOImpl implements DietDAO {
     @Override
     public Diet update(Diet diet) {
 
-        String sql = "UPDATE diet SET diet_name = ? WHERE diet_id = ?";
+        String sql = "UPDATE diet SET diet_name = ?,diet_description = ?, allowed_food = ?, forbidden_food = ? WHERE diet_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateDiet = conn.prepareStatement(sql)) {
 
             updateDiet.setString(1, diet.getDietName());
-            updateDiet.setInt(2, diet.getDietId());
+            updateDiet.setString(2, diet.getDietDescription());
+            updateDiet.setString(3, diet.getAllowedFood());
+            updateDiet.setString(4, diet.getForbiddenFood());
+            updateDiet.setInt(5, diet.getDietId());
 
             updateDiet.executeUpdate();
 

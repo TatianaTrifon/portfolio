@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
 
 public class UserAccountDAOImpl implements UserAccountDAO {
 
@@ -20,17 +21,18 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     @Override
     public UserAccount create(UserAccount user) {
 
-        String sql = "INSERT INTO user_account(user_id,gender,height,weight,activity,diet_id) VALUES(?,?,?,?,?,?)";
+        String sql = "INSERT INTO user_account(user_id, age,gender,height,weight,activity) VALUES(?,?,?,?,?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createUserAccount = conn.prepareStatement(sql)) {
 
             createUserAccount.setInt(1, user.getUserId());
-            createUserAccount.setString(2, user.getGender());
-            createUserAccount.setDouble(3, user.getHeight());
-            createUserAccount.setDouble(4, user.getWeight());
-            createUserAccount.setString(5, user.getActivity());
-            createUserAccount.setInt(6, user.getDietId());
+            createUserAccount.setInt(2, user.getAge());
+            createUserAccount.setString(3, user.getGender());
+            createUserAccount.setDouble(4, user.getHeight());
+            createUserAccount.setDouble(5, user.getWeight());
+            createUserAccount.setString(6, user.getActivity());
+
 
             createUserAccount.executeUpdate();
 
@@ -62,6 +64,26 @@ public class UserAccountDAOImpl implements UserAccountDAO {
         }
 
         return user;
+    }
+
+    @Override
+    public UserAccount addDietToUserById(Integer dietId, Integer userId) {
+
+        String sql = "UPDATE user_account SET diet_id = ? WHERE user_id = ?";
+
+        try(Connection conn = jdbcConnection.getConnection();
+        PreparedStatement addDiet = conn.prepareStatement(sql)){
+
+            addDiet.setInt(1, dietId);
+            addDiet.setInt(2,userId);
+            addDiet.executeUpdate();
+
+        }catch (SQLException e){
+            java.util.logging.Logger.getLogger(UserAccountDAOImpl.class.getName()).log(Level.SEVERE,null,e);
+        }
+
+
+        return null;
     }
 
     @Override
@@ -128,13 +150,14 @@ public class UserAccountDAOImpl implements UserAccountDAO {
 
             while (resultSet.next()) {
                 int userId = resultSet.getInt("user_id");
+                int age = resultSet.getInt("age");
                 String gender = resultSet.getString("gender");
                 double height = resultSet.getDouble("height");
                 double weight = resultSet.getDouble("weight");
                 String activity = resultSet.getString("activity");
                 int dietId = resultSet.getInt("diet_id");
 
-                userAccount = new UserAccount(userId, gender, height, weight,activity, dietId);
+                userAccount = new UserAccount(userId, age, gender, height, weight,activity, dietId);
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any user account with id: " + id + e);

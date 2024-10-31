@@ -12,6 +12,8 @@ public class UserAccount {
 
     private int userId;
 
+    private int age;
+
     private String gender;
 
     private double height;
@@ -22,8 +24,10 @@ public class UserAccount {
 
     private int dietId;
 
-    public UserAccount(int userId, String gender, double height, double weight, String activity) {
+
+    public UserAccount(int userId, int age, String gender, double height, double weight, String activity) {
         this.userId = userId;
+        this.age = age;
         this.gender = gender;
         this.height = height;
         this.weight = weight;
