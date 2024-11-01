@@ -12,137 +12,95 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.UserAccountController">
+
+<AnchorPane fx:id="mainPane" maxHeight="600.0" maxWidth="900.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.UserAccountController">
    <children>
-      <ScrollPane fx:id="pageScrollPane" layoutX="44.0" layoutY="48.0" prefHeight="552.0" prefWidth="855.0" vbarPolicy="ALWAYS" vmax="10.0">
-        <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
-        </content>
-      </ScrollPane>
-      <AnchorPane fx:id="iconPane" prefHeight="552.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
-         <children>
-            <VBox alignment="TOP_CENTER" layoutY="118.0" prefHeight="428.0" prefWidth="44.0" spacing="25.0" AnchorPane.topAnchor="118.0">
+      <ScrollPane fx:id="pageScrollPane" layoutX="41.400001525878906" layoutY="47.0" prefHeight="556.0" prefWidth="906.0" AnchorPane.leftAnchor="42.0">
+         <content>
+            <AnchorPane prefHeight="554.0" prefWidth="870.0">
                <children>
-                  <ImageView fx:id="homeView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/home.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="workoutView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/workoutPlan.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="dietsView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/diets.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="dishView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/dishIdeas.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="progressView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/progress.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="settingsView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/settings.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fx:id="logOutView" fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/logOut.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets top="40.0" />
-                     </VBox.margin>
-                  </ImageView>
+            
+                  <!-- Welcome Label -->
+                  <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="18.0" prefWidth="900.0" text="Welcome !">
+                     <font>
+                        <Font size="30.0" />
+                     </font>
+                  </Label>
+            
+                  <!-- Form Section -->
+                  <Label layoutX="212.0" layoutY="136.0" prefHeight="32.0" prefWidth="150.0" text="Age">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="ageField" layoutX="212.0" layoutY="168.0" prefHeight="32.0" prefWidth="150.0" promptText="Enter your age" />
+            
+                  <Label layoutX="321.0" layoutY="222.0" prefHeight="32.0" prefWidth="150.0" text="Gender :">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <RadioButton fx:id="maleRadioButton" layoutX="405.0" layoutY="225.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Male">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="gender" />
+                     </toggleGroup>
+                  </RadioButton>
+                  <RadioButton fx:id="femaleRadioButton" layoutX="507.0" layoutY="225.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Female" toggleGroup="$gender">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </RadioButton>
+            
+                  <Label layoutX="212.0" layoutY="261.0" prefHeight="32.0" prefWidth="150.0" text="Height">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="heightField" layoutX="212.0" layoutY="293.0" prefHeight="32.0" prefWidth="150.0" promptText="cm" />
+            
+                  <Label layoutX="545.0" layoutY="136.0" prefHeight="32.0" prefWidth="150.0" text="Weight">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="weightField" layoutX="545.0" layoutY="168.0" prefHeight="32.0" prefWidth="150.0" promptText="kg" />
+            
+                  <Label layoutX="545.0" layoutY="261.0" prefHeight="32.0" prefWidth="150.0" text="Activity">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Label>
+                  <ComboBox fx:id="activityComboBox" layoutX="545.0" layoutY="293.0" prefHeight="32.0" prefWidth="150.0" promptText="Choose your activity" />
+            
+                  <Button fx:id="calculateButton" layoutX="405.0" layoutY="360.0" mnemonicParsing="false" onAction="#calculateCalories" prefHeight="32.0" prefWidth="92.0" text="Calculate">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Button>
+            
+                  <!-- Container for dynamically added diet content -->
+                  <VBox fx:id="scrollContent" layoutX="-1.0" layoutY="435.0" prefHeight="118.0" prefWidth="906.0" spacing="15.0">
+                     <HBox fx:id="dietContainer" prefHeight="118.0" prefWidth="866.0" spacing="50.0">
+                        <VBox.margin>
+                           <Insets left="20.0" right="20.0" />
+                        </VBox.margin>
+                     </HBox>
+                  </VBox>
                </children>
-            </VBox>
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #072f4b;">
-         <children>
-            <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="861.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
-               </image>
-            </ImageView>
-            <ImageView fx:id="menuImage" fitHeight="25.0" fitWidth="31.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../java/org/example/fit_plan/images/menu.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-      <Label fx:id="welcomeLabel" alignment="CENTER" layoutY="78.0" prefHeight="18.0" prefWidth="900.0" text="Label">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="1.0" layoutY="153.0" prefHeight="26.0" prefWidth="900.0" text="Calories Calculator" AnchorPane.bottomAnchor="420.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-0.7999999999999545" AnchorPane.topAnchor="153.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label layoutX="212.0" layoutY="214.0" prefHeight="32.0" prefWidth="150.0" text="Age">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="ageField" layoutX="212.0" layoutY="246.0" prefHeight="32.0" prefWidth="150.0" promptText="Enter your age" />
-      <Label layoutX="321.0" layoutY="300.0" prefHeight="32.0" prefWidth="150.0" text="Gender :">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <RadioButton fx:id="maleRadioButton" layoutX="405.0" layoutY="303.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Male">
-         <font>
-            <Font size="14.0" />
-         </font>
-         <toggleGroup>
-            <ToggleGroup fx:id="gender" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton fx:id="femaleRadioButton" layoutX="507.0" layoutY="303.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Female" toggleGroup="$gender">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </RadioButton>
-      <Label layoutX="212.0" layoutY="339.0" prefHeight="32.0" prefWidth="150.0" text="Height">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="heightField" layoutX="212.0" layoutY="371.0" prefHeight="32.0" prefWidth="150.0" promptText="cm" />
-      <Label layoutX="545.0" layoutY="214.0" prefHeight="32.0" prefWidth="150.0" text="Weight">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <TextField fx:id="weightField" layoutX="545.0" layoutY="246.0" prefHeight="32.0" prefWidth="150.0" promptText="kg" />
-      <Label layoutX="545.0" layoutY="339.0" prefHeight="32.0" prefWidth="150.0" text="Activity">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="activityComboBox" layoutX="545.0" layoutY="371.0" prefHeight="32.0" prefWidth="150.0" promptText="Choose your activity" />
-      <Button fx:id="calculateButton" layoutX="405.0" layoutY="438.0" mnemonicParsing="false" onAction="#calculateCalories" prefHeight="32.0" prefWidth="92.0" text="Calculate">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <AnchorPane fx:id="buttonsPane" layoutX="44.0" layoutY="48.0" prefHeight="552.0" prefWidth="200.0" style="-fx-background-color: D3D3D3FF;">
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+
+
+      <!-- Additional Button Pane (if needed) -->
+      <AnchorPane fx:id="buttonsPane" layoutX="43.0" layoutY="47.0" prefHeight="554.0" prefWidth="201.0" style="-fx-background-color: D3D3D3FF;">
          <children>
             <VBox layoutY="115.0" prefHeight="437.0" prefWidth="200.0" spacing="15.0">
                <children>
@@ -188,19 +146,68 @@
             </VBox>
          </children>
       </AnchorPane>
-      <GridPane fx:id="pageGridPane" hgap="10.0" prefHeight="98.0" prefWidth="834.0" vgap="2.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="22.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="438.60003662109375" minWidth="10.0" prefWidth="171.4000244140625" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="718.0" minWidth="10.0" prefWidth="718.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="718.5999755859375" minWidth="10.0" prefWidth="718.5999755859375" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="718.5999755859375" minWidth="10.0" prefWidth="718.5999755859375" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
+      <!-- Sidebar Icons -->
+      <AnchorPane fx:id="iconPane" prefHeight="556.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+         <children>
+            <VBox alignment="TOP_CENTER" layoutY="118.0" prefHeight="428.0" prefWidth="44.0" spacing="25.0" AnchorPane.topAnchor="118.0">
+               <children>
+                  <ImageView fx:id="homeView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/home.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="workoutView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/workoutPlan.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="dietsView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/diets.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="dishView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/dishIdeas.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="progressView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/progress.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="settingsView" fitHeight="46.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/settings.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="logOutView" fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../../java/org/example/fit_plan/images/logOut.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets top="40.0" />
+                     </VBox.margin>
+                  </ImageView>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+
+      <!-- Header Section -->
+      <AnchorPane layoutY="-2.0" prefHeight="48.0" prefWidth="949.0" style="-fx-background-color: #072f4b;">
+         <children>
+            <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="908.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="menuImage" fitHeight="25.0" fitWidth="31.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../java/org/example/fit_plan/images/menu.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

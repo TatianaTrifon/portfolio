@@ -6,14 +6,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.DietDAOImpl;
@@ -65,6 +67,11 @@ public class UserAccountController implements Initializable {
     @FXML
     private GridPane pageGridPane;
 
+    @FXML
+    private VBox scrollContent;
+
+    @FXML
+    private HBox dietContainer;
 
 
     private Parent root;
@@ -82,8 +89,9 @@ public class UserAccountController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        pageScrollPane = new ScrollPane(mainPane);
         pageScrollPane.setFitToWidth(true);
+        pageScrollPane.setFitToHeight(true);
+
 
         Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
         exitImage.setImage(exit);
@@ -133,21 +141,19 @@ public class UserAccountController implements Initializable {
         for (int i = 0; i < activities.length; i++) {
             activityComboBox.getItems().add(activities[i]);
         }
+
+
     }
 
     @FXML
     public void calculateCalories() {
+        dietContainer.getChildren().clear();
+
 
         UserAccountDAOImpl userAccountDAOImpl = new UserAccountDAOImpl();
 
         int age = Integer.parseInt(ageField.getText());
-        String gender;
-
-        if (maleRadioButton.isSelected()) {
-            gender = maleRadioButton.getText();
-        } else {
-            gender = femaleRadioButton.getText();
-        }
+        String gender = maleRadioButton.isSelected() ? "Male" : "Female";
         double height = Double.parseDouble(heightField.getText());
         double weight = Double.parseDouble(weightField.getText());
         String activity = activityComboBox.getValue();
@@ -156,37 +162,47 @@ public class UserAccountController implements Initializable {
         userAccountDAOImpl.create(userAccount);
 
         DietDAOImpl dietDAOImpl = new DietDAOImpl();
-
         List<Diet> diets = dietDAOImpl.findRecommendedDiets();
 
-        pageGridPane = new GridPane();
+        dietContainer.setSpacing(20);
 
-        int columnIndex = 0;
 
         for (Diet diet : diets) {
+            VBox dietBox = new VBox(10);
+            dietBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
+            dietBox.setMaxHeight(250);
+            dietBox.setMaxWidth(275);
+
 
             Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
             ImageView picture = new ImageView(image);
-            picture.setFitWidth(100);
-            picture.setFitHeight(100);
-            picture.setPreserveRatio(true);
+            picture.setFitHeight(200);
+            picture.setFitWidth(275);
+
 
             Label dietName = new Label(diet.getDietName());
+            dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+            dietName.setWrapText(true);
+
             Label dietDescription = new Label(diet.getDietDescription());
+            dietDescription.setStyle("-fx-font-size: 14;");
+            dietDescription.setWrapText(true);
+
             Label dietCategory = new Label(diet.getDietCategory());
+            dietCategory.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
+            dietCategory.setWrapText(true);
 
-            pageGridPane.add(picture, columnIndex, 0);
-            pageGridPane.add(dietName, columnIndex, 1);
-            pageGridPane.add(dietDescription, columnIndex, 2);
-            pageGridPane.add(dietCategory, columnIndex, 3);
+            dietBox.getChildren().addAll(picture, dietName, dietDescription, dietCategory);
 
-            columnIndex++;
+            VBox.setVgrow(dietName, Priority.ALWAYS);
+            VBox.setVgrow(dietDescription, Priority.ALWAYS);
+            VBox.setVgrow(dietCategory, Priority.ALWAYS);
 
+            dietContainer.getChildren().add(dietBox);
         }
-mainPane.getChildren().add(pageGridPane);
 
+        dietContainer.setSpacing(20);
+        dietContainer.setFillHeight(false);
     }
-
-
 }
 

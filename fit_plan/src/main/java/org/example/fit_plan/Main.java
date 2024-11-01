@@ -16,6 +16,8 @@ public class Main extends Application {
         stage.setTitle("FitPlan");
 //stage.initStyle(StageStyle.UNDECORATED);
 
+        String css = this.getClass().getResource("main.css").toExternalForm();
+        scene.getStylesheets().add(css);
 
         stage.setScene(scene);
         stage.show();
