@@ -20,7 +20,9 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.DietDAOImpl;
 import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
+import org.example.fit_plan.dao.implimentations.UserDAOImpl;
 import org.example.fit_plan.model.Diet;
+import org.example.fit_plan.model.User;
 import org.example.fit_plan.model.UserAccount;
 
 import java.io.ByteArrayInputStream;
@@ -37,7 +39,7 @@ public class UserAccountController implements Initializable {
     private ImageView exitImage, menuImage, homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView;
 
     @FXML
-    private AnchorPane mainPane, iconPane, buttonsPane;
+    private AnchorPane mainPane, iconPane, buttonsPane, caloriesResultPane;
 
     @FXML
     private TextField ageField, heightField, weightField;
@@ -62,7 +64,7 @@ public class UserAccountController implements Initializable {
     ScrollPane pageScrollPane;
 
     @FXML
-    private Label welcomeLabel;
+    private Label welcomeLabel, maintainWeightLabel, loseWeightLabel, putWeightLabel, maintainWeight, loseWeight, putOnWeight, recommendedDietsLabel;
 
     @FXML
     private GridPane pageGridPane;
@@ -81,9 +83,16 @@ public class UserAccountController implements Initializable {
     private Scene scene;
 
     private int userId;
+    private String username;
 
     public void setUserId(int userId) {
         this.userId = userId;
+
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+        welcomeLabel.setText("Welcome, " + username + "!");
     }
 
     @Override
@@ -120,8 +129,9 @@ public class UserAccountController implements Initializable {
         Image logOut = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\logOut.png");
         logOutView.setImage(logOut);
 
+
         buttonsPane.setTranslateX(-600);
-        welcomeLabel.setText("Welcome !");
+
 
         exitImage.setOnMouseClicked(event -> System.exit(0));
 
@@ -142,12 +152,18 @@ public class UserAccountController implements Initializable {
             activityComboBox.getItems().add(activities[i]);
         }
 
+        caloriesResultPane.getChildren().clear();
 
     }
 
     @FXML
     public void calculateCalories() {
-        dietContainer.getChildren().clear();
+
+            dietContainer.getChildren().clear();
+        caloriesResultPane.getChildren().clear();
+
+
+        double bmr;
 
 
         UserAccountDAOImpl userAccountDAOImpl = new UserAccountDAOImpl();
@@ -158,8 +174,49 @@ public class UserAccountController implements Initializable {
         double weight = Double.parseDouble(weightField.getText());
         String activity = activityComboBox.getValue();
 
-        UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
-        userAccountDAOImpl.create(userAccount);
+        UserAccount existingUser = userAccountDAOImpl.findById(userId);
+
+        if(existingUser == null) {
+            UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
+            userAccountDAOImpl.create(userAccount);
+        }
+
+        if (gender.equalsIgnoreCase("Male")) {
+            bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+        } else {
+            bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
+        }
+
+        double activityFactor = getActivityFactor(activity);
+
+        double maintainWeightValue = bmr * activityFactor;
+        double loseWeightValue = maintainWeightValue * 0.85;
+        double putWeightValue = maintainWeightValue * 1.15;
+
+        maintainWeightLabel.setText(String.format("%.2f", maintainWeightValue) + " kcal");
+        loseWeightLabel.setText(String.format("%.2f", loseWeightValue) + " kcal");
+        putWeightLabel.setText(String.format("%.2f", putWeightValue) + " kcal");
+
+        caloriesResultPane.getChildren().addAll(maintainWeightLabel, loseWeightLabel, putWeightLabel, maintainWeight, loseWeight, putOnWeight,recommendedDietsLabel);
+
+        showRecommendedDiets();
+
+    }
+
+    public double getActivityFactor(String activityLevel) {
+        return switch (activityLevel) {
+            case "Sedentary: little or no exercise" -> 1.2;
+            case "Light: exercise 1-3 times/week" -> 1.375;
+            case "Moderate: exercise 4-5 times/week" -> 1.55;
+            case "Active: daily exercise or intense exercise 3-4 times/week" -> 1.725;
+            case "Very active: intense exercise 6-7 times/week" -> 1.9;
+            case "Extra active: very intense exercise daily, or physical job" -> 2.0;
+            default -> 1.0;
+        };
+    }
+
+    public void showRecommendedDiets() {
+
 
         DietDAOImpl dietDAOImpl = new DietDAOImpl();
         List<Diet> diets = dietDAOImpl.findRecommendedDiets();

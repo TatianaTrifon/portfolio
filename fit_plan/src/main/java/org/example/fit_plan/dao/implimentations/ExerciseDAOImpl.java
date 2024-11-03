@@ -48,13 +48,16 @@ public class ExerciseDAOImpl implements ExerciseDAO {
     @Override
     public Exercise update(Exercise exercise) {
 
-        String sql = "UPDATE exercise SET media = ? WHERE exercise_id = ?";
+        String sql = "UPDATE exercise SET exercise_name = ?, exercise_description = ?, muscle_category = ?, sets =? WHERE exercise_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateExercise = conn.prepareCall(sql)) {
 
-            updateExercise.setBytes(1, exercise.getVideo());
-            updateExercise.setInt(2, exercise.getExerciseId());
+            updateExercise.setString(1, exercise.getExerciseName());
+            updateExercise.setString(2, exercise.getExerciseDescription());
+            updateExercise.setString(3, exercise.getMuscleCategory());
+            updateExercise.setString(4, exercise.getSets());
+            updateExercise.setInt(5, exercise.getExerciseId());
 
             updateExercise.executeUpdate();
 

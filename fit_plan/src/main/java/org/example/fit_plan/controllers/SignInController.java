@@ -62,6 +62,7 @@ public class SignInController {
 
             UserAccountController controller = root.getController();
             controller.setUserId(foundUser.getUserId());
+            controller.setUsername(foundUser.getUsername());
 
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 

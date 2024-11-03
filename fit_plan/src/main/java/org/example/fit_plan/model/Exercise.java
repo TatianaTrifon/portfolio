@@ -32,4 +32,13 @@ public class Exercise {
         this.video = video;
         this.sets = sets;
     }
+
+
+    public Exercise(int exerciseId, String exerciseName, String exerciseDescription, String muscleCategory, String sets) {
+        this.exerciseId = exerciseId;
+        this.exerciseName = exerciseName;
+        this.exerciseDescription = exerciseDescription;
+        this.muscleCategory = muscleCategory;
+        this.sets = sets;
+    }
 }

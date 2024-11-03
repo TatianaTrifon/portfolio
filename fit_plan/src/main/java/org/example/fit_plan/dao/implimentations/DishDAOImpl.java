@@ -46,13 +46,17 @@ public class DishDAOImpl implements DishDAO {
     @Override
     public Dish update(Dish dish) {
 
-        String sql = "UPDATE dish SET ingredients = ? WHERE dish_id = ?";
+        String sql = "UPDATE dish SET dish_name = ?, ingredients = ?, instructions = ?, calories = ? , nutrients = ? WHERE dish_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateDish = conn.prepareCall(sql)) {
 
-            updateDish.setString(1, dish.getIngredients());
-            updateDish.setInt(2, dish.getDishId());
+            updateDish.setString(1, dish.getDishName());
+            updateDish.setString(2, dish.getIngredients());
+            updateDish.setString(3, dish.getInstructions());
+            updateDish.setDouble(4, dish.getCalories());
+            updateDish.setString(5, dish.getNutrients());
+            updateDish.setInt(6, dish.getDishId());
 
             updateDish.executeUpdate();
 

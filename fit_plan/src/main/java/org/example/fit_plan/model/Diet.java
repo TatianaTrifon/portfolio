@@ -36,4 +36,13 @@ public class Diet {
         this.allowedFood = allowedFood;
         this.forbiddenFood = forbiddenFood;
     }
+
+    public Diet(int dietId, String dietName, String dietDescription, String dietCategory, String allowedFood, String forbiddenFood) {
+        this.dietId = dietId;
+        this.dietName = dietName;
+        this.dietDescription = dietDescription;
+        this.dietCategory = dietCategory;
+        this.allowedFood = allowedFood;
+        this.forbiddenFood = forbiddenFood;
+    }
 }

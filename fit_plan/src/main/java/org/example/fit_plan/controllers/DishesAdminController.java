@@ -15,8 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.fit_plan.dao.implimentations.DietDAOImpl;
-import org.example.fit_plan.model.Diet;
+import org.example.fit_plan.dao.implimentations.DishDAOImpl;
+import org.example.fit_plan.model.Dish;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +26,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DietsAdminController implements Initializable {
+public class DishesAdminController implements Initializable {
+
 
     @FXML
-    private AnchorPane mainPane, iconPane, buttonsPane;
+    private AnchorPane mainPane, iconPane, buttonsPane, dishManagePane;
 
     @FXML
     private ImageView menuView, exitView, homeView, dietsView, dishesView, exerciseView, logOutView;
@@ -38,34 +39,24 @@ public class DietsAdminController implements Initializable {
     private JFXButton homeButton, dietsButton, dishesButton, exerciseButton, logOutButton;
 
     @FXML
-    private AnchorPane dietManagePane;
+    private Label idLabel, pictureLabel, nameLabel, ingredientsLabel, caloriesLabel, instructionsLabel, nutrientsLabel;
 
     @FXML
-    private TextField idField, pictureField, nameField;
+    private TextField idField, pictureField, nameField, caloriesField;
 
     @FXML
-    private Label idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel;
+    private TextArea ingredientsArea, instructionArea, nutrientsArea;
 
     @FXML
-    private TextArea descriptionArea, allowedFoodArea, forbiddenFoodArea;
-
-    @FXML
-    private ComboBox<String> categoryComboBox;
-
-    private String[] dietCategories = {"Weight-Loss Diets", "Diabetes Diets", "Healthy eating Diets", "Plant-Based Diets", "Bone and Joint health diets", "Heart-healthy Diets"};
-
-    @FXML
-    private Button createButton, updateButton, deleteButton, createDietButton, updateDietButton, deleteDietButton, chooseButton, findDietButton;
+    private Button chooseButton, createButton, updateButton, deleteButton, findDishButton, createDishButton, updateDishButton, deleteDishButton;
 
     private byte[] selectedImage;
-
 
     private FXMLLoader root;
 
     private Stage stage;
 
     private Scene scene;
-
 
     @FXML
     public void goToHome(ActionEvent event) throws IOException {
@@ -94,7 +85,7 @@ public class DietsAdminController implements Initializable {
 
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dishes-admin.fxml"));
         scene = new Scene(root.load());
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
@@ -129,22 +120,23 @@ public class DietsAdminController implements Initializable {
 
                 selectedImage = Files.readAllBytes(selectedFile.toPath());
                 pictureField.setText(selectedFile.getPath());
+
             } catch (IOException e) {
-                Logger.getLogger(DietsAdminController.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(DishesAdminController.class.getName()).log(Level.SEVERE, null, e);
             }
+
         }
 
     }
 
-
     @FXML
-    public void createDiet() {
+    public void createDish() {
 
-        dietManagePane.getChildren().clear();
+        dishManagePane.getChildren().clear();
+
         clearFields();
 
-        dietManagePane.getChildren().addAll(pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, pictureField, nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, createButton, chooseButton);
-
+        dishManagePane.getChildren().addAll(pictureLabel, nameLabel, ingredientsLabel, caloriesLabel, instructionsLabel, nutrientsLabel, pictureField, nameField, caloriesField, ingredientsArea, instructionArea, nutrientsArea, chooseButton, createButton);
 
     }
 
@@ -152,138 +144,125 @@ public class DietsAdminController implements Initializable {
     public void create() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
+        DishDAOImpl dishDAOImpl = new DishDAOImpl();
 
         String name = nameField.getText();
-        String description = descriptionArea.getText();
-        String category = categoryComboBox.getValue();
-        String allowed = allowedFoodArea.getText();
-        String forbidden = forbiddenFoodArea.getText();
+        String ingredients = ingredientsArea.getText();
+        String instructions = instructionArea.getText();
+        double calories = Double.parseDouble(caloriesField.getText());
+        String nutrients = nutrientsArea.getText();
 
-        Diet diet = dietDAOImpl.create(new Diet(selectedImage, name, description, category, allowed, forbidden));
+        Dish dish = dishDAOImpl.create(new Dish(selectedImage, name, ingredients, instructions, calories, nutrients));
 
-        if (diet != null) {
-            alert.setContentText("The diet was created successfully!");
+        if (dish != null) {
+            alert.setContentText("The dish was created successfully!");
             alert.showAndWait();
             clearFields();
         } else {
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to create a diet");
+            alert.setContentText("Failed to create a dish!");
             alert.showAndWait();
         }
     }
 
     @FXML
-    public void findDiet() {
+    public void updateDish() {
 
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-
-        int id = Integer.parseInt(idField.getText());
-
-        Diet foundDiet = dietDAOImpl.findById(id);
-
-        if (foundDiet != null) {
-
-            nameField.setText(foundDiet.getDietName());
-            descriptionArea.setText(foundDiet.getDietDescription());
-            categoryComboBox.setValue(foundDiet.getDietCategory());
-            allowedFoodArea.setText(foundDiet.getAllowedFood());
-            forbiddenFoodArea.setText(foundDiet.getForbiddenFood());
-
-        } else {
-            alert.setContentText("Failed to find any diet!");
-            alert.showAndWait();
-        }
-
-
-    }
-
-    @FXML
-    public void updateDiet() {
-
-        dietManagePane.getChildren().clear();
+        dishManagePane.getChildren().clear();
         clearFields();
 
-        dietManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, idField,  nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, updateButton, chooseButton, findDietButton);
-
+        dishManagePane.getChildren().addAll(idLabel, nameLabel, ingredientsLabel, caloriesLabel, instructionsLabel, nutrientsLabel, idField, nameField, caloriesField, ingredientsArea, instructionArea, nutrientsArea, updateButton, findDishButton);
     }
 
     @FXML
     public void update() {
 
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        DishDAOImpl dishDAOImpl = new DishDAOImpl();
 
-        int dietId = Integer.parseInt(idField.getText());
+        int id = Integer.parseInt(idField.getText());
         String name = nameField.getText();
-        String description = descriptionArea.getText();
-        String category = categoryComboBox.getValue();
-        String allowed = allowedFoodArea.getText();
-        String forbidden = forbiddenFoodArea.getText();
+        String ingredients = ingredientsArea.getText();
+        String instructions = instructionArea.getText();
+        double calories = Double.parseDouble(caloriesField.getText());
+        String nutrients = nutrientsArea.getText();
 
-        Diet updatedDiet = dietDAOImpl.update(new Diet(dietId, name, description, category, allowed, forbidden));
+        Dish updatedDish = dishDAOImpl.update(new Dish(id, name, ingredients, instructions, calories, nutrients));
 
-        if (updatedDiet != null) {
-            alert.setContentText("The Diet is updated successfully!");
+        if (updatedDish != null) {
+            alert.setContentText("The Dish was upgraded successfully!");
             alert.showAndWait();
-            clearFields();
         } else {
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to update the Diet!");
+            alert.setContentText("Failed to update the Dish!");
             alert.showAndWait();
         }
-
     }
 
     @FXML
-    public void deleteDiet() {
+    public void deleteDish() {
 
-        dietManagePane.getChildren().clear();
+        dishManagePane.getChildren().clear();
         clearFields();
 
-        dietManagePane.getChildren().addAll(idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, idField, pictureField, nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, deleteButton,findDietButton);
-
+        dishManagePane.getChildren().addAll(idLabel, nameLabel, ingredientsLabel, caloriesLabel, instructionsLabel, nutrientsLabel, idField, nameField, caloriesField, ingredientsArea, instructionArea, nutrientsArea, deleteButton, findDishButton);
     }
 
     @FXML
     public void delete() {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
-        int id = Integer.parseInt(idField.getText());
 
-        boolean isDeleted = dietDAOImpl.deleteById(id);
+        DishDAOImpl dishDAOImpl = new DishDAOImpl();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+
+        boolean isDeleted = dishDAOImpl.deleteById(Integer.valueOf(idField.getText()));
 
         if (isDeleted) {
-            alert.setContentText("The Diet was deleted successfully!");
+            alert.setContentText("The Dish is deleted successfully!");
             alert.showAndWait();
             clearFields();
+
         } else {
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to delete the Diet!");
+            alert.setContentText("Failed to delete the Dish!");
             alert.showAndWait();
         }
 
+
     }
 
+    @FXML
+    public void findDish() {
+
+        DishDAOImpl dishDAOImpl = new DishDAOImpl();
+
+        Dish foundDish = dishDAOImpl.findById(Integer.valueOf(idField.getText()));
+
+        nameField.setText(foundDish.getDishName());
+        ingredientsArea.setText(foundDish.getIngredients());
+        instructionArea.setText(foundDish.getInstructions());
+        caloriesField.setText(String.valueOf(foundDish.getCalories()));
+        nutrientsArea.setText(foundDish.getNutrients());
+
+    }
 
     public void clearFields() {
+
         if (idField != null) {
             idField.clear();
         }
         pictureField.clear();
         nameField.clear();
-        descriptionArea.clear();
-        categoryComboBox.setValue(null);
-        allowedFoodArea.clear();
-        forbiddenFoodArea.clear();
+        ingredientsArea.clear();
+        instructionArea.clear();
+        caloriesField.clear();
+        nutrientsArea.clear();
 
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
         exitView.setImage(exit);
 
@@ -340,6 +319,7 @@ public class DietsAdminController implements Initializable {
             }
         });
 
+
         exitView.setOnMouseClicked(event -> System.exit(0));
 
         buttonsPane.setTranslateX(-600);
@@ -357,9 +337,6 @@ public class DietsAdminController implements Initializable {
                 }
         );
 
-        for (int i = 0; i < dietCategories.length; i++) {
-            categoryComboBox.getItems().add(dietCategories[i]);
-        }
-
     }
+
 }

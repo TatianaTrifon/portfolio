@@ -15,8 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.fit_plan.dao.implimentations.DietDAOImpl;
-import org.example.fit_plan.model.Diet;
+import org.example.fit_plan.dao.implimentations.ExerciseDAOImpl;
+import org.example.fit_plan.model.Exercise;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,10 +26,11 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class DietsAdminController implements Initializable {
+public class ExerciseAdminController implements Initializable {
+
 
     @FXML
-    private AnchorPane mainPane, iconPane, buttonsPane;
+    private AnchorPane mainPane, iconPane, buttonsPane, exerciseManagePane;
 
     @FXML
     private ImageView menuView, exitView, homeView, dietsView, dishesView, exerciseView, logOutView;
@@ -38,27 +39,23 @@ public class DietsAdminController implements Initializable {
     private JFXButton homeButton, dietsButton, dishesButton, exerciseButton, logOutButton;
 
     @FXML
-    private AnchorPane dietManagePane;
+    private Label idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel;
 
     @FXML
     private TextField idField, pictureField, nameField;
 
     @FXML
-    private Label idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel;
-
-    @FXML
-    private TextArea descriptionArea, allowedFoodArea, forbiddenFoodArea;
+    private TextArea descriptionArea, setsRepsArea;
 
     @FXML
     private ComboBox<String> categoryComboBox;
 
-    private String[] dietCategories = {"Weight-Loss Diets", "Diabetes Diets", "Healthy eating Diets", "Plant-Based Diets", "Bone and Joint health diets", "Heart-healthy Diets"};
+    private String[] muscleGroup = {"calves", "chest", "shoulders", "hamstrings", "quadriceps", "glutes", "biceps", "triceps", "forearms", "trapeziums (traps)", "latissimus dorsi (lats)"};
 
     @FXML
-    private Button createButton, updateButton, deleteButton, createDietButton, updateDietButton, deleteDietButton, chooseButton, findDietButton;
+    private Button chooseButton, createButton, updateButton, deleteButton, findExerciseButton, createExerciseButton, updateExerciseButton, deleteExerciseButton;
 
     private byte[] selectedImage;
-
 
     private FXMLLoader root;
 
@@ -94,13 +91,14 @@ public class DietsAdminController implements Initializable {
 
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dishes-admin.fxml"));
         scene = new Scene(root.load());
-        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
     public void goToExercise(ActionEvent event) throws IOException {
+
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/exercise-admin.fxml"));
         scene = new Scene(root.load());
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -120,7 +118,7 @@ public class DietsAdminController implements Initializable {
     @FXML
     public void choosePicture() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp", "*.gif"));
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -129,22 +127,37 @@ public class DietsAdminController implements Initializable {
 
                 selectedImage = Files.readAllBytes(selectedFile.toPath());
                 pictureField.setText(selectedFile.getPath());
+
             } catch (IOException e) {
-                Logger.getLogger(DietsAdminController.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(DishesAdminController.class.getName()).log(Level.SEVERE, null, e);
             }
+
         }
 
     }
 
 
     @FXML
-    public void createDiet() {
+    public void findExercise() {
 
-        dietManagePane.getChildren().clear();
+        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
+
+        Exercise foundExercise = exerciseDAOImpl.findById(Integer.valueOf(idField.getText()));
+
+        nameField.setText(foundExercise.getExerciseName());
+        descriptionArea.setText(foundExercise.getExerciseDescription());
+        categoryComboBox.setValue(foundExercise.getMuscleCategory());
+        setsRepsArea.setText(foundExercise.getSets());
+
+    }
+
+    @FXML
+    public void createExercise() {
+
+        exerciseManagePane.getChildren().clear();
         clearFields();
 
-        dietManagePane.getChildren().addAll(pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, pictureField, nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, createButton, chooseButton);
-
+        exerciseManagePane.getChildren().addAll(pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, pictureField, nameField, descriptionArea, setsRepsArea, categoryComboBox, chooseButton, createButton);
 
     }
 
@@ -152,138 +165,110 @@ public class DietsAdminController implements Initializable {
     public void create() {
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
+        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
 
         String name = nameField.getText();
         String description = descriptionArea.getText();
-        String category = categoryComboBox.getValue();
-        String allowed = allowedFoodArea.getText();
-        String forbidden = forbiddenFoodArea.getText();
+        String muscleCategory = categoryComboBox.getValue();
+        String sets = setsRepsArea.getText();
 
-        Diet diet = dietDAOImpl.create(new Diet(selectedImage, name, description, category, allowed, forbidden));
+        Exercise exercise = exerciseDAOImpl.create(new Exercise(name, description, muscleCategory, selectedImage, sets));
 
-        if (diet != null) {
-            alert.setContentText("The diet was created successfully!");
+        if (exercise != null) {
+            alert.setContentText("The exercise was created successfully! ");
             alert.showAndWait();
             clearFields();
         } else {
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to create a diet");
+            alert.setContentText("Failed to create an exercise!");
             alert.showAndWait();
+
         }
-    }
-
-    @FXML
-    public void findDiet() {
-
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-
-        int id = Integer.parseInt(idField.getText());
-
-        Diet foundDiet = dietDAOImpl.findById(id);
-
-        if (foundDiet != null) {
-
-            nameField.setText(foundDiet.getDietName());
-            descriptionArea.setText(foundDiet.getDietDescription());
-            categoryComboBox.setValue(foundDiet.getDietCategory());
-            allowedFoodArea.setText(foundDiet.getAllowedFood());
-            forbiddenFoodArea.setText(foundDiet.getForbiddenFood());
-
-        } else {
-            alert.setContentText("Failed to find any diet!");
-            alert.showAndWait();
-        }
-
 
     }
 
     @FXML
-    public void updateDiet() {
+    public void updateExercise() {
 
-        dietManagePane.getChildren().clear();
+        exerciseManagePane.getChildren().clear();
         clearFields();
 
-        dietManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, idField,  nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, updateButton, chooseButton, findDietButton);
+        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, updateButton, findExerciseButton, categoryComboBox);
+
 
     }
 
     @FXML
     public void update() {
 
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
 
-        int dietId = Integer.parseInt(idField.getText());
+        Integer id = Integer.valueOf(idField.getText());
         String name = nameField.getText();
         String description = descriptionArea.getText();
-        String category = categoryComboBox.getValue();
-        String allowed = allowedFoodArea.getText();
-        String forbidden = forbiddenFoodArea.getText();
+        String muscleCategory = categoryComboBox.getValue();
+        String sets = setsRepsArea.getText();
 
-        Diet updatedDiet = dietDAOImpl.update(new Diet(dietId, name, description, category, allowed, forbidden));
+        Exercise updatedExercise = exerciseDAOImpl.update(new Exercise(id, name, description, muscleCategory, sets));
 
-        if (updatedDiet != null) {
-            alert.setContentText("The Diet is updated successfully!");
+        if (updatedExercise != null) {
+
+            alert.setContentText("The exercise was updated successfully! ");
             alert.showAndWait();
             clearFields();
         } else {
             alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to update the Diet!");
+            alert.setContentText("Failed to update the exercise!");
             alert.showAndWait();
-        }
 
+        }
     }
 
     @FXML
-    public void deleteDiet() {
+    public void deleteExercise() {
 
-        dietManagePane.getChildren().clear();
+        exerciseManagePane.getChildren().clear();
         clearFields();
 
-        dietManagePane.getChildren().addAll(idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, allowedFoodLabel, forbiddenFoodLabel, idField, pictureField, nameField, descriptionArea, categoryComboBox, allowedFoodArea, forbiddenFoodArea, deleteButton,findDietButton);
-
+        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, deleteButton, findExerciseButton,categoryComboBox);
     }
 
     @FXML
     public void delete() {
+
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        DietDAOImpl dietDAOImpl = new DietDAOImpl();
-        int id = Integer.parseInt(idField.getText());
+        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
 
-        boolean isDeleted = dietDAOImpl.deleteById(id);
+      boolean isDeleted = exerciseDAOImpl.deleteById(Integer.valueOf(idField.getText()));
 
-        if (isDeleted) {
-            alert.setContentText("The Diet was deleted successfully!");
-            alert.showAndWait();
-            clearFields();
-        } else {
-            alert.setAlertType(Alert.AlertType.ERROR);
-            alert.setContentText("Failed to delete the Diet!");
-            alert.showAndWait();
-        }
-
+      if(isDeleted){
+          alert.setContentText("The exercise was deleted successfully! ");
+          alert.showAndWait();
+          clearFields();
+      } else {
+          alert.setAlertType(Alert.AlertType.ERROR);
+          alert.setContentText("Failed to delete the exercise!");
+          alert.showAndWait();
+      }
     }
 
+    public void clearFields(){
 
-    public void clearFields() {
-        if (idField != null) {
-            idField.clear();
-        }
-        pictureField.clear();
+        idField.clear();
         nameField.clear();
-        descriptionArea.clear();
         categoryComboBox.setValue(null);
-        allowedFoodArea.clear();
-        forbiddenFoodArea.clear();
+        pictureField.clear();
+        setsRepsArea.clear();
+        descriptionArea.clear();
+
 
     }
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
         exitView.setImage(exit);
 
@@ -340,6 +325,11 @@ public class DietsAdminController implements Initializable {
             }
         });
 
+        for(int i =0; i < muscleGroup.length; i++){
+            categoryComboBox.getItems().add(muscleGroup[i]);
+        }
+
+
         exitView.setOnMouseClicked(event -> System.exit(0));
 
         buttonsPane.setTranslateX(-600);
@@ -356,10 +346,6 @@ public class DietsAdminController implements Initializable {
                     translateTransition.play();
                 }
         );
-
-        for (int i = 0; i < dietCategories.length; i++) {
-            categoryComboBox.getItems().add(dietCategories[i]);
-        }
 
     }
 }

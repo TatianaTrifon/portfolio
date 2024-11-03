@@ -62,6 +62,7 @@ public class SignUpController {
 
             UserAccountController controller = root.getController();
             controller.setUserId(user.getUserId());
+            controller.setUsername(user.getUsername());
 
             stage = (Stage)((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

@@ -72,15 +72,31 @@ public class AdminController implements Initializable {
     }
 
     @FXML
-    public void goToDishes() {
+    public void goToDishes(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dishes-admin.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage)((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void goToExercise() {
+    public void goToExercise(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/exercise-admin.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void goToUserAccount() {
+    public void goToSignIn(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @Override
@@ -94,18 +110,53 @@ public class AdminController implements Initializable {
 
         Image home = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\home.png");
         homeView.setImage(home);
+        homeView.setOnMouseClicked(event -> {
+            try {
+                goToHome(new ActionEvent(homeView, homeView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image diets = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\diets.png");
         dietsView.setImage(diets);
+        dietsView.setOnMouseClicked(event -> {
+            try {
+                goToDiets(new ActionEvent(dietsView, dietsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image workout = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\workoutPlan.png");
         exerciseView.setImage(workout);
+        exerciseView.setOnMouseClicked(event -> {
+            try {
+                goToExercise(new ActionEvent(exerciseView, exerciseView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image dish = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\dishIdeas.png");
         dishesView.setImage(dish);
+        dishesView.setOnMouseClicked(event -> {
+            try {
+                goToDishes(new ActionEvent(dishesView, dishesView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image logOut = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\logOut.png");
         logOutView.setImage(logOut);
+        logOutView.setOnMouseClicked(event -> {
+            try {
+                goToSignIn(new ActionEvent(logOutView, logOutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
         exitView.setOnMouseClicked(event -> System.exit(0));
