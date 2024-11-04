@@ -3,19 +3,24 @@ package org.example.fit_plan.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import org.example.fit_plan.dao.implimentations.UserDAOImpl;
 import org.example.fit_plan.model.User;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class SignInController {
+public class SignInController implements Initializable {
 
     @FXML
     private TextField usernameField;
@@ -28,6 +33,9 @@ public class SignInController {
 
     @FXML
     private Button signUpButton;
+
+    @FXML
+    private ImageView exitView;
 
     private FXMLLoader root;
 
@@ -91,4 +99,11 @@ public class SignInController {
     }
 
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
+        exitView.setImage(exit);
+
+        exitView.setOnMouseClicked(event -> System.exit(0));
+    }
 }

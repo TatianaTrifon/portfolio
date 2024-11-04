@@ -1,4 +1,10 @@
+#genderToggleButton{
+    -fx-background-color: lightblue;
+}
 
+#genderToggleButton:selected{
+    -fx-background-color: pink;
+}
 
 #dietName{
     -fx-font-size: 20;

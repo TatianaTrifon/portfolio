@@ -4,55 +4,77 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.SignUpController">
    <children>
-      <Label alignment="CENTER" layoutY="14.0" prefHeight="18.0" prefWidth="900.0" text="FitPlan">
+      <Label alignment="CENTER" layoutX="-5.0" layoutY="58.0" prefHeight="94.0" prefWidth="1111.0" text="FitPlan">
          <font>
-            <Font size="65.0" />
+            <Font size="68.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutX="341.0" layoutY="159.0" prefHeight="18.0" prefWidth="217.0" text="Sign Up">
+      <Label alignment="CENTER" layoutY="199.0" prefHeight="40.0" prefWidth="1102.0" text="Sign Up">
          <font>
             <Font size="28.0" />
          </font>
       </Label>
-      <Label layoutX="93.0" layoutY="234.0" prefHeight="18.0" prefWidth="264.0" text="Email">
+      <Label layoutX="203.0" layoutY="281.0" prefHeight="38.0" prefWidth="267.0" text="Email">
          <font>
-            <Font size="20.0" />
+            <Font size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="emailField" layoutX="93.0" layoutY="264.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your email" />
-      <Label layoutX="93.0" layoutY="325.0" prefHeight="18.0" prefWidth="264.0" text="Username">
+      <TextField fx:id="emailField" layoutX="202.0" layoutY="315.0" prefHeight="47.0" prefWidth="269.0" promptText="Enter your email">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
+         </font></TextField>
+      <Label layoutX="205.0" layoutY="389.0" prefHeight="18.0" prefWidth="264.0" text="Username">
+         <font>
+            <Font size="22.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameField" layoutX="93.0" layoutY="355.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your username" />
-      <Label layoutX="550.0" layoutY="234.0" prefHeight="18.0" prefWidth="264.0" text="Password">
+      <TextField fx:id="usernameField" layoutX="205.0" layoutY="422.0" prefHeight="47.0" prefWidth="264.0" promptText="Enter your username">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
+         </font></TextField>
+      <Label layoutX="627.0" layoutY="284.0" prefHeight="32.0" prefWidth="271.0" text="Password">
+         <font>
+            <Font size="22.0" />
          </font>
       </Label>
-      <PasswordField fx:id="passwordField" layoutX="550.0" layoutY="264.0" prefHeight="40.0" prefWidth="264.0" promptText="Enter your password" />
-      <Label layoutX="550.0" layoutY="325.0" prefHeight="18.0" prefWidth="264.0" text="Password confirmation">
+      <PasswordField fx:id="passwordField" layoutX="628.0" layoutY="315.0" prefHeight="47.0" prefWidth="269.0" promptText="Enter your password">
          <font>
-            <Font size="20.0" />
+            <Font size="16.0" />
+         </font></PasswordField>
+      <Label layoutX="631.0" layoutY="389.0" prefHeight="18.0" prefWidth="264.0" text="Password confirmation">
+         <font>
+            <Font size="22.0" />
          </font>
       </Label>
-      <PasswordField fx:id="repeatedPasswordField" layoutX="550.0" layoutY="355.0" prefHeight="40.0" prefWidth="264.0" promptText="Repeat your password" />
-      <Button fx:id="signUpButton" layoutX="404.0" layoutY="451.0" mnemonicParsing="false" onAction="#signUp" prefHeight="40.0" prefWidth="90.0" text="Sign Up">
+      <PasswordField fx:id="repeatedPasswordField" layoutX="629.0" layoutY="422.0" prefHeight="47.0" prefWidth="266.0" promptText="Repeat your password">
+         <font>
+            <Font size="16.0" />
+         </font></PasswordField>
+      <Button fx:id="signUpButton" layoutX="492.0" layoutY="526.0" mnemonicParsing="false" onAction="#signUp" prefHeight="47.0" prefWidth="110.0" text="Sign Up">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goToSignIn" prefHeight="40.0" prefWidth="47.0" text="&lt;">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Button>
+      <AnchorPane prefHeight="48.0" prefWidth="143.0" style="-fx-background-color: #072f4b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="1057.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="backImage" fitHeight="25.0" fitWidth="32.0" layoutX="6.0" layoutY="12.0" onMouseClicked="#goToSignIn" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../java/org/example/fit_plan/images/back.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

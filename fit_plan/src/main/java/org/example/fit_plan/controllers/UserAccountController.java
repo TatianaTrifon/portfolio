@@ -1,5 +1,6 @@
 package org.example.fit_plan.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -75,8 +76,11 @@ public class UserAccountController implements Initializable {
     @FXML
     private HBox dietContainer;
 
+    @FXML
+    private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
 
-    private Parent root;
+
+    private FXMLLoader root;
 
     private Stage stage;
 
@@ -94,6 +98,44 @@ public class UserAccountController implements Initializable {
         this.username = username;
         welcomeLabel.setText("Welcome, " + username + "!");
     }
+
+
+    @FXML
+    public void goToHome(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    public void goToWorkout(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-exercise.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void goToDiets(){}
+
+    @FXML
+    public void goToDish(){}
+
+    @FXML
+    public void goToProgress(){}
+
+    @FXML
+    public void goToSettings(){}
+
+    @FXML
+    public void goToSignIn(){}
+
+
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -227,14 +269,16 @@ public class UserAccountController implements Initializable {
         for (Diet diet : diets) {
             VBox dietBox = new VBox(10);
             dietBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-            dietBox.setMaxHeight(250);
-            dietBox.setMaxWidth(275);
+            dietBox.setMaxHeight(274);
+            dietBox.setMaxWidth(304);
+
 
 
             Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
             ImageView picture = new ImageView(image);
-            picture.setFitHeight(200);
-            picture.setFitWidth(275);
+            picture.setFitHeight(275);
+            picture.setFitWidth(300);
+
 
 
             Label dietName = new Label(diet.getDietName());
@@ -258,7 +302,7 @@ public class UserAccountController implements Initializable {
             dietContainer.getChildren().add(dietBox);
         }
 
-        dietContainer.setSpacing(20);
+        dietContainer.setSpacing(22);
         dietContainer.setFillHeight(false);
     }
 }

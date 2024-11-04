@@ -10,23 +10,22 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-
-<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.AdminController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.AdminController">
    <children>
-      <TextFlow fx:id="textFlow" layoutX="129.0" layoutY="182.0" prefHeight="200.0" prefWidth="644.0" AnchorPane.bottomAnchor="217.2" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="126.19999999999993" AnchorPane.topAnchor="182.0" />
-      <Label alignment="CENTER" layoutX="2.0" layoutY="84.0" prefHeight="26.0" prefWidth="900.0" text="Welcome to Admin's page!">
+      <TextFlow fx:id="textFlow" layoutX="129.0" layoutY="182.0" prefHeight="300.0" prefWidth="858.0" AnchorPane.bottomAnchor="218.0" AnchorPane.leftAnchor="129.0" AnchorPane.rightAnchor="113.0" AnchorPane.topAnchor="182.0" />
+      <Label alignment="CENTER" layoutX="2.0" layoutY="84.0" prefHeight="46.0" prefWidth="1100.0" text="Welcome to Admin's page!">
          <font>
-            <Font size="30.0" />
+            <Font size="34.0" />
          </font>
       </Label>
-      <AnchorPane prefHeight="48.0" prefWidth="900.0" style="-fx-background-color: #072f4b;">
+      <AnchorPane prefHeight="48.0" prefWidth="1100.0" style="-fx-background-color: #072f4b;">
          <children>
             <ImageView fx:id="menuView" fitHeight="32.0" fitWidth="25.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="10.0">
                <image>
                   <Image url="@../../../../java/org/example/fit_plan/images/menu.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="exitView" fitHeight="32.0" fitWidth="25.0" layoutX="861.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="exitView" fitHeight="32.0" fitWidth="25.0" layoutX="1061.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
                </image>

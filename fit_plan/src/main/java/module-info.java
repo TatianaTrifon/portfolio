@@ -6,6 +6,7 @@ module org.example.fit_plan {
     requires org.slf4j;
     requires static lombok;
     requires com.jfoenix;
+    requires java.desktop;
 
 
     opens org.example.fit_plan.controllers to javafx.fxml;

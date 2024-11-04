@@ -16,117 +16,126 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" maxHeight="600.0" maxWidth="900.0" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.UserAccountController">
+<AnchorPane fx:id="mainPane" maxHeight="700.0" maxWidth="1100.0" prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.UserAccountController">
    <children>
-      <ScrollPane fx:id="pageScrollPane" layoutX="41.400001525878906" layoutY="47.0" prefHeight="556.0" prefWidth="906.0" AnchorPane.leftAnchor="42.0">
+      <ScrollPane fx:id="pageScrollPane" layoutX="43.2" layoutY="47.0" prefHeight="654.0" prefWidth="1057.0" AnchorPane.leftAnchor="43.0">
          <content>
-            <AnchorPane prefHeight="554.0" prefWidth="870.0">
+            <AnchorPane prefHeight="655.0" prefWidth="1056.0">
                <children>
             
                   <!-- Welcome Label -->
-                  <Label fx:id="welcomeLabel" alignment="CENTER" prefHeight="18.0" prefWidth="900.0" text="Welcome !">
+                  <Label fx:id="welcomeLabel" alignment="CENTER" layoutX="-3.0" layoutY="22.0" prefHeight="50.0" prefWidth="1058.0" text="Welcome !">
                      <font>
-                        <Font size="30.0" />
+                        <Font size="34.0" />
                      </font>
                   </Label>
             
                   <!-- Form Section -->
-                  <Label layoutX="212.0" layoutY="81.0" prefHeight="32.0" prefWidth="150.0" text="Age">
+                  <Label layoutX="246.0" layoutY="98.0" prefHeight="32.0" prefWidth="170.0" text="Age">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="ageField" layoutX="212.0" layoutY="113.0" prefHeight="32.0" prefWidth="150.0" promptText="Enter your age" />
+                  <TextField fx:id="ageField" layoutX="247.0" layoutY="130.0" prefHeight="36.0" prefWidth="170.0" promptText="Enter your age">
+                     <font>
+                        <Font size="14.0" />
+                     </font></TextField>
             
-                  <Label layoutX="320.0" layoutY="175.0" prefHeight="32.0" prefWidth="150.0" text="Gender :">
+                  <Label layoutX="377.0" layoutY="190.0" prefHeight="32.0" prefWidth="150.0" text="Gender :">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                   </Label>
-                  <RadioButton fx:id="maleRadioButton" layoutX="403.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Male">
+                  <RadioButton fx:id="maleRadioButton" layoutX="475.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Male">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                      <toggleGroup>
                         <ToggleGroup fx:id="gender" />
                      </toggleGroup>
                   </RadioButton>
-                  <RadioButton fx:id="femaleRadioButton" layoutX="495.0" layoutY="178.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Female" toggleGroup="$gender">
+                  <RadioButton fx:id="femaleRadioButton" layoutX="577.0" layoutY="193.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="99.0" text="Female" toggleGroup="$gender">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                   </RadioButton>
             
-                  <Label layoutX="212.0" layoutY="229.0" prefHeight="32.0" prefWidth="150.0" text="Height">
+                  <Label layoutX="247.0" layoutY="232.0" prefHeight="32.0" prefWidth="150.0" text="Height">
                      <font>
-                        <Font size="14.0" />
+                        <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="heightField" layoutX="212.0" layoutY="261.0" prefHeight="32.0" prefWidth="150.0" promptText="cm" />
-            
-                  <Label layoutX="545.0" layoutY="81.0" prefHeight="32.0" prefWidth="150.0" text="Weight">
+                  <TextField fx:id="heightField" layoutX="248.0" layoutY="262.0" prefHeight="36.0" prefWidth="170.0" promptText="cm">
                      <font>
                         <Font size="14.0" />
+                     </font></TextField>
+            
+                  <Label layoutX="647.0" layoutY="98.0" prefHeight="32.0" prefWidth="163.0" text="Weight">
+                     <font>
+                        <Font size="16.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="weightField" layoutX="545.0" layoutY="113.0" prefHeight="32.0" prefWidth="150.0" promptText="kg" />
-            
-                  <Label layoutX="545.0" layoutY="229.0" prefHeight="32.0" prefWidth="150.0" text="Activity">
+                  <TextField fx:id="weightField" layoutX="649.0" layoutY="129.0" prefHeight="36.0" prefWidth="170.0" promptText="kg">
                      <font>
                         <Font size="14.0" />
+                     </font></TextField>
+            
+                  <Label layoutX="653.0" layoutY="230.0" prefHeight="32.0" prefWidth="150.0" text="Activity">
+                     <font>
+                        <Font size="16.0" />
                      </font>
                   </Label>
-                  <ComboBox fx:id="activityComboBox" layoutX="545.0" layoutY="261.0" prefHeight="32.0" prefWidth="150.0" promptText="Choose your activity" />
+                  <ComboBox fx:id="activityComboBox" layoutX="642.0" layoutY="261.0" prefHeight="36.0" prefWidth="170.0" promptText="Choose your activity" />
             
-                  <Button fx:id="calculateButton" layoutX="404.0" layoutY="304.0" mnemonicParsing="false" onAction="#calculateCalories" prefHeight="32.0" prefWidth="92.0" text="Calculate">
+                  <Button fx:id="calculateButton" layoutX="478.0" layoutY="308.0" mnemonicParsing="false" onAction="#calculateCalories" prefHeight="42.0" prefWidth="105.0" text="Calculate">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Button>
             
                   <!-- Container for dynamically added diet content -->
-                  <VBox fx:id="scrollContent" layoutX="-1.0" layoutY="435.0" prefHeight="118.0" prefWidth="906.0" spacing="15.0">
+                  <VBox fx:id="scrollContent" layoutX="1.0" layoutY="499.0" prefHeight="155.0" prefWidth="1055.0" spacing="15.0">
                      <HBox fx:id="dietContainer" prefHeight="118.0" prefWidth="866.0" spacing="25.0">
                         <VBox.margin>
                            <Insets left="20.0" right="20.0" />
                         </VBox.margin>
                      </HBox>
                   </VBox>
-                  <AnchorPane fx:id="caloriesResultPane" layoutX="22.0" layoutY="348.0" prefHeight="87.0" prefWidth="700.0">
+                  <AnchorPane fx:id="caloriesResultPane" layoutX="25.0" layoutY="368.0" prefHeight="120.0" prefWidth="1012.0" AnchorPane.leftAnchor="22.0" AnchorPane.rightAnchor="22.0">
                      <children>
-                        <Label fx:id="maintainWeight" layoutX="1.0" layoutY="2.0" prefHeight="40.0" prefWidth="130.0" text="Maintain weight : " AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="maintainWeight" layoutX="1.0" layoutY="2.0" prefHeight="52.0" prefWidth="143.0" text="Maintain weight : " AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="6.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="maintainWeightLabel" layoutX="131.0" prefHeight="39.0" prefWidth="124.0" text="kcal" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="maintainWeightLabel" layoutX="150.0" layoutY="2.0" prefHeight="39.0" prefWidth="124.0" text="kcal" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="loseWeight" layoutX="323.0" prefHeight="40.0" prefWidth="107.0" text="Lose weight : " AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="loseWeight" layoutX="405.0" prefHeight="40.0" prefWidth="107.0" text="Lose weight : " AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="loseWeightLabel" layoutX="431.0" prefHeight="39.0" prefWidth="128.0" text="kcal" AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="loseWeightLabel" layoutX="519.0" layoutY="2.0" prefHeight="39.0" prefWidth="128.0" text="kcal" AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="putOnWeight" layoutX="618.0" prefHeight="40.0" prefWidth="116.0" text="Put on weight : " AnchorPane.bottomAnchor="40.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="putOnWeight" layoutX="749.0" layoutY="2.0" prefHeight="54.0" prefWidth="126.0" text="Put on weight : " AnchorPane.bottomAnchor="70.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font name="System Bold" size="14.0" />
+                              <Font name="System Bold" size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="putWeightLabel" layoutX="734.0" prefHeight="39.0" prefWidth="121.0" text="kcal" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0">
+                        <Label fx:id="putWeightLabel" layoutX="734.0" prefHeight="39.0" prefWidth="121.0" text="kcal" AnchorPane.bottomAnchor="70.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="0.0">
                            <font>
-                              <Font size="14.0" />
+                              <Font size="17.0" />
                            </font>
                         </Label>
-                        <Label fx:id="recommendedDietsLabel" alignment="CENTER" prefHeight="27.0" prefWidth="861.0" text="Recommended Diets" AnchorPane.topAnchor="60.0">
+                        <Label fx:id="recommendedDietsLabel" alignment="CENTER" prefHeight="27.0" prefWidth="1012.0" text="Recommended Diets" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="60.0">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="System Bold" size="22.0" />
                            </font>
                         </Label>
                      </children>
@@ -138,41 +147,41 @@
 
 
       <!-- Additional Button Pane (if needed) -->
-      <AnchorPane fx:id="buttonsPane" layoutX="43.0" layoutY="47.0" prefHeight="554.0" prefWidth="201.0" style="-fx-background-color: D3D3D3FF;">
+      <AnchorPane fx:id="buttonsPane" layoutX="43.0" layoutY="47.0" prefHeight="654.0" prefWidth="202.0" style="-fx-background-color: D3D3D3FF;">
          <children>
             <VBox layoutY="115.0" prefHeight="437.0" prefWidth="200.0" spacing="15.0">
                <children>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Home">
+                  <JFXButton fx:id="homeButton" onAction="#goToHome" prefHeight="41.0" prefWidth="200.0" text="Home">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="39.0" prefWidth="200.0" text="Workout Plan">
+                  <JFXButton fx:id="workoutButton" onAction="#goToWorkout" prefHeight="39.0" prefWidth="200.0" text="Workout Plan">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Diets">
+                  <JFXButton fx:id="dietsButton" onAction="#goToDiets" prefHeight="41.0" prefWidth="200.0" text="Diets">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Dish Ideas">
+                  <JFXButton fx:id="dishButton" onAction="#goToDish" prefHeight="41.0" prefWidth="200.0" text="Dish Ideas">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Progress">
+                  <JFXButton fx:id="progressButton" onAction="#goToProgress" prefHeight="41.0" prefWidth="200.0" text="Progress">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Settings">
+                  <JFXButton fx:id="settingsButton" onAction="#goToSettings" prefHeight="41.0" prefWidth="200.0" text="Settings">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton prefHeight="41.0" prefWidth="200.0" text="Log Out">
+                  <JFXButton fx:id="logOutButton" onAction="#goToSignIn" prefHeight="41.0" prefWidth="200.0" text="Log Out">
                      <VBox.margin>
                         <Insets top="40.0" />
                      </VBox.margin>
@@ -185,7 +194,7 @@
          </children>
       </AnchorPane>
       <!-- Sidebar Icons -->
-      <AnchorPane fx:id="iconPane" prefHeight="556.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+      <AnchorPane fx:id="iconPane" prefHeight="654.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="46.0">
          <children>
             <VBox alignment="TOP_CENTER" layoutY="118.0" prefHeight="428.0" prefWidth="44.0" spacing="25.0" AnchorPane.topAnchor="118.0">
                <children>
@@ -233,9 +242,9 @@
       </AnchorPane>
 
       <!-- Header Section -->
-      <AnchorPane layoutY="-2.0" prefHeight="48.0" prefWidth="949.0" style="-fx-background-color: #072f4b;">
+      <AnchorPane layoutY="-2.0" prefHeight="48.0" prefWidth="1100.0" style="-fx-background-color: #072f4b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="908.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="1062.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../java/org/example/fit_plan/images/exit.png" />
                </image>

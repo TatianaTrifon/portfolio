@@ -176,7 +176,7 @@ public class AdminController implements Initializable {
                 }
         );
 
-        intructions.setFont(Font.font("Arial", 16));
+        intructions.setFont(Font.font("Arial", 18));
         textFlow = new TextFlow(intructions);
         textFlow.setPadding(new Insets(185,125,245,130));
         textFlow.setLineSpacing(14);
