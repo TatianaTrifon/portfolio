@@ -76,6 +76,165 @@ public class UserExerciseController implements Initializable {
 
     }
 
+
+
+    public void showMuscleGroupMan(){
+//        MuscleGroupMan.trapsLeftFront.setOnMouseEntered(e -> {MuscleGroupMan.trapsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.trapsRightFront.setFill(Color.RED);
+//
+//        });
+//
+//        MuscleGroupMan.trapsRightFront.setOnMouseEntered(e -> {MuscleGroupMan.trapsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.trapsRightFront.setFill(Color.RED);
+//
+//        });
+
+//        MuscleGroupMan.chestLeftFront.setOnMouseEntered(e -> {
+//            MuscleGroupMan.chestLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.chestRightFront.setFill(Color.RED);
+//            });
+//
+//        MuscleGroupMan.chestRightFront.setOnMouseEntered(e -> {
+//            MuscleGroupMan.chestLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.chestRightFront.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.shoulderLeftFront.setOnMouseEntered(e ->{
+//            MuscleGroupMan.shoulderLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.shoulderRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.shoulderRightFront.setOnMouseEntered(e ->{
+//            MuscleGroupMan.shoulderLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.shoulderRightFront.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.abdominalsFront.setOnMouseEntered(e -> MuscleGroupMan.abdominalsFront.setFill(Color.RED));
+
+//        MuscleGroupMan.latsLeftFront.setOnMouseEntered(e ->{
+//            MuscleGroupMan.latsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.latsRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.latsRightFront.setOnMouseEntered(e ->{
+//            MuscleGroupMan.latsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.latsRightFront.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.bicepsLeftFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.bicepsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.bicepsRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.bicepsRightFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.bicepsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.bicepsRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.forearmLeftFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.forearmLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.forearmRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.forearmRightFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.forearmLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.forearmRightFront.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.quadricepsLeftFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.quadricepsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.quadricepsRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.quadricepsRightFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.quadricepsLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.quadricepsRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.calfLeftFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.calfLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.calfRightFront.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.calfRightFront.setOnMouseEntered(e->{
+//            MuscleGroupMan.calfLeftFront.setFill(Color.RED);
+//            MuscleGroupMan.calfRightFront.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.trapsUpBack.setOnMouseEntered(e-> MuscleGroupMan.trapsUpBack.setFill(Color.RED));
+//
+//        MuscleGroupMan.trapsDownBack.setOnMouseEntered(e-> MuscleGroupMan.trapsDownBack.setFill(Color.RED));
+
+//        MuscleGroupMan.shoulderLeftBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.shoulderLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.shoulderRightBack.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.shoulderRightBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.shoulderLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.shoulderRightBack.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.latsLeftBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.latsLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.latsRightBack.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.latsRightBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.latsLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.latsRightBack.setFill(Color.RED);
+//        });
+
+//        MuscleGroupMan.back.setOnMouseEntered(e -> MuscleGroupMan.back.setFill(Color.RED));
+//
+//        MuscleGroupMan.glutes.setOnMouseEntered(e -> MuscleGroupMan.glutes.setFill(Color.RED));
+//
+//
+//        MuscleGroupMan.hamstringLeftBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.hamstringLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.hamstringRightBack.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.hamstringRightBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.hamstringLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.hamstringRightBack.setFill(Color.RED);
+//        });
+
+//                MuscleGroupMan.calfLeftBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.calfLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.calfRightBack.setFill(Color.RED);
+//        });
+//
+//        MuscleGroupMan.calfRightBack.setOnMouseEntered(e ->{
+//            MuscleGroupMan.calfLeftBack.setFill(Color.RED);
+//            MuscleGroupMan.calfRightBack.setFill(Color.RED);
+//        });
+
+
+        MuscleGroupMan.tricepLeftBack.setOnMouseEntered(e ->{
+            MuscleGroupMan.tricepLeftBack.setFill(Color.RED);
+            MuscleGroupMan.tricepRightBack.setFill(Color.RED);
+        });
+
+        MuscleGroupMan.tricepRightBack.setOnMouseEntered(e ->{
+            MuscleGroupMan.tricepLeftBack.setFill(Color.RED);
+            MuscleGroupMan.tricepRightBack.setFill(Color.RED);
+        });
+
+        MuscleGroupMan.forearmLeftBack.setOnMouseEntered(e ->{
+            MuscleGroupMan.forearmLeftBack.setFill(Color.RED);
+            MuscleGroupMan.forearmRightBack.setFill(Color.RED);
+        });
+
+        MuscleGroupMan.forearmRightBack.setOnMouseEntered(e ->{
+            MuscleGroupMan.forearmLeftBack.setFill(Color.RED);
+            MuscleGroupMan.forearmRightBack.setFill(Color.RED);
+        });
+
+        mainPane.getChildren().addAll(MuscleGroupMan.tricepLeftBack,MuscleGroupMan.tricepRightBack,MuscleGroupMan.forearmLeftBack,MuscleGroupMan.forearmRightBack);
+    }
+
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pageScrollPane.setFitToWidth(true);
@@ -116,22 +275,13 @@ public class UserExerciseController implements Initializable {
         Image back = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\man_back.png");
         backImage.setImage(back);
 
-        MuscleGroupMan.trapsLeftFront.setOnMouseEntered(e -> {MuscleGroupMan.trapsLeftFront.setFill(Color.RED);
-            MuscleGroupMan.trapsRightFront.setFill(Color.RED);
 
-        });
-
-        MuscleGroupMan.trapsRightFront.setOnMouseEntered(e -> {MuscleGroupMan.trapsLeftFront.setFill(Color.RED);
-            MuscleGroupMan.trapsRightFront.setFill(Color.RED);
-
-        });
-
-mainPane.getChildren().addAll(MuscleGroupMan.trapsLeftFront,MuscleGroupMan.trapsRightFront);
 
         mainPane.setOnMouseClicked(event -> {
-            System.out.println(event.getSceneX() + "," +  event.getSceneY());
+            System.out.println(event.getSceneX() + "," +  event.getSceneY() + ",");
         });
 
+showMuscleGroupMan();
 
         buttonsPane.setTranslateX(-600);
 
@@ -162,6 +312,8 @@ mainPane.getChildren().addAll(MuscleGroupMan.trapsLeftFront,MuscleGroupMan.traps
         });
 
     }
+
+
 
 
 
