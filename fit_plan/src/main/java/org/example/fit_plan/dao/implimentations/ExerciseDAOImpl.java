@@ -124,7 +124,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
         List<Exercise> exercises = new ArrayList<>();
 
-        String sql = "SELECT * FROM exercise WHERE exercise_id = ?";
+        String sql = "SELECT * FROM exercise WHERE muscle_category = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement findExercise = conn.prepareCall(sql)) {

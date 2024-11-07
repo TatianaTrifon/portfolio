@@ -94,7 +94,7 @@
             </children>
         </AnchorPane>
 
-        <AnchorPane layoutY="-2.0" prefHeight="48.0" prefWidth="1102.0" style="-fx-background-color: #072f4b;">
+        <AnchorPane fx:id="toolPane" layoutY="-2.0" prefHeight="48.0" prefWidth="1102.0" style="-fx-background-color: #072f4b;">
             <children>
                 <ImageView fx:id="exitImage" fitHeight="25.0" fitWidth="32.0" layoutX="1063.0" layoutY="11.0" pickOnBounds="true" preserveRatio="true">
                     <image>

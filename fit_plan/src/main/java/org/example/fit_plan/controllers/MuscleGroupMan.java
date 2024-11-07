@@ -3,6 +3,9 @@ package org.example.fit_plan.controllers;
 
 import javafx.scene.shape.Polygon;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MuscleGroupMan {
 
   public static Polygon trapsLeftFront = new Polygon(
@@ -21,6 +24,7 @@ public class MuscleGroupMan {
           308.8,184.0
           );
 
+
   public static Polygon trapsRightFront = new Polygon(
           343.2,184.0,
           346.4,188.8,
@@ -35,74 +39,115 @@ public class MuscleGroupMan {
           342.4,185.6
           );
 
-  public static Polygon chestLeftFront = new Polygon(
-          325.6,210.4,
-          324.8,208.8,
-          323.2,205.6,
-          316.8,202.4,
+  public static Polygon chestFront = new Polygon(
+          315.2,203.2,
           308.8,202.4,
-          301.6,204.0,
-          296.8,205.6,
-          291.2,209.6,
-          287.2,212.8,
-          283.2,216.8,
-          279.2,221.6,
-          275.2,226.4,
-          270.4,231.2,
-          264.8,235.2,
-          269.6,237.6,
-          274.4,240.0,
-          276.8,243.2,
-          281.6,248.8,
-          287.2,252.0,
-          293.6,253.6,
-          300.0,255.2,
-          307.2,253.6,
-          312.8,251.2,
-          318.4,247.2,
-          322.4,244.0,
-          324.0,239.2,
-          325.6,236.8,
-          325.6,232.8,
-          325.6,209.6
+          305.6,203.2,
+          301.6,205.6,
+          298.4,205.6,
+          296.8,206.4,
+          293.6,208.8,
+          292.0,210.4,
+          289.6,212.8,
+          288.0,212.8,
+          286.4,216.0,
+          283.2,218.4,
+          281.6,222.4,
+          280.0,224.8,
+          277.6,228.0,
+          278.4,224.8,
+          275.2,227.2,
+          274.4,230.4,
+          272.0,231.2,
+          269.6,232.8,
+          268.0,234.4,
+          267.2,235.2,
+          266.4,236.8,
+          269.6,239.2,
+          271.2,239.2,
+          273.6,241.6,
+          276.0,243.2,
+          278.4,245.6,
+          280.8,248.0,
+          284.0,251.2,
+          285.6,252.8,
+          289.6,253.6,
+          292.8,255.2,
+          294.4,256.0,
+          299.2,256.0,
+          302.4,255.2,
+          305.6,255.2,
+          308.8,253.6,
+          312.0,251.2,
+          313.6,250.4,
+          316.0,250.4,
+          319.2,248.0,
+          320.8,247.2,
+          323.2,244.0,
+          324.0,243.2,
+          323.2,240.8,
+          325.6,238.4,
+          326.4,239.2,
+          327.2,241.6,
+          329.6,244.8,
+          332.8,249.6,
+          332.8,247.2,
+          335.2,249.6,
+          338.4,252.8,
+          340.8,253.6,
+          346.4,255.2,
+          348.0,255.2,
+          350.4,255.2,
+          353.6,254.4,
+          356.0,254.4,
+          359.2,254.4,
+          362.4,253.6,
+          364.0,252.8,
+          368.8,249.6,
+          371.2,245.6,
+          372.8,244.8,
+          376.0,243.2,
+          377.6,242.4,
+          380.0,240.0,
+          380.0,239.2,
+          382.4,236.8,
+          384.8,236.8,
+          386.4,238.4,
+          388.0,237.6,
+          385.6,235.2,
+          381.6,233.6,
+          377.6,229.6,
+          376.0,227.2,
+          375.2,226.4,
+          372.8,223.2,
+          370.4,221.6,
+          368.8,219.2,
+          368.0,216.8,
+          365.6,215.2,
+          364.0,214.4,
+          361.6,210.4,
+          360.0,209.6,
+          357.6,207.2,
+          355.2,207.2,
+          352.0,206.4,
+          350.4,204.8,
+          345.6,203.2,
+          342.4,203.2,
+          338.4,203.2,
+          336.0,202.4,
+          333.6,203.2,
+          332.0,204.0,
+          330.4,205.6,
+          330.4,205.6,
+          327.2,207.2,
+          328.0,208.0,
+          326.4,209.6,
+          325.6,210.4,
+          325.6,209.6,
+          324.8,208.0,
+          321.6,204.8
           );
 
-  public static Polygon chestRightFront = new Polygon(
-          325.6,211.2,
-          328.0,207.2,
-          331.2,204.0,
-          336.0,201.6,
-          340.8,202.4,
-          344.8,202.4,
-          350.4,203.2,
-          356.0,206.4,
-          362.4,210.4,
-          367.2,215.2,
-          371.2,221.6,
-          376.8,227.2,
-          380.8,231.2,
-          383.2,233.6,
-          387.2,236.0,
-          388.0,236.8,
-          384.0,236.8,
-          379.2,239.2,
-          376.0,241.6,
-          373.6,244.0,
-          369.6,248.0,
-          364.8,251.2,
-          356.8,252.8,
-          349.6,254.4,
-          343.2,252.8,
-          338.4,250.4,
-          334.4,248.0,
-          331.2,245.6,
-          328.0,240.8,
-          326.4,238.4,
-          326.4,234.4,
-          326.4,228.0,
-          326.4,208.8
-
-  );
 
   public static Polygon shoulderLeftFront = new Polygon(
           300.0,203.2,
@@ -595,45 +640,65 @@ public static Polygon quadricepsRightFront = new Polygon(
 );
 
 public static Polygon calfLeftFront = new Polygon(
-        275.2,482.4,
+        276.0,482.4,
         273.6,486.4,
-        272.0,491.2,
-        271.2,496.0,
-        270.4,503.2,
+        271.2,491.2,
+        271.2,495.2,
+        269.6,503.2,
         268.8,510.4,
-        268.8,520.0,
-        268.8,527.2,
-        269.6,530.4,
-        270.4,536.8,
+        268.8,514.4,
+        268.8,521.6,
+        268.8,524.8,
+        269.6,532.8,
+        271.2,540.0,
         271.2,546.4,
         272.0,552.8,
-        272.0,562.4,
-        272.0,572.0,
-        272.0,579.2,
-        276.8,580.8,
-        280.0,582.4,
-        284.8,581.6,
-        288.0,580.8,
-        289.6,578.4,
-        288.8,573.6,
-        289.6,568.0,
-        290.4,561.6,
+        273.6,556.8,
+        272.8,564.8,
+        272.0,570.4,
+        272.0,574.4,
+        272.0,576.8,
+        274.4,578.4,
+        277.6,578.4,
+        280.8,578.4,
+        286.4,578.4,
+        288.8,578.4,
+        290.4,576.0,
+        290.4,573.6,
+        289.6,568.8,
+        290.4,564.0,
         290.4,557.6,
-        292.0,552.8,
-        292.8,546.4,
-        294.4,544.0,
-        295.2,537.6,
-        296.8,532.8,
-        298.4,529.6,
-        300.8,525.6,
-        302.4,518.4,
-        300.8,512.8,
-        300.8,507.2,
-        300.0,502.4,
-        300.0,498.4,
-        300.0,494.4,
-        298.4,491.2,
-        300.0,488.0
+        292.0,553.6,
+        292.0,550.4,
+        292.8,545.6,
+        295.2,540.8,
+        296.0,536.8,
+        296.8,533.6,
+        297.6,529.6,
+        299.2,527.2,
+        301.6,524.8,
+        302.4,521.6,
+        300.8,517.6,
+        301.6,513.6,
+        300.8,508.0,
+        300.0,503.2,
+        300.0,496.8,
+        299.2,492.0,
+        299.2,488.8,
+        299.2,486.4,
+        297.6,488.8,
+        296.0,490.4,
+        292.8,491.2,
+        290.4,492.8,
+        287.2,492.8,
+        284.8,492.0,
+        283.2,489.6,
+        282.4,488.8,
+        281.6,485.6,
+        279.2,484.0,
+        277.6,482.4,
+        276.0,481.6,
+        274.4,480.8
 );
 
 public static Polygon calfRightFront = new Polygon(
@@ -1591,4 +1656,46 @@ public static Polygon forearmRightBack = new Polygon(
         892.0,284.8,
         891.2,284.0
 );
+
+    public static List<Polygon> getAllMusclesMan(){
+        return Arrays.asList(trapsLeftFront,trapsRightFront,chestFront,shoulderLeftFront,shoulderRightFront,abdominalsFront,obliqueLeftFront,obliqueRightFront,bicepsLeftFront,bicepsRightFront,forearmLeftFront,forearmRightFront,quadricepsLeftFront,quadricepsRightFront,calfLeftFront,calfRightFront,
+                trapsUpBack,trapsDownBack,shoulderLeftBack,shoulderRightBack,latsLeftBack,latsRightBack,back,glutes,hamstringLeftBack,hamstringRightBack,calfLeftBack,calfRightBack,tricepLeftBack,tricepRightBack,forearmLeftBack,forearmRightBack);
+    }
+
+    public static void setMuscleGroupId(){
+        trapsLeftFront.setId("trapsLeftFront");
+        trapsRightFront.setId("trapsRightFront");
+        chestFront.setId("chestFront");
+        shoulderLeftFront.setId("shoulderLeftFront");
+        shoulderRightFront.setId("shoulderRightFront");
+        abdominalsFront.setId("abdominalsFront");
+        obliqueLeftFront.setId("obliqueLeftFront");
+        obliqueRightFront.setId("obliqueRightFront");
+        bicepsLeftFront.setId("bicepsLeftFront");
+        bicepsRightFront.setId("bicepsRightFront");
+        forearmLeftFront.setId("forearmLeftFront");
+        forearmRightFront.setId("forearmRightFront");
+        quadricepsLeftFront.setId("quadricepsLeftFront");
+        quadricepsRightFront.setId("quadricepsRightFront");
+        calfLeftFront.setId("calfLeftFront");
+        calfRightFront.setId("calfRightFront");
+        trapsUpBack.setId("trapsUpBack");
+        trapsDownBack.setId("trapsDownBack");
+        shoulderLeftBack.setId("shoulderLeftBack");
+        shoulderRightBack.setId("shoulderRightBack");
+        latsLeftBack.setId("latsLeftBack");
+        latsRightBack.setId("latsLeftBack");
+        glutes.setId("glutes");
+        back.setId("back");
+        hamstringLeftBack.setId("hamstringLeftBack");
+        hamstringRightBack.setId("hamstringRightBack");
+        calfLeftBack.setId("calfLeftBack");
+        calfRightBack.setId("calfRightBack");
+        tricepLeftBack.setId("tricepLeftBack");
+        tricepRightBack.setId("tricepRightBack");
+        forearmLeftBack.setId("forearmLeftBack");
+        forearmRightBack.setId("forearmRightBack");
+    }
+
+
 }
