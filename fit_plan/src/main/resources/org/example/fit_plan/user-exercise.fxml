@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXToggleButton?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,37 +15,39 @@
     <children>
         <ScrollPane fx:id="pageScrollPane" layoutX="43.2" layoutY="47.0" prefHeight="654.0" prefWidth="1058.0" AnchorPane.leftAnchor="43.0">
             <content>
-                <AnchorPane prefHeight="656.0" prefWidth="1058.0">
+                <AnchorPane prefHeight="1200.0" prefWidth="1058.0">
                     <children>
-                  <ImageView fx:id="frontImage" fitHeight="515.0" fitWidth="375.0" layoutX="137.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="59.0">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/man_front.png" />
-                     </image>
-                  </ImageView>
 
-                        <Label fx:id="pageNameLabel" alignment="CENTER" prefHeight="46.0" prefWidth="1060.0" text="Workout Plan">
-                            <font>
-                                <Font size="34.0" />
-                            </font>
-                        </Label>
-
-                        <VBox fx:id="scrollContent" layoutX="-3.0" layoutY="593.0" prefHeight="57.0" prefWidth="1062.0" spacing="15.0" AnchorPane.bottomAnchor="2.0">
-                            <HBox fx:id="exerciseContainer" prefHeight="52.0" prefWidth="1022.0" spacing="25.0">
+                        <!-- Place exercise content below the images without affecting their layout -->
+                        <VBox fx:id="exerciseContent" layoutY="600.0" prefWidth="1062.0" spacing="15.0" AnchorPane.topAnchor="600.0">
+                            <HBox fx:id="exerciseContainer" prefHeight="58.0" prefWidth="1022.0" spacing="25.0">
                                 <VBox.margin>
                                     <Insets left="20.0" right="20.0" />
                                 </VBox.margin>
                             </HBox>
                         </VBox>
-                  <ImageView fx:id="backImage" fitHeight="515.0" fitWidth="375.0" layoutX="619.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true" AnchorPane.topAnchor="59.0">
-                     <image>
-                        <Image url="@../../../../java/org/example/fit_plan/images/man_back.png" />
-                     </image>
-                  </ImageView>
-                  <JFXToggleButton fx:id="genderToggleButton" layoutX="465.0" layoutY="59.0" onAction="#handleGenderToggle" prefHeight="64.0" prefWidth="126.0" size="12.0" text="Man" toggleColor="#efbbd9" toggleLineColor="#a1a1a1" unToggleColor="#9fc5cc" unToggleLineColor="#a1a1a1" />
+                        <!-- This AnchorPane is used to position the ImageView elements exactly as specified -->
+                        <AnchorPane fx:id="musclePane" layoutX="137.0" layoutY="59.0" onMouseClicked="#getCoordinates">
+                            <children>
+                                <ImageView fx:id="frontImage" fitHeight="515.0" fitWidth="375.0" layoutY="0.20000076293945312" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../java/org/example/fit_plan/images/man_front.png" />
+                                    </image>
+                                </ImageView>
+                                <ImageView fx:id="backImage" fitHeight="515.0" fitWidth="375.0" layoutX="482.0" layoutY="0.20000076293945312" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../java/org/example/fit_plan/images/man_back.png" />
+                                    </image>
+                                </ImageView>
+                                <JFXToggleButton fx:id="genderToggleButton" layoutX="328.0" onAction="#handleGenderToggle" prefHeight="64.0" prefWidth="126.0" size="12.0" text="Male" toggleColor="#efbbd9" toggleLineColor="#a1a1a1" unToggleColor="#9fc5cc" unToggleLineColor="#a1a1a1" />
+                            </children>
+                        </AnchorPane>
                     </children>
                 </AnchorPane>
             </content>
         </ScrollPane>
+
+
         <AnchorPane fx:id="iconPane" prefHeight="654.0" prefWidth="44.0" style="-fx-background-color: B0B0B0FF;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
             <children>
                 <VBox alignment="TOP_CENTER" layoutY="118.0" prefHeight="428.0" prefWidth="44.0" spacing="25.0" AnchorPane.topAnchor="118.0">

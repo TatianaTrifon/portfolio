@@ -23,14 +23,12 @@
             <AnchorPane prefHeight="655.0" prefWidth="1056.0">
                <children>
             
-                  <!-- Welcome Label -->
                   <Label fx:id="welcomeLabel" alignment="CENTER" layoutX="-3.0" layoutY="22.0" prefHeight="50.0" prefWidth="1058.0" text="Welcome !">
                      <font>
                         <Font size="34.0" />
                      </font>
                   </Label>
             
-                  <!-- Form Section -->
                   <Label layoutX="246.0" layoutY="98.0" prefHeight="32.0" prefWidth="170.0" text="Age">
                      <font>
                         <Font size="16.0" />
@@ -93,7 +91,7 @@
                      </font>
                   </Button>
             
-                  <!-- Container for dynamically added diet content -->
+
                   <VBox fx:id="scrollContent" layoutX="1.0" layoutY="499.0" prefHeight="155.0" prefWidth="1055.0" spacing="15.0">
                      <HBox fx:id="dietContainer" prefHeight="118.0" prefWidth="866.0" spacing="25.0">
                         <VBox.margin>

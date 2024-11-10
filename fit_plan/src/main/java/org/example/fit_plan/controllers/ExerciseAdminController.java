@@ -39,7 +39,7 @@ public class ExerciseAdminController implements Initializable {
     private JFXButton homeButton, dietsButton, dishesButton, exerciseButton, logOutButton;
 
     @FXML
-    private Label idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel;
+    private Label idLabel, pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, genderLabel;
 
     @FXML
     private TextField idField, pictureField, nameField;
@@ -48,9 +48,11 @@ public class ExerciseAdminController implements Initializable {
     private TextArea descriptionArea, setsRepsArea;
 
     @FXML
-    private ComboBox<String> categoryComboBox;
+    private ComboBox<String> categoryComboBox, genderComboBox;
 
-    private String[] muscleGroup = {"calves", "chest", "shoulders", "hamstrings", "quadriceps", "glutes", "biceps", "triceps", "forearms", "trapeziums (traps)", "latissimus dorsi (lats)"};
+    private String[] muscleGroup = {"trapsFront", "chest", "shouldersFront", "abdominal", "oblique", "biceps", "forearmFront", "quadriceps", "calfFront", "trapsUpBack", "trapsDownBack", "shoulderBack","lats","glutes","back","hamstring","calfBack","triceps","forearmBack"};
+
+    private String[] genderChoice = {"male"," female"};
 
     @FXML
     private Button chooseButton, createButton, updateButton, deleteButton, findExerciseButton, createExerciseButton, updateExerciseButton, deleteExerciseButton;
@@ -118,7 +120,7 @@ public class ExerciseAdminController implements Initializable {
     @FXML
     public void choosePicture() {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp", "*.gif"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg", "*.webp", "*.gif", "*.mp4"));
 
         File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -148,6 +150,7 @@ public class ExerciseAdminController implements Initializable {
         descriptionArea.setText(foundExercise.getExerciseDescription());
         categoryComboBox.setValue(foundExercise.getMuscleCategory());
         setsRepsArea.setText(foundExercise.getSets());
+        genderComboBox.setValue(foundExercise.getGender());
 
     }
 
@@ -157,7 +160,7 @@ public class ExerciseAdminController implements Initializable {
         exerciseManagePane.getChildren().clear();
         clearFields();
 
-        exerciseManagePane.getChildren().addAll(pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, pictureField, nameField, descriptionArea, setsRepsArea, categoryComboBox, chooseButton, createButton);
+        exerciseManagePane.getChildren().addAll(pictureLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, pictureField, nameField, descriptionArea, setsRepsArea, categoryComboBox, genderLabel, genderComboBox, chooseButton, createButton);
 
     }
 
@@ -171,8 +174,9 @@ public class ExerciseAdminController implements Initializable {
         String description = descriptionArea.getText();
         String muscleCategory = categoryComboBox.getValue();
         String sets = setsRepsArea.getText();
+        String gender = genderComboBox.getValue();
 
-        Exercise exercise = exerciseDAOImpl.create(new Exercise(name, description, muscleCategory, selectedImage, sets));
+        Exercise exercise = exerciseDAOImpl.create(new Exercise(name, description, muscleCategory, selectedImage, sets, gender));
 
         if (exercise != null) {
             alert.setContentText("The exercise was created successfully! ");
@@ -193,7 +197,7 @@ public class ExerciseAdminController implements Initializable {
         exerciseManagePane.getChildren().clear();
         clearFields();
 
-        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, updateButton, findExerciseButton, categoryComboBox);
+        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, categoryComboBox, genderLabel, genderComboBox, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, updateButton, findExerciseButton);
 
 
     }
@@ -209,8 +213,9 @@ public class ExerciseAdminController implements Initializable {
         String description = descriptionArea.getText();
         String muscleCategory = categoryComboBox.getValue();
         String sets = setsRepsArea.getText();
+        String gender = genderComboBox.getValue();
 
-        Exercise updatedExercise = exerciseDAOImpl.update(new Exercise(id, name, description, muscleCategory, sets));
+        Exercise updatedExercise = exerciseDAOImpl.update(new Exercise(id, name, description, muscleCategory, sets,gender));
 
         if (updatedExercise != null) {
 
@@ -231,7 +236,7 @@ public class ExerciseAdminController implements Initializable {
         exerciseManagePane.getChildren().clear();
         clearFields();
 
-        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, deleteButton, findExerciseButton,categoryComboBox);
+        exerciseManagePane.getChildren().addAll(idLabel, nameLabel, descriptionLabel, categoryLabel, SetsRepsLabel, idField, nameField, descriptionArea, setsRepsArea, deleteButton, findExerciseButton,categoryComboBox, genderLabel, genderComboBox);
     }
 
     @FXML
@@ -258,6 +263,7 @@ public class ExerciseAdminController implements Initializable {
         idField.clear();
         nameField.clear();
         categoryComboBox.setValue(null);
+        genderComboBox.setValue((null));
         pictureField.clear();
         setsRepsArea.clear();
         descriptionArea.clear();
@@ -327,6 +333,10 @@ public class ExerciseAdminController implements Initializable {
 
         for(int i =0; i < muscleGroup.length; i++){
             categoryComboBox.getItems().add(muscleGroup[i]);
+        }
+
+        for(int i =0; i < genderChoice.length; i++){
+            genderComboBox.getItems().add(genderChoice[i]);
         }
 
 

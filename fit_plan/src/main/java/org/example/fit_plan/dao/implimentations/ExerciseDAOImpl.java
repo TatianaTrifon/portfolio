@@ -24,7 +24,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
     @Override
     public Exercise create(Exercise exercise) {
 
-        String sql = "INSERT INTO exercise(exercise_name,exercise_description,muscle_category,media,sets) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO exercise(exercise_name,exercise_description,muscle_category,media,sets, gender) VALUES (?,?,?,?,?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement createExercise = conn.prepareCall(sql)) {
@@ -34,6 +34,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
             createExercise.setString(3, exercise.getMuscleCategory());
             createExercise.setBytes(4, exercise.getVideo());
             createExercise.setString(5, exercise.getSets());
+            createExercise.setString(6, exercise.getGender());
 
             createExercise.executeUpdate();
 
@@ -48,7 +49,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
     @Override
     public Exercise update(Exercise exercise) {
 
-        String sql = "UPDATE exercise SET exercise_name = ?, exercise_description = ?, muscle_category = ?, sets =? WHERE exercise_id = ?";
+        String sql = "UPDATE exercise SET exercise_name = ?, exercise_description = ?, muscle_category = ?, sets =?, gender = ? WHERE exercise_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
              PreparedStatement updateExercise = conn.prepareCall(sql)) {
@@ -57,7 +58,8 @@ public class ExerciseDAOImpl implements ExerciseDAO {
             updateExercise.setString(2, exercise.getExerciseDescription());
             updateExercise.setString(3, exercise.getMuscleCategory());
             updateExercise.setString(4, exercise.getSets());
-            updateExercise.setInt(5, exercise.getExerciseId());
+            updateExercise.setString(5, exercise.getGender());
+            updateExercise.setInt(6, exercise.getExerciseId());
 
             updateExercise.executeUpdate();
 
@@ -108,8 +110,9 @@ public class ExerciseDAOImpl implements ExerciseDAO {
                 String muscleCategory = resultSet.getString("muscle_category");
                 byte[] media = resultSet.getBytes("media");
                 String sets = resultSet.getString("sets");
+                String gender = resultSet.getString("gender");
 
-                exercise = new Exercise(exerciseId, name, description, muscleCategory, media, sets);
+                exercise = new Exercise(exerciseId, name, description, muscleCategory, media, sets, gender);
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find an exercise with id: " + id + e);
@@ -119,17 +122,15 @@ public class ExerciseDAOImpl implements ExerciseDAO {
         return exercise;
     }
 
-    @Override
-    public List<Exercise> findByCategory(String category) {
-
+    public List<Exercise> findByCategoryAndGender(String category, String gender) {
         List<Exercise> exercises = new ArrayList<>();
-
-        String sql = "SELECT * FROM exercise WHERE muscle_category = ?";
+        String sql = "SELECT * FROM exercise WHERE muscle_category = ? AND gender = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement findExercise = conn.prepareCall(sql)) {
+             PreparedStatement findExercise = conn.prepareStatement(sql)) {
 
             findExercise.setString(1, category);
+            findExercise.setString(2, gender);
 
             ResultSet resultSet = findExercise.executeQuery();
 
@@ -140,17 +141,17 @@ public class ExerciseDAOImpl implements ExerciseDAO {
                 String muscleCategory = resultSet.getString("muscle_category");
                 byte[] media = resultSet.getBytes("media");
                 String sets = resultSet.getString("sets");
+                String genderValue = resultSet.getString("gender");
 
-                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
-
+                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets, genderValue));
             }
         } catch (SQLException e) {
-            LOGGER.error("Failed to find any exercise" + e);
+            LOGGER.error("Failed to find any exercise by category and gender: " + e.getMessage());
         }
-
 
         return exercises;
     }
+
 
     @Override
     public List<Exercise> findAll() {
@@ -171,8 +172,9 @@ public class ExerciseDAOImpl implements ExerciseDAO {
                 String muscleCategory = resultSet.getString("muscle_category");
                 byte[] media = resultSet.getBytes("media");
                 String sets = resultSet.getString("sets");
+                String gender = resultSet.getString("gender");
 
-                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets));
+                exercises.add(new Exercise(exerciseId, name, description, muscleCategory, media, sets, gender));
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any exercise" + e);

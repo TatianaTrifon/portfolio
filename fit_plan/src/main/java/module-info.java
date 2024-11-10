@@ -7,6 +7,7 @@ module org.example.fit_plan {
     requires static lombok;
     requires com.jfoenix;
     requires java.desktop;
+    requires javafx.media;
 
 
     opens org.example.fit_plan.controllers to javafx.fxml;

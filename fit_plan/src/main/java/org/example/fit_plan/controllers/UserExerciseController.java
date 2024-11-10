@@ -13,15 +13,26 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.fit_plan.dao.implimentations.DietDAOImpl;
 import org.example.fit_plan.dao.implimentations.ExerciseDAOImpl;
+import org.example.fit_plan.model.Diet;
+import org.example.fit_plan.model.Exercise;
+import javafx.geometry.Insets;
 
 import java.awt.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +42,7 @@ import java.util.ResourceBundle;
 public class UserExerciseController implements Initializable {
 
     @FXML
-    private AnchorPane mainPane, buttonsPane, iconPane, toolPane;
+    private AnchorPane mainPane, buttonsPane, iconPane, toolPane, musclePane;
 
     @FXML
     private ScrollPane pageScrollPane;
@@ -43,7 +54,7 @@ public class UserExerciseController implements Initializable {
     private HBox exerciseContainer;
 
     @FXML
-    private VBox scrollContent;
+    private VBox exerciseContent;
 
     @FXML
     private ImageView frontImage, backImage, homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView, exitImage, menuImage;
@@ -82,7 +93,7 @@ public class UserExerciseController implements Initializable {
 
     public void showMuscleGroupMan() {
 
-        mainPane.getChildren().removeAll(MuscleGroupWoman.getAllMusclesWomen());  // Remove man shapes if present
+        musclePane.getChildren().removeAll(MuscleGroupWoman.getAllMusclesWomen());
 
         MuscleGroupMan.trapsLeftFront.setFill(Color.TRANSPARENT);
         MuscleGroupMan.trapsRightFront.setFill(Color.TRANSPARENT);
@@ -116,6 +127,43 @@ public class UserExerciseController implements Initializable {
         MuscleGroupMan.tricepRightBack.setFill(Color.TRANSPARENT);
         MuscleGroupMan.forearmLeftBack.setFill(Color.TRANSPARENT);
         MuscleGroupMan.forearmRightBack.setFill(Color.TRANSPARENT);
+
+
+
+        MuscleGroupMan.trapsLeftFront.setOnMouseClicked(e -> showExercises("trapsFront"));
+        MuscleGroupMan.trapsRightFront.setOnMouseClicked(e -> showExercises("trapsFront"));
+        MuscleGroupMan.chestFront.setOnMouseClicked(e -> showExercises("chest"));
+        MuscleGroupMan.shoulderLeftFront.setOnMouseClicked(e -> showExercises("shouldersFront"));
+        MuscleGroupMan.shoulderRightFront.setOnMouseClicked(e -> showExercises("shouldersFront"));
+        MuscleGroupMan.abdominalsFront.setOnMouseClicked(e -> showExercises("abdominal"));
+        MuscleGroupMan.obliqueLeftFront.setOnMouseClicked(e -> showExercises("oblique"));
+        MuscleGroupMan.obliqueRightFront.setOnMouseClicked(e -> showExercises("oblique"));
+        MuscleGroupMan.bicepsLeftFront.setOnMouseClicked(e -> showExercises("biceps"));
+        MuscleGroupMan.bicepsRightFront.setOnMouseClicked(e -> showExercises("biceps"));
+        MuscleGroupMan.forearmLeftFront.setOnMouseClicked(e -> showExercises("forearmFront"));
+        MuscleGroupMan.forearmRightFront.setOnMouseClicked(e -> showExercises("forearmFront"));
+        MuscleGroupMan.quadricepsLeftFront.setOnMouseClicked(e -> showExercises("quadriceps"));
+        MuscleGroupMan.quadricepsRightFront.setOnMouseClicked(e -> showExercises("quadriceps"));
+        MuscleGroupMan.calfLeftFront.setOnMouseClicked(e -> showExercises("calfFront"));
+        MuscleGroupMan.calfRightFront.setOnMouseClicked(e -> showExercises("calfFront"));
+        MuscleGroupMan.trapsUpBack.setOnMouseClicked(e -> showExercises("trapsUpBack"));
+        MuscleGroupMan.trapsDownBack.setOnMouseClicked(e -> showExercises("trapsDownBack"));
+        MuscleGroupMan.shoulderLeftBack.setOnMouseClicked(e -> showExercises("shoulderBack"));
+        MuscleGroupMan.shoulderRightBack.setOnMouseClicked(e -> showExercises("shoulderBack"));
+        MuscleGroupMan.latsLeftBack.setOnMouseClicked(e -> showExercises("lats"));
+        MuscleGroupMan.latsRightBack.setOnMouseClicked(e -> showExercises("lats"));
+        MuscleGroupMan.back.setOnMouseClicked(e -> showExercises("glutes"));
+        MuscleGroupMan.glutes.setOnMouseClicked(e -> showExercises("back"));
+        MuscleGroupMan.hamstringLeftBack.setOnMouseClicked(e -> showExercises("hamstring"));
+        MuscleGroupMan.hamstringRightBack.setOnMouseClicked(e -> showExercises("hamstring"));
+        MuscleGroupMan.calfLeftBack.setOnMouseClicked(e -> showExercises("calfBack"));
+        MuscleGroupMan.calfRightBack.setOnMouseClicked(e -> showExercises("calfBack"));
+        MuscleGroupMan.tricepLeftBack.setOnMouseClicked(e -> showExercises("triceps"));
+        MuscleGroupMan.tricepRightBack.setOnMouseClicked(e -> showExercises("triceps"));
+        MuscleGroupMan.forearmLeftBack.setOnMouseClicked(e -> showExercises("forearmBack"));
+        MuscleGroupMan.forearmRightBack.setOnMouseClicked(e -> showExercises("forearmBack"));
+
+
 
 
         MuscleGroupMan.trapsLeftFront.setOnMouseEntered(e -> {
@@ -477,13 +525,13 @@ public class UserExerciseController implements Initializable {
             MuscleGroupMan.forearmRightBack.setFill(Color.TRANSPARENT);
         });
 
-       mainPane.getChildren().addAll(MuscleGroupMan.getAllMusclesMan());
+       musclePane.getChildren().addAll(MuscleGroupMan.getAllMusclesMan());
     }
 
 
     public void showMuscleGroupWoman() {
 
-        mainPane.getChildren().removeAll(MuscleGroupMan.getAllMusclesMan());
+        musclePane.getChildren().removeAll(MuscleGroupMan.getAllMusclesMan());
 
 
         MuscleGroupWoman.trapsLeftFront.setFill(Color.TRANSPARENT);
@@ -518,6 +566,40 @@ public class UserExerciseController implements Initializable {
         MuscleGroupWoman.tricepsRightBack.setFill(Color.TRANSPARENT);
         MuscleGroupWoman.forearmLeftBack.setFill(Color.TRANSPARENT);
         MuscleGroupWoman.forearmRightBack.setFill(Color.TRANSPARENT);
+
+
+        MuscleGroupWoman.trapsLeftFront.setOnMouseClicked(e -> showExercises("trapsFront"));
+        MuscleGroupWoman.trapsRightFront.setOnMouseClicked(e -> showExercises("trapsFront"));
+        MuscleGroupWoman.chestFront.setOnMouseClicked(e -> showExercises("chest"));
+        MuscleGroupWoman.shoulderLeftFront.setOnMouseClicked(e -> showExercises("shouldersFront"));
+        MuscleGroupWoman.shouderRightFront.setOnMouseClicked(e -> showExercises("shouldersFront"));
+        MuscleGroupWoman.abdominals.setOnMouseClicked(e -> showExercises("abdominal"));
+        MuscleGroupWoman.obliquesLeftFront.setOnMouseClicked(e -> showExercises("oblique"));
+        MuscleGroupWoman.obliquesRightFront.setOnMouseClicked(e -> showExercises("oblique"));
+        MuscleGroupWoman.bicepsLeftFront.setOnMouseClicked(e -> showExercises("biceps"));
+        MuscleGroupWoman.bicepsRightFront.setOnMouseClicked(e -> showExercises("biceps"));
+        MuscleGroupWoman.forearmLeftFront.setOnMouseClicked(e -> showExercises("forearmFront"));
+        MuscleGroupWoman.forearmRightFront.setOnMouseClicked(e -> showExercises("forearmFront"));
+        MuscleGroupWoman.quadricepsLeftFront.setOnMouseClicked(e -> showExercises("quadriceps"));
+        MuscleGroupWoman.quadricepsRightFront.setOnMouseClicked(e -> showExercises("quadriceps"));
+        MuscleGroupWoman.calfLeftFront.setOnMouseClicked(e -> showExercises("calfFront"));
+        MuscleGroupWoman.calfRightFront.setOnMouseClicked(e -> showExercises("calfFront"));
+        MuscleGroupWoman.trapsUpBack.setOnMouseClicked(e -> showExercises("trapsUpBack"));
+        MuscleGroupWoman.trapsDownBack.setOnMouseClicked(e -> showExercises("trapsDownBack"));
+        MuscleGroupWoman.shoulderLeftBack.setOnMouseClicked(e -> showExercises("shoulderBack"));
+        MuscleGroupWoman.shoulderRightBack.setOnMouseClicked(e -> showExercises("shoulderBack"));
+        MuscleGroupWoman.latsLeftBack.setOnMouseClicked(e -> showExercises("lats"));
+        MuscleGroupWoman.latsRightBack.setOnMouseClicked(e -> showExercises("lats"));
+        MuscleGroupWoman.back.setOnMouseClicked(e -> showExercises("glutes"));
+        MuscleGroupWoman.glutes.setOnMouseClicked(e -> showExercises("back"));
+        MuscleGroupWoman.hamstringLeftBack.setOnMouseClicked(e -> showExercises("hamstring"));
+        MuscleGroupWoman.hamstringRightBack.setOnMouseClicked(e -> showExercises("hamstring"));
+        MuscleGroupWoman.calfLeftBack.setOnMouseClicked(e -> showExercises("calfBack"));
+        MuscleGroupWoman.calfRightBack.setOnMouseClicked(e -> showExercises("calfBack"));
+        MuscleGroupWoman.tricepsLeftBack.setOnMouseClicked(e -> showExercises("triceps"));
+        MuscleGroupWoman.tricepsRightBack.setOnMouseClicked(e -> showExercises("triceps"));
+        MuscleGroupWoman.forearmLeftBack.setOnMouseClicked(e -> showExercises("forearmBack"));
+        MuscleGroupWoman.forearmRightBack.setOnMouseClicked(e -> showExercises("forearmBack"));
 
 
         MuscleGroupWoman.trapsLeftFront.setOnMouseEntered(e -> {
@@ -877,8 +959,25 @@ public class UserExerciseController implements Initializable {
             MuscleGroupWoman.forearmRightBack.setFill(Color.TRANSPARENT);
         });
 
-mainPane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
+musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
     }
+
+@FXML
+    public void getCoordinates(){
+    musclePane.setOnMouseClicked(event -> {
+        // Get the coordinates relative to the scene
+        double sceneX = event.getSceneX();
+        double sceneY = event.getSceneY();
+
+        // Convert the scene coordinates to musclePane's local coordinates
+        double localX = musclePane.sceneToLocal(sceneX, sceneY).getX();
+        double localY = musclePane.sceneToLocal(sceneX, sceneY).getY();
+
+        System.out.println(String.format("%.2f, %.2f,", localX, localY));
+
+    });
+
+}
 
 
     @Override
@@ -921,30 +1020,35 @@ mainPane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
         Image back = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\man_back.png");
         backImage.setImage(back);
 
+        genderToggleButton.setText("Male");
 
-        mainPane.setOnMouseClicked(event -> {
-            System.out.println(event.getSceneX() + "," + event.getSceneY() + ",");
+        genderToggleButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                genderToggleButton.setText("Female");
+            } else {
+                genderToggleButton.setText("Male");
+            }
         });
 
 
         if (!genderToggleButton.isSelected()) {
-
             showMuscleGroupMan();
         } else {
-
             showMuscleGroupWoman();
         }
 
         genderToggleButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
 
             if (newValue) {
-
+                exerciseContainer.getChildren().clear();
                 showMuscleGroupWoman();
             } else {
-
+                exerciseContainer.getChildren().clear();
                 showMuscleGroupMan();
             }
         });
+
+
 
         buttonsPane.setTranslateX(-600);
 
@@ -964,30 +1068,83 @@ mainPane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
         });
 
 
-List<Polygon> musclesMan = MuscleGroupMan.getAllMusclesMan();
-MuscleGroupMan.setMuscleGroupId();
-MuscleGroupWoman.setMuscleGroupId();
 
-        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
-
-for(Polygon group : musclesMan){
-    group.setOnMouseClicked(e -> exerciseDAOImpl.findByCategory(group.getId()));
-}
-
-
-
-
-        genderToggleButton.setText("Man");
-
-        genderToggleButton.selectedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) {
-                genderToggleButton.setText("Woman");
-            } else {
-                genderToggleButton.setText("Man");
-            }
-        });
 
     }
+
+
+    public void showExercises(String muscleCategory) {
+        ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
+
+        exerciseContainer.getChildren().clear();
+
+        String gender = genderToggleButton.isSelected() ? "Female" : "Male";
+
+        List<Exercise> exercises = exerciseDAOImpl.findByCategoryAndGender(muscleCategory, gender);
+
+        exerciseContainer.setSpacing(20);
+
+        for (Exercise exercise : exercises) {
+            VBox exerciseBox = new VBox(10);
+            exerciseBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
+            exerciseBox.setMaxHeight(302);
+            exerciseBox.setMaxWidth(327);
+
+            File tempFile = null;
+            try {
+                tempFile = File.createTempFile("exercise_video_", ".mp4");
+                try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+                    fos.write(exercise.getVideo());
+                }
+                // Load the video from the temporary file
+                Media media = new Media(tempFile.toURI().toString());
+                MediaPlayer mediaPlayer = new MediaPlayer(media);
+                MediaView mediaView = new MediaView(mediaPlayer);
+                mediaView.setFitHeight(300);
+                mediaView.setFitWidth(325);
+                mediaPlayer.setAutoPlay(true);
+                mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+
+
+
+                exerciseBox.getChildren().add(mediaView);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (tempFile != null) {
+                    tempFile.deleteOnExit();
+                }
+            }
+
+            Label exerciseName = new Label(exercise.getExerciseName());
+            exerciseName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+            exerciseName.setWrapText(true);
+
+            Label sets = new Label("Sets: " + exercise.getSets());
+            sets.setStyle("-fx-font-size: 16;");
+            sets.setWrapText(true);
+
+            Label exerciseDescription = new Label(exercise.getExerciseDescription());
+            exerciseDescription.setStyle("-fx-font-size: 14;");
+            exerciseDescription.setWrapText(true);
+
+            exerciseBox.getChildren().addAll(exerciseName, sets, exerciseDescription);
+
+            VBox.setVgrow(exerciseName, Priority.ALWAYS);
+            VBox.setVgrow(sets, Priority.ALWAYS);
+            VBox.setVgrow(exerciseDescription, Priority.ALWAYS);
+
+
+            VBox.setMargin(exerciseContainer, new Insets(50, 0, 0, 0));
+            VBox.setMargin(exerciseBox, new Insets(50, 0, 0, 0));
+
+            exerciseContainer.getChildren().add(exerciseBox);
+        }
+
+        exerciseContainer.setSpacing(22);
+        exerciseContainer.setFillHeight(false);
+    }
+
 
 
 }

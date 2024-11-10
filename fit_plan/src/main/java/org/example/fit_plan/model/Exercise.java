@@ -25,20 +25,23 @@ public class Exercise {
 
     private String sets;
 
-    public Exercise(String exerciseName, String exerciseDescription, String muscleCategory, byte[] video, String sets) {
+    private String gender;
+
+    public Exercise(String exerciseName, String exerciseDescription, String muscleCategory, byte[] video, String sets, String gender) {
         this.exerciseName = exerciseName;
         this.exerciseDescription = exerciseDescription;
         this.muscleCategory = muscleCategory;
         this.video = video;
         this.sets = sets;
+        this.gender = gender;
     }
 
-
-    public Exercise(int exerciseId, String exerciseName, String exerciseDescription, String muscleCategory, String sets) {
+    public Exercise(int exerciseId, String exerciseName, String exerciseDescription, String muscleCategory, String sets, String gender) {
         this.exerciseId = exerciseId;
         this.exerciseName = exerciseName;
         this.exerciseDescription = exerciseDescription;
         this.muscleCategory = muscleCategory;
         this.sets = sets;
+        this.gender = gender;
     }
 }

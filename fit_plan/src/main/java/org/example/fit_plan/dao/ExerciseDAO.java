@@ -14,7 +14,7 @@ public interface ExerciseDAO extends DAO<Exercise> {
 
     Exercise findById(Integer id);
 
-    List<Exercise>  findByCategory(String category);
+    List<Exercise>  findByCategoryAndGender(String category, String gender);
 
     List<Exercise> findAll();
 
