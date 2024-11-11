@@ -2,6 +2,7 @@ package org.example.fit_plan.dao;
 
 import org.example.fit_plan.model.Diet;
 
+
 import java.util.List;
 
 public interface DietDAO extends DAO<Diet> {
@@ -19,4 +20,5 @@ public interface DietDAO extends DAO<Diet> {
     List<Diet> findRecommendedDiets();
 
     List<Diet> findAllDiets();
+
 }

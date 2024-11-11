@@ -115,37 +115,37 @@
             <children>
                 <VBox layoutY="115.0" prefHeight="437.0" prefWidth="200.0" spacing="15.0">
                     <children>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Home">
+                        <JFXButton fx:id="homeButton" onAction="#goToHome" prefHeight="41.0" prefWidth="200.0" text="Home">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="39.0" prefWidth="200.0" text="Workout Plan">
+                        <JFXButton fx:id="workoutButton" onAction="#goToWorkout" prefHeight="39.0" prefWidth="200.0" text="Workout Plan">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Diets">
+                        <JFXButton fx:id="dietsButton" onAction="#goToDiets" prefHeight="41.0" prefWidth="200.0" text="Diets">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Dish Ideas">
+                        <JFXButton fx:id="dishButton" onAction="#goToDish" prefHeight="41.0" prefWidth="200.0" text="Dish Ideas">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Progress">
+                        <JFXButton fx:id="progressButton" onAction="#goToProgress" prefHeight="41.0" prefWidth="200.0" text="Progress">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Settings">
+                        <JFXButton fx:id="settingsButton" onAction="#goToSettings" prefHeight="41.0" prefWidth="200.0" text="Settings">
                             <font>
                                 <Font size="14.0" />
                             </font>
                         </JFXButton>
-                        <JFXButton prefHeight="41.0" prefWidth="200.0" text="Log Out">
+                        <JFXButton fx:id="logOutButton" onAction="#goToSignIn" prefHeight="41.0" prefWidth="200.0" text="Log Out">
                             <VBox.margin>
                                 <Insets top="40.0" />
                             </VBox.margin>

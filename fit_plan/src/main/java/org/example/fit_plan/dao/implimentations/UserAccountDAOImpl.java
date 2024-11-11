@@ -67,7 +67,7 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     }
 
     @Override
-    public UserAccount addDietToUserById(Integer dietId, Integer userId) {
+    public boolean addDietToUserById(Integer dietId, Integer userId) {
 
         String sql = "UPDATE user_account SET diet_id = ? WHERE user_id = ?";
 
@@ -83,7 +83,7 @@ public class UserAccountDAOImpl implements UserAccountDAO {
         }
 
 
-        return null;
+        return true;
     }
 
     @Override

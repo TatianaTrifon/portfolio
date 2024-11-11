@@ -1,10 +1,13 @@
 package org.example.fit_plan.controllers;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -39,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+
+
 public class UserExerciseController implements Initializable {
 
     @FXML
@@ -60,6 +65,9 @@ public class UserExerciseController implements Initializable {
     private ImageView frontImage, backImage, homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView, exitImage, menuImage;
 
     @FXML
+    private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
+
+    @FXML
     private JFXToggleButton genderToggleButton;
 
     private FXMLLoader root;
@@ -67,6 +75,65 @@ public class UserExerciseController implements Initializable {
     private Stage stage;
 
     private Scene scene;
+
+    private Integer userId;
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+
+    @FXML
+    public void goToHome(javafx.event.ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    public void goToWorkout(javafx.event.ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-exercise.fxml"));
+        scene = new Scene(root.load());
+
+        UserExerciseController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void goToDiets(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-diet.fxml"));
+        scene = new Scene(root.load());
+
+        UserDietController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    @FXML
+    public void goToDish(){}
+
+    @FXML
+    public void goToProgress(){}
+
+    @FXML
+    public void goToSettings(){}
+
+    @FXML
+    public void goToSignIn(){}
+
+
 
 
 
@@ -965,11 +1032,9 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
 @FXML
     public void getCoordinates(){
     musclePane.setOnMouseClicked(event -> {
-        // Get the coordinates relative to the scene
         double sceneX = event.getSceneX();
         double sceneY = event.getSceneY();
 
-        // Convert the scene coordinates to musclePane's local coordinates
         double localX = musclePane.sceneToLocal(sceneX, sceneY).getX();
         double localY = musclePane.sceneToLocal(sceneX, sceneY).getY();
 
@@ -1019,6 +1084,7 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
 
         Image back = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\man_back.png");
         backImage.setImage(back);
+
 
         genderToggleButton.setText("Male");
 
@@ -1072,6 +1138,30 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
 
     }
 
+    public void goToExerciseDetails(Exercise exercise) {
+
+        try {
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/exercise-details.fxml"));
+
+            Stage currentStage = (Stage) mainPane.getScene().getWindow();
+
+            Stage dietDetailsStage = new Stage();
+            dietDetailsStage.setScene(new Scene(root.load()));
+
+            ExerciseDetailsController controller = root.getController();
+            controller.setExercise(exercise);
+            controller.setUserId(userId);
+            controller.setPreviousStage(currentStage);
+
+            currentStage.hide();
+            dietDetailsStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     public void showExercises(String muscleCategory) {
         ExerciseDAOImpl exerciseDAOImpl = new ExerciseDAOImpl();
@@ -1096,7 +1186,6 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
                 try (FileOutputStream fos = new FileOutputStream(tempFile)) {
                     fos.write(exercise.getVideo());
                 }
-                // Load the video from the temporary file
                 Media media = new Media(tempFile.toURI().toString());
                 MediaPlayer mediaPlayer = new MediaPlayer(media);
                 MediaView mediaView = new MediaView(mediaPlayer);
@@ -1129,6 +1218,9 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
             exerciseDescription.setWrapText(true);
 
             exerciseBox.getChildren().addAll(exerciseName, sets, exerciseDescription);
+
+            exerciseBox.setOnMouseClicked(event -> goToExerciseDetails(exercise));
+
 
             VBox.setVgrow(exerciseName, Priority.ALWAYS);
             VBox.setVgrow(sets, Priority.ALWAYS);

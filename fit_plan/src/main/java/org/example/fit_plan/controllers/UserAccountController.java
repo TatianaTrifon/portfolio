@@ -68,9 +68,6 @@ public class UserAccountController implements Initializable {
     private Label welcomeLabel, maintainWeightLabel, loseWeightLabel, putWeightLabel, maintainWeight, loseWeight, putOnWeight, recommendedDietsLabel;
 
     @FXML
-    private GridPane pageGridPane;
-
-    @FXML
     private VBox scrollContent;
 
     @FXML
@@ -114,13 +111,31 @@ public class UserAccountController implements Initializable {
     public void goToWorkout(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-exercise.fxml"));
         scene = new Scene(root.load());
+
+        UserExerciseController controller = root.getController();
+        controller.setUserId(userId);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    public void goToDiets(){}
+    public void goToDiets(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-diet.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserDietController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     @FXML
     public void goToDish(){}
@@ -257,6 +272,30 @@ public class UserAccountController implements Initializable {
         };
     }
 
+    public void goToDietDetails(Diet diet){
+
+        try {
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/diet-details.fxml"));
+
+            Stage currentStage = (Stage) mainPane.getScene().getWindow();
+
+            Stage dietDetailsStage = new Stage();
+            dietDetailsStage.setScene(new Scene(root.load()));
+
+            DietDetailsController controller = root.getController();
+            controller.setDiet(diet);
+            controller.setUserId(userId);
+            controller.setPreviousStage(currentStage);
+
+            currentStage.hide();
+            dietDetailsStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void showRecommendedDiets() {
 
 
@@ -294,6 +333,8 @@ public class UserAccountController implements Initializable {
             dietCategory.setWrapText(true);
 
             dietBox.getChildren().addAll(picture, dietName, dietDescription, dietCategory);
+
+            dietBox.setOnMouseClicked(event -> goToDietDetails(diet));
 
             VBox.setVgrow(dietName, Priority.ALWAYS);
             VBox.setVgrow(dietDescription, Priority.ALWAYS);

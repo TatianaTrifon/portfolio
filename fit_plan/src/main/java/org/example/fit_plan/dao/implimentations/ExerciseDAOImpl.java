@@ -7,6 +7,7 @@ import org.example.fit_plan.model.Exercise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -178,6 +179,61 @@ public class ExerciseDAOImpl implements ExerciseDAO {
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any exercise" + e);
+        }
+
+
+        return exercises;
+    }
+
+    @Override
+    public boolean addToProgress(Integer userId, Integer exerciseId) {
+
+        String sql = "INSERT INTO user_account_exercises (user_id,exercise_id) VALUES (?,?)";
+
+
+        try(Connection conn = jdbcConnection.getConnection();
+        PreparedStatement addExercise = conn.prepareStatement(sql)){
+
+            addExercise.setInt(1, userId);
+            addExercise.setInt(2, exerciseId);
+            addExercise.executeUpdate();
+
+
+        }catch (SQLException e){
+            LOGGER.error("Failed to add the exercise to progress");
+        }
+
+        return true;
+    }
+
+    @Override
+    public List<Exercise> findExerciseByUserAccountId(Integer id) {
+
+        List<Exercise> exercises = new ArrayList<>();
+
+        String sql = "SELECT exercise.exercise_name, exercise.exercise_description, exercise.muscle_category, exercise.media, exercise.sets FROM exercise JOIN user_account_exercises ON exercise.exercise_id = user_account_exercises.exercise_id WHERE user_account_exercises.user_id = ? ";
+
+        try(Connection conn = jdbcConnection.getConnection();
+        PreparedStatement findExercises = conn.prepareStatement(sql)){
+
+            findExercises.setInt(1, id);
+
+            ResultSet resultSet = findExercises.executeQuery();
+
+            while(resultSet.next()){
+
+                String name = resultSet.getString("exercise_name");
+                String description = resultSet.getString("exercise_description");
+                String muscleCategory = resultSet.getString("muscle_category");
+                byte[] media = resultSet.getBytes("media");
+                String sets = resultSet.getString("sets");
+
+                exercises.add(new Exercise(name,description,muscleCategory,media,sets));
+            }
+
+
+        }catch (SQLException e){
+            LOGGER.error("Failed to find any exercises! " + e);
         }
 
 

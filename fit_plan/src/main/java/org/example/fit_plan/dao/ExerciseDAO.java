@@ -18,5 +18,9 @@ public interface ExerciseDAO extends DAO<Exercise> {
 
     List<Exercise> findAll();
 
+    boolean addToProgress (Integer userId, Integer exerciseId);
+
+    List<Exercise> findExerciseByUserAccountId(Integer id);
+
 
 }
