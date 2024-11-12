@@ -108,7 +108,19 @@ public class UserDietController implements Initializable {
     }
 
     @FXML
-    public void goToDish(){}
+    public void goToDish(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-dish.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserDishController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
     public void goToProgress(){}

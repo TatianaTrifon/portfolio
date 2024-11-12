@@ -77,6 +77,8 @@ public class UserAccountController implements Initializable {
     private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
 
 
+
+
     private FXMLLoader root;
 
     private Stage stage;
@@ -138,10 +140,41 @@ public class UserAccountController implements Initializable {
     }
 
     @FXML
-    public void goToDish(){}
+    public void goToDish(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-dish.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserDishController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    public void goToProgress(){}
+    public void goToProgress(ActionEvent event) throws IOException {
+
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-progress.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     @FXML
     public void goToSettings(){}
@@ -231,10 +264,10 @@ public class UserAccountController implements Initializable {
         double weight = Double.parseDouble(weightField.getText());
         String activity = activityComboBox.getValue();
 
-        UserAccount existingUser = userAccountDAOImpl.findById(userId);
+        UserAccount existingAccount = userAccountDAOImpl.findById(userId);
 
-        if(existingUser == null) {
-            UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
+        if(existingAccount.getUserId() == 0) {
+           UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
             userAccountDAOImpl.create(userAccount);
         }
 

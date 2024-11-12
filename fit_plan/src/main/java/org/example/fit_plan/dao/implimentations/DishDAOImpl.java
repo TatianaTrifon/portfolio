@@ -3,6 +3,7 @@ package org.example.fit_plan.dao.implimentations;
 import org.example.fit_plan.JdbcConnection;
 import org.example.fit_plan.dao.DishDAO;
 import org.example.fit_plan.model.Dish;
+import org.example.fit_plan.model.Exercise;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,15 +122,14 @@ public class DishDAOImpl implements DishDAO {
 
     @Override
     public List<Dish> findByIngredient(String ingredient) {
-
         List<Dish> dishes = new ArrayList<>();
 
-        String sql = "SELECT * FROM dish WHERE ingredients LIKE '%" + ingredient + "%'";
+        String sql = "SELECT * FROM dish WHERE ingredients LIKE ?";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement findDish = conn.prepareCall(sql)) {
+             PreparedStatement findDish = conn.prepareStatement(sql)) {
 
-            findDish.setString(1, ingredient);
+            findDish.setString(1, "%" + ingredient + "%");
 
             ResultSet resultSet = findDish.executeQuery();
 
@@ -142,10 +142,10 @@ public class DishDAOImpl implements DishDAO {
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dishes.add(new Dish(dishId,image, name, ingredients, instructions, calories, nutrients));
+                dishes.add(new Dish(dishId, image, name, ingredients, instructions, calories, nutrients));
             }
         } catch (SQLException e) {
-            LOGGER.error("Failed to find a dish with ingredient: " + ingredient + e);
+            LOGGER.error("Failed to find a dish with ingredient: " + ingredient, e);
         }
 
         return dishes;
@@ -211,5 +211,61 @@ public class DishDAOImpl implements DishDAO {
 
         return dishes;
 
+    }
+
+    @Override
+    public boolean addToProgress(Integer userId, Integer dishId) {
+
+        String sql = "INSERT INTO user_account_dishes (user_id,dish_id) VALUES (?,?)";
+
+
+        try(Connection conn = jdbcConnection.getConnection();
+            PreparedStatement addDish = conn.prepareStatement(sql)){
+
+            addDish.setInt(1, userId);
+            addDish.setInt(2, dishId);
+            addDish.executeUpdate();
+
+
+        }catch (SQLException e){
+            LOGGER.error("Failed to add the dish to progress");
+        }
+
+        return true;
+    }
+
+    @Override
+    public List<Dish> findDishByUserAccountId(Integer id) {
+
+        List<Dish> dishes = new ArrayList<>();
+
+        String sql = "SELECT dish.picture, dish.dish_name, dish.ingredients, dish.instructions, dish.calories, dish.nutrients FROM dish JOIN user_account_dishes ON dish.dish_id = user_account_dishes.dish_id WHERE user_account_exercises.user_id = ? ";
+
+        try(Connection conn = jdbcConnection.getConnection();
+            PreparedStatement findDish = conn.prepareStatement(sql)){
+
+            findDish.setInt(1, id);
+
+            ResultSet resultSet = findDish.executeQuery();
+
+            while(resultSet.next()){
+
+                byte[] picture = resultSet.getBytes("picture");
+                String name = resultSet.getString("dish_name");
+                String ingredients = resultSet.getString("ingredients");
+                String instructions = resultSet.getString("instructions");
+                double calories = resultSet.getDouble("calories");
+                String nutrients = resultSet.getString("nutrients");
+
+                dishes.add(new Dish(picture,name,ingredients,instructions,calories,nutrients));
+            }
+
+
+        }catch (SQLException e){
+            LOGGER.error("Failed to find any dish! " + e);
+        }
+
+
+        return dishes;
     }
 }

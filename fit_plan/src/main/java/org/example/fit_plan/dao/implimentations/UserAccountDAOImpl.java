@@ -22,9 +22,11 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     public UserAccount create(UserAccount user) {
 
         String sql = "INSERT INTO user_account(user_id, age,gender,height,weight,activity) VALUES(?,?,?,?,?,?)";
+        String weightSql = "INSERT INTO weight_history(user_id, weight) VALUES (?,?)";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement createUserAccount = conn.prepareStatement(sql)) {
+             PreparedStatement createUserAccount = conn.prepareStatement(sql);
+             PreparedStatement addWeightHistory = conn.prepareStatement(weightSql)) {
 
             createUserAccount.setInt(1, user.getUserId());
             createUserAccount.setInt(2, user.getAge());
@@ -33,8 +35,12 @@ public class UserAccountDAOImpl implements UserAccountDAO {
             createUserAccount.setDouble(5, user.getWeight());
             createUserAccount.setString(6, user.getActivity());
 
+            addWeightHistory.setInt(1, user.getUserId());
+            addWeightHistory.setDouble(2, user.getWeight());
+
 
             createUserAccount.executeUpdate();
+            addWeightHistory.executeUpdate();
 
         } catch (SQLException e) {
             LOGGER.error("Failed to create an userAccount! " + e);
@@ -71,15 +77,15 @@ public class UserAccountDAOImpl implements UserAccountDAO {
 
         String sql = "UPDATE user_account SET diet_id = ? WHERE user_id = ?";
 
-        try(Connection conn = jdbcConnection.getConnection();
-        PreparedStatement addDiet = conn.prepareStatement(sql)){
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement addDiet = conn.prepareStatement(sql)) {
 
             addDiet.setInt(1, dietId);
-            addDiet.setInt(2,userId);
+            addDiet.setInt(2, userId);
             addDiet.executeUpdate();
 
-        }catch (SQLException e){
-            java.util.logging.Logger.getLogger(UserAccountDAOImpl.class.getName()).log(Level.SEVERE,null,e);
+        } catch (SQLException e) {
+            java.util.logging.Logger.getLogger(UserAccountDAOImpl.class.getName()).log(Level.SEVERE, null, e);
         }
 
 
@@ -157,7 +163,7 @@ public class UserAccountDAOImpl implements UserAccountDAO {
                 String activity = resultSet.getString("activity");
                 int dietId = resultSet.getInt("diet_id");
 
-                userAccount = new UserAccount(userId, age, gender, height, weight,activity, dietId);
+                userAccount = new UserAccount(userId, age, gender, height, weight, activity, dietId);
             }
         } catch (SQLException e) {
             LOGGER.error("Failed to find any user account with id: " + id + e);
