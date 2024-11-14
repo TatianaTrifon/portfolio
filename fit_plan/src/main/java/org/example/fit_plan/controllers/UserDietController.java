@@ -13,15 +13,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.DietDAOImpl;
+import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
 import org.example.fit_plan.model.Diet;
 import org.example.fit_plan.model.Dish;
+import org.example.fit_plan.model.UserAccount;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -45,7 +44,7 @@ public class UserDietController implements Initializable {
     private VBox scrollContent;
 
     @FXML
-    private HBox dietContainer;
+    private FlowPane dietContainer;
 
     @FXML
     private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
@@ -74,6 +73,10 @@ public class UserDietController implements Initializable {
     public void goToHome(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
         scene = new Scene(root.load());
+
+        UserAccountController controller = root.getController();
+        controller.setUserId(userId);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -123,13 +126,53 @@ public class UserDietController implements Initializable {
     }
 
     @FXML
-    public void goToProgress(){}
+    public void goToProgress(ActionEvent event) throws IOException {
+
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-progress.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     @FXML
-    public void goToSettings(){}
+    public void goToSettings(ActionEvent event) throws IOException {
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-settings.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    public void goToSignIn(){}
+    public void goToSignIn(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
     public void goToDietDetails(Diet diet){
@@ -176,59 +219,45 @@ public class UserDietController implements Initializable {
 
     }
 
+
     public void showDiets(List<Diet> diets) {
         dietContainer.getChildren().clear();
 
-        dietContainer.setSpacing(20);
-
+        dietContainer.setHgap(20); // Horizontal gap between items
+        dietContainer.setVgap(20); // Vertical gap between items
+        dietContainer.setPrefWrapLength(pageScrollPane.getWidth() - 40); // Adjust wrap length based on ScrollPane width with padding
 
         for (Diet diet : diets) {
             VBox dietBox = new VBox(10);
             dietBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-            dietBox.setMaxHeight(274);
-            dietBox.setMaxWidth(304);
-
-
+            dietBox.setMaxWidth(300);
+            dietBox.setPrefWidth(300);
 
             Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
             ImageView picture = new ImageView(image);
-            picture.setFitHeight(275);
-            picture.setFitWidth(300);
-
-
+            picture.setFitHeight(200);
+            picture.setFitWidth(280);
 
             Label dietName = new Label(diet.getDietName());
             dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
             dietName.setWrapText(true);
 
-            Label dietDescription = new Label(diet.getDietDescription());
-            dietDescription.setStyle("-fx-font-size: 14;");
-            dietDescription.setWrapText(true);
 
             Label dietCategory = new Label(diet.getDietCategory());
             dietCategory.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
             dietCategory.setWrapText(true);
 
-            dietBox.getChildren().addAll(picture, dietName, dietDescription, dietCategory);
-
+            dietBox.getChildren().addAll(picture, dietName, dietCategory);
             dietBox.setOnMouseClicked(event -> goToDietDetails(diet));
-
-            VBox.setVgrow(dietName, Priority.ALWAYS);
-            VBox.setVgrow(dietDescription, Priority.ALWAYS);
-            VBox.setVgrow(dietCategory, Priority.ALWAYS);
 
             dietContainer.getChildren().add(dietBox);
         }
-
-        dietContainer.setSpacing(22);
-        dietContainer.setFillHeight(false);
     }
-
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         pageScrollPane.setFitToWidth(true);
-        pageScrollPane.setFitToHeight(true);
+        pageScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
 
         Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
@@ -239,24 +268,73 @@ public class UserDietController implements Initializable {
 
         Image home = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\home.png");
         homeView.setImage(home);
+        homeView.setOnMouseClicked(event -> {
+            try {
+                goToHome(new ActionEvent(homeView, homeView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image diets = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\diets.png");
         dietsView.setImage(diets);
+        dietsView.setOnMouseClicked(event -> {
+            try {
+                goToDiets(new ActionEvent(dietsView, dietsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image workout = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\workoutPlan.png");
         workoutView.setImage(workout);
+        workoutView.setOnMouseClicked(event -> {
+            try {
+                goToWorkout(new ActionEvent(workoutView, workoutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image dish = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\dishIdeas.png");
         dishView.setImage(dish);
+        dishView.setOnMouseClicked(event -> {
+            try {
+                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image progress = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\progress.png");
         progressView.setImage(progress);
+        progressView.setOnMouseClicked(event -> {
+            try {
+                goToProgress(new ActionEvent(progressView, progressView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image settings = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\settings.png");
         settingsView.setImage(settings);
+        settingsView.setOnMouseClicked(event -> {
+            try {
+                goToSettings(new ActionEvent(settingsView, settingsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image logOut = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\logOut.png");
         logOutView.setImage(logOut);
+        logOutView.setOnMouseClicked(event -> {
+            try {
+                goToSignIn(new ActionEvent(logOutView, logOutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
         buttonsPane.setTranslateX(-600);

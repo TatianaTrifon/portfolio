@@ -15,6 +15,8 @@ public interface DietDAO extends DAO<Diet> {
 
     Diet findById(Integer id);
 
+    Diet findDietByUserId(Integer userId);
+
     List<Diet> findDietsByCategory(String category);
 
     List<Diet> findRecommendedDiets();

@@ -6,20 +6,25 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.ExerciseDAOImpl;
 import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
 import org.example.fit_plan.model.Diet;
+import org.example.fit_plan.model.Dish;
 import org.example.fit_plan.model.UserAccount;
 
 import java.io.ByteArrayInputStream;
@@ -33,13 +38,16 @@ public class DietDetailsController implements Initializable {
     private ImageView  backImage, homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView, exitImage, menuImage,dietImageView;
 
     @FXML
-    private AnchorPane mainPane, buttonsPane, iconPane, toolPane;
+    private AnchorPane mainPane, buttonsPane, iconPane, toolPane, contentPane;
 
     @FXML
-    private Text descriptionText;
+    private Text descriptionText, allowedFoodText,forbiddenFoodText;
 
     @FXML
-    private Label nameLabel,dietCategoryLabel,allowedFoodLabel,forbiddenFoodLabel;
+    private ScrollPane pageScrollPane;
+
+    @FXML
+    private Label nameLabel,dietCategoryL, dietCategoryLabel,allowedFoodL,forbiddenFoodL,descriptionL;
 
     @FXML
     private Button addButton;
@@ -70,15 +78,7 @@ public class DietDetailsController implements Initializable {
     public void setDiet(Diet diet) {
         this.diet = diet;
 
-        nameLabel.setText(diet.getDietName());
-
-        Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
-        dietImageView.setImage(image);
-
-        dietCategoryLabel.setText(diet.getDietCategory());
-        allowedFoodLabel.setText(diet.getAllowedFood());
-        forbiddenFoodLabel.setText(diet.getForbiddenFood());
-        descriptionText.setText(diet.getDietDescription());
+       showDetails(diet);
     }
 
 
@@ -127,6 +127,71 @@ public class DietDetailsController implements Initializable {
     @FXML
     public void goToSignIn(){}
 
+
+    public void showDetails(Diet diet) {
+        contentPane.getChildren().clear();
+
+
+        Label titleLabel = new Label(diet.getDietName());
+        titleLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
+        AnchorPane.setLeftAnchor(titleLabel, 0.0);
+        AnchorPane.setRightAnchor(titleLabel, 0.0);
+        titleLabel.setAlignment(Pos.CENTER);
+
+
+
+        Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
+        ImageView dietImageView = new ImageView(image);
+        dietImageView.setFitHeight(375);
+        dietImageView.setFitWidth(400);
+
+
+        AnchorPane.setLeftAnchor(dietImageView, 127.0);
+        AnchorPane.setTopAnchor(dietImageView, 95.0);
+
+        AnchorPane.setLeftAnchor(addButton, 280.0);
+        AnchorPane.setTopAnchor(addButton, 500.0);
+
+
+
+        dietCategoryLabel.setText(diet.getDietCategory());
+        dietCategoryLabel.setStyle("-fx-font-size: 14;");
+
+
+        allowedFoodText.setText(diet.getAllowedFood());
+        allowedFoodText.setStyle("-fx-font-size: 14;");
+        TextFlow ingredientsFlow = new TextFlow(allowedFoodText);
+        ingredientsFlow.setPrefWidth(400);
+
+
+        forbiddenFoodText.setText(diet.getForbiddenFood());
+        forbiddenFoodText.setStyle("-fx-font-size: 14;");
+        TextFlow nutrientsFlow = new TextFlow(forbiddenFoodText);
+        nutrientsFlow.setPrefWidth(400);
+
+
+
+        descriptionText.setText(diet.getDietDescription());
+        descriptionText.setStyle("-fx-font-size: 14;");
+        TextFlow instructionsFlow = new TextFlow(descriptionText);
+        instructionsFlow.setPrefWidth(400);
+
+
+        VBox detailsBox = new VBox(10);
+        detailsBox.getChildren().addAll(
+                dietCategoryL,dietCategoryLabel,
+                allowedFoodL, allowedFoodText,
+                forbiddenFoodL, forbiddenFoodText,
+                descriptionL, descriptionText
+        );
+
+
+        AnchorPane.setTopAnchor(detailsBox, 55.0);
+        AnchorPane.setRightAnchor(detailsBox, 40.0);
+
+
+        contentPane.getChildren().addAll(dietImageView, titleLabel, addButton,detailsBox);
+    }
 
 
     @FXML

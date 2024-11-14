@@ -4,6 +4,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,6 +14,61 @@
 
 <AnchorPane fx:id="mainPane" maxHeight="700.0" maxWidth="1100.0" prefHeight="700.0" prefWidth="1100.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.fit_plan.controllers.DishDetailsController">
     <children>
+      <ScrollPane fx:id="pageScrollPane" layoutX="45.0" layoutY="48.0" prefHeight="654.0" prefWidth="1055.0">
+        <content>
+          <AnchorPane fx:id="contentPane" minHeight="0.0" minWidth="0.0" prefWidth="1054.0">
+               <children>
+                    <Button fx:id="addButton" layoutX="243.0" layoutY="534.0" mnemonicParsing="false" onAction="#addToProgress" prefHeight="39.0" prefWidth="83.0" text="Add" AnchorPane.leftAnchor="243.0" />
+                    <Label fx:id="nameLabel" alignment="CENTER" layoutY="14.0" prefHeight="25.0" prefWidth="1100.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                        <font>
+                            <Font size="34.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="ingredientsL" layoutX="568.0" layoutY="173.0" prefHeight="39.0" prefWidth="249.0" text="Ingredients">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="instrunctionsL" layoutX="568.0" layoutY="360.0" prefHeight="39.0" prefWidth="249.0" text="Instructions">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="nutrientsL" layoutX="568.0" layoutY="252.0" prefHeight="39.0" prefWidth="249.0" text="Nutrients">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    <Text fx:id="nutrientsText" layoutX="568.0" layoutY="307.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Text>
+                    <ImageView fx:id="dishImageView" fitHeight="375.0" fitWidth="400.0" layoutX="85.0" layoutY="99.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="99.40000000000003" AnchorPane.leftAnchor="85.0" AnchorPane.rightAnchor="569.6000000000001" AnchorPane.topAnchor="99.0" />
+                    <Label fx:id="caloriesL" layoutX="568.0" layoutY="83.0" prefHeight="39.0" prefWidth="249.0" text="Calories">
+                        <font>
+                            <Font name="System Bold" size="16.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="caloriesLabel" layoutX="568.0" layoutY="123.0" prefHeight="39.0" prefWidth="249.0" text="kcal">
+                        <font>
+                            <Font size="14.0" />
+                        </font>
+                    </Label>
+                  <Text fx:id="ingredientsText" layoutX="568.0" layoutY="227.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="instructionsText" layoutX="568.0" layoutY="415.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
 
         <!-- Header Section -->
         <AnchorPane layoutY="-2.0" prefHeight="48.0" prefWidth="1100.0" style="-fx-background-color: #072f4b;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -29,47 +85,10 @@
                 </ImageView>
             </children>
         </AnchorPane>
-        <Label fx:id="nameLabel" alignment="CENTER" layoutY="78.0" prefHeight="25.0" prefWidth="1100.0" text="Label" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <font>
-                <Font size="34.0" />
-            </font>
-        </Label>
-        <Label layoutX="627.0" layoutY="174.0" prefHeight="39.0" prefWidth="249.0" text="Ingredients">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Label>
-        <Label layoutX="627.0" layoutY="439.0" prefHeight="39.0" prefWidth="249.0" text="Instructions">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Label>
-        <Label layoutX="627.0" layoutY="354.0" prefHeight="39.0" prefWidth="249.0" text="Nutrients">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Label>
-        <Text fx:id="nutrientsText" layoutX="627.0" layoutY="408.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Text>
-        <Button fx:id="addButton" layoutX="508.0" layoutY="614.0" mnemonicParsing="false" onAction="#addToProgress" prefHeight="39.0" prefWidth="83.0" text="Add" />
-        <ImageView fx:id="dishImageView" fitHeight="375.0" fitWidth="400.0" layoutX="144.0" layoutY="174.0" pickOnBounds="true" preserveRatio="true" />
-        <Label layoutX="627.0" layoutY="260.0" prefHeight="39.0" prefWidth="249.0" text="Calories">
-            <font>
-                <Font name="System Bold" size="14.0" />
-            </font>
-        </Label>
-        <Label fx:id="caloriesLabel" layoutX="627.0" layoutY="299.0" prefHeight="39.0" prefWidth="249.0" text="kcal">
-            <font>
-                <Font size="14.0" />
-            </font>
-        </Label>
 
-
-
-        <AnchorPane fx:id="buttonsPane" layoutX="43.0" layoutY="47.0" prefHeight="654.0" prefWidth="202.0" style="-fx-background-color: D3D3D3FF;">
+            
+            
+                    <AnchorPane fx:id="buttonsPane" layoutX="43.0" layoutY="47.0" prefHeight="654.0" prefWidth="202.0" style="-fx-background-color: D3D3D3FF;">
             <children>
                 <VBox layoutY="115.0" prefHeight="437.0" prefWidth="200.0" spacing="15.0">
                     <children>
@@ -167,15 +186,5 @@
                 </ImageView>
             </children>
         </AnchorPane>
-      <Text fx:id="ingredientsText" layoutX="627.0" layoutY="228.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="instructionsText" layoutX="627.0" layoutY="493.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="379.2000366210939">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
     </children>
 </AnchorPane>

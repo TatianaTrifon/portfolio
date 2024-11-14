@@ -15,14 +15,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.DishDAO;
 import org.example.fit_plan.dao.implimentations.DishDAOImpl;
+import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
 import org.example.fit_plan.model.Diet;
 import org.example.fit_plan.model.Dish;
+import org.example.fit_plan.model.UserAccount;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -49,7 +52,7 @@ public class UserDishController implements Initializable {
     private VBox scrollContent;
 
     @FXML
-    private HBox dishContainer;
+    private FlowPane dishContainer;
 
     @FXML
     private FlowPane ingredientsBox;
@@ -80,6 +83,10 @@ public class UserDishController implements Initializable {
     public void goToHome(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
         scene = new Scene(root.load());
+
+        UserAccountController controller = root.getController();
+        controller.setUserId(userId);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -129,15 +136,52 @@ public class UserDishController implements Initializable {
     }
 
     @FXML
-    public void goToProgress() {
+    public void goToProgress(ActionEvent event) throws IOException {
+
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-progress.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
     }
 
     @FXML
-    public void goToSettings() {
+    public void goToSettings(ActionEvent event) throws IOException {
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-settings.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
-    public void goToSignIn() {
+    public void goToSignIn(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 
     @FXML
@@ -225,89 +269,140 @@ public class UserDishController implements Initializable {
 
     public void showDishes(List<Dish> dishes) {
         dishContainer.getChildren().clear();
+        dishContainer.setHgap(25);
+        dishContainer.setVgap(20);
 
-        dishContainer.setSpacing(20);
 
+        double dishBoxWidth = 350;
+        double dishBoxHeight = 500;
 
         for (Dish dish : dishes) {
             VBox dishBox = new VBox(10);
             dishBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-            dishBox.setMaxHeight(274);
-            dishBox.setMaxWidth(304);
+            dishBox.setPrefWidth(dishBoxWidth);
+            dishBox.setPrefHeight(dishBoxHeight);
+            dishBox.setMinWidth(dishBoxWidth);
+            dishBox.setMinHeight(dishBoxHeight);
+            dishBox.setMaxWidth(dishBoxWidth);
+            dishBox.setMaxHeight(dishBoxHeight);
 
+            dishBox.setClip(new Rectangle(dishBoxWidth , dishBoxHeight - 7));
 
             Image image = new Image(new ByteArrayInputStream(dish.getPicture()));
             ImageView picture = new ImageView(image);
-            picture.setFitHeight(275);
-            picture.setFitWidth(340);
-
+            picture.setFitHeight(300);
+            picture.setFitWidth(325);
 
             Label dietName = new Label(dish.getDishName());
             dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
             dietName.setWrapText(true);
 
+
+
             Text ingredients = new Text(dish.getIngredients());
             ingredients.setStyle("-fx-font-size: 14;");
+            ingredients.setWrappingWidth(280);
 
 
-            Text instructions = new Text(dish.getInstructions());
-            instructions.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
 
             Label calories = new Label(String.valueOf(dish.getCalories()) + "kcal");
             calories.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
             calories.setWrapText(true);
 
-            Text nutrients = new Text(dish.getNutrients());
-            nutrients.setStyle("-fx-font-size: 14;");
 
+            dishBox.getChildren().addAll(picture, dietName, ingredients,  calories);
 
-            dishBox.getChildren().addAll(picture, dietName, ingredients, instructions, calories, nutrients);
 
             dishBox.setOnMouseClicked(event -> goToDishDetails(dish));
 
-            VBox.setVgrow(dietName, Priority.ALWAYS);
-            VBox.setVgrow(ingredients, Priority.ALWAYS);
-            VBox.setVgrow(instructions, Priority.ALWAYS);
-            VBox.setVgrow(calories, Priority.ALWAYS);
-            VBox.setVgrow(nutrients, Priority.ALWAYS);
-
             dishContainer.getChildren().add(dishBox);
         }
-
-        dishContainer.setSpacing(22);
-        dishContainer.setFillHeight(false);
     }
+
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        Image exit = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
+        pageScrollPane.setFitToWidth(true);
+        pageScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable horizontal scrolling
+
+
+        Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
         exitImage.setImage(exit);
 
-        Image menu = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\menu.png");
+        Image menu = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\menu.png");
         menuImage.setImage(menu);
 
-        Image home = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\home.png");
+        Image home = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\home.png");
         homeView.setImage(home);
+        homeView.setOnMouseClicked(event -> {
+            try {
+                goToHome(new ActionEvent(homeView, homeView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        Image diets = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\diets.png");
+        Image diets = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\diets.png");
         dietsView.setImage(diets);
+        dietsView.setOnMouseClicked(event -> {
+            try {
+                goToDiets(new ActionEvent(dietsView, dietsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        Image workout = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\workoutPlan.png");
+        Image workout = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\workoutPlan.png");
         workoutView.setImage(workout);
+        workoutView.setOnMouseClicked(event -> {
+            try {
+                goToWorkout(new ActionEvent(workoutView, workoutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        Image dish = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\dishIdeas.png");
+        Image dish = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\dishIdeas.png");
         dishView.setImage(dish);
+        dishView.setOnMouseClicked(event -> {
+            try {
+                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        Image progress = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\progress.png");
+        Image progress = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\progress.png");
         progressView.setImage(progress);
+        progressView.setOnMouseClicked(event -> {
+            try {
+                goToProgress(new ActionEvent(progressView, progressView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
-        Image settings = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\settings.png");
+        Image settings = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\settings.png");
         settingsView.setImage(settings);
+        settingsView.setOnMouseClicked(event -> {
+            try {
+                goToSettings(new ActionEvent(settingsView, settingsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image logOut = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\logOut.png");
         logOutView.setImage(logOut);
+        logOutView.setOnMouseClicked(event -> {
+            try {
+                goToSignIn(new ActionEvent(logOutView, logOutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
         buttonsPane.setTranslateX(-600);

@@ -6,15 +6,20 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.DishDAOImpl;
@@ -35,16 +40,22 @@ public class DishDetailsController implements Initializable {
     private AnchorPane mainPane, buttonsPane, iconPane, toolPane;
 
     @FXML
+    private ScrollPane pageScrollPane;
+
+    @FXML
     private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
 
     @FXML
     private Text nutrientsText, ingredientsText, instructionsText;
 
     @FXML
-    private Label caloriesLabel, nameLabel;
+    private Label caloriesLabel, nameLabel, caloriesL, nutrientsL,instrunctionsL,ingredientsL;
 
     @FXML
     private Button addButton;
+
+    @FXML
+    private AnchorPane contentPane;
 
     private FXMLLoader root;
 
@@ -69,18 +80,10 @@ public class DishDetailsController implements Initializable {
     public void setDish(Dish dish) {
         this.dish = dish;
 
-        nameLabel.setText(dish.getDishName());
-
-        Image image = new Image(new ByteArrayInputStream(dish.getPicture()));
-        dishImageView.setImage(image);
-
-        caloriesLabel.setText(String.valueOf(dish.getCalories()));
-
-        ingredientsText.setText(dish.getIngredients());
-        instructionsText.setText(dish.getInstructions());
-        nutrientsText.setText(dish.getNutrients());
+      showDetails(dish);
 
     }
+
 
     public void goBack(ActionEvent event) {
 
@@ -129,6 +132,70 @@ public class DishDetailsController implements Initializable {
 
 
 
+
+    public void showDetails(Dish dish) {
+        contentPane.getChildren().clear();
+
+
+        Label titleLabel = new Label(dish.getDishName());
+        titleLabel.setStyle("-fx-font-size: 24; -fx-font-weight: bold;");
+        AnchorPane.setLeftAnchor(titleLabel, 0.0);
+        AnchorPane.setRightAnchor(titleLabel, 0.0);
+        titleLabel.setAlignment(Pos.CENTER);
+
+
+
+        Image image = new Image(new ByteArrayInputStream(dish.getPicture()));
+        ImageView dishImageView = new ImageView(image);
+        dishImageView.setFitHeight(375);
+        dishImageView.setFitWidth(400);
+
+
+        AnchorPane.setLeftAnchor(dishImageView, 85.0); // Left spacing
+        AnchorPane.setTopAnchor(dishImageView, 99.0); // Top spacing
+
+
+
+        Label caloriesLabel = new Label(dish.getCalories() + " kcal");
+        caloriesLabel.setStyle("-fx-font-size: 14; -fx-font-weight: bold;");
+
+
+        Text ingredientsText = new Text(dish.getIngredients());
+        ingredientsText.setStyle("-fx-font-size: 14;");
+        TextFlow ingredientsFlow = new TextFlow(ingredientsText);
+        ingredientsFlow.setPrefWidth(400);
+
+
+        Text nutrientsText = new Text(dish.getNutrients());
+        nutrientsText.setStyle("-fx-font-size: 14;");
+        TextFlow nutrientsFlow = new TextFlow(nutrientsText);
+        nutrientsFlow.setPrefWidth(400);
+
+
+
+        Text instructionsText = new Text(dish.getInstructions());
+        instructionsText.setStyle("-fx-font-size: 14;");
+        TextFlow instructionsFlow = new TextFlow(instructionsText);
+        instructionsFlow.setPrefWidth(400);
+
+
+        VBox detailsBox = new VBox(15);
+        detailsBox.getChildren().addAll(
+                caloriesL,caloriesLabel,
+                ingredientsL, ingredientsFlow,
+                nutrientsL, nutrientsFlow,
+                instrunctionsL, instructionsFlow
+        );
+
+
+        AnchorPane.setTopAnchor(detailsBox, 55.0);
+        AnchorPane.setRightAnchor(detailsBox, 20.0);
+
+
+        contentPane.getChildren().addAll(dishImageView, detailsBox, titleLabel, addButton);
+    }
+
+
     @FXML
     public void addToProgress(){
 
@@ -152,6 +219,11 @@ public class DishDetailsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        pageScrollPane.setFitToWidth(true);
+        pageScrollPane.setFitToHeight(false);
+
+
 
         Image exit = new javafx.scene.image.Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
         exitImage.setImage(exit);

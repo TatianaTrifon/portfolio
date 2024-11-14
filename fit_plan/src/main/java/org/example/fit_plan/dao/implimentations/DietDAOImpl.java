@@ -120,6 +120,44 @@ public class DietDAOImpl implements DietDAO {
         return diet;
     }
 
+
+    @Override
+    public Diet findDietByUserId(Integer userId) {
+
+        Diet diet = new Diet();
+
+        String sql = "SELECT d.diet_id, d.picture, d.diet_name, d.diet_description, d.diet_category, d.allowed_food, d.forbidden_food " +
+                "FROM diet AS d " +
+                "INNER JOIN user_account AS ua ON d.diet_id = ua.diet_id " +
+                "WHERE ua.user_id = ?";
+
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement findDiet = conn.prepareStatement(sql)) {
+
+            findDiet.setInt(1, userId);
+
+            ResultSet resultSet = findDiet.executeQuery();
+
+            while (resultSet.next()) {
+                int dietId = resultSet.getInt("diet_id");
+                byte[] image = resultSet.getBytes("picture");
+                String name = resultSet.getString("diet_name");
+                String description = resultSet.getString("diet_description");
+                String category = resultSet.getString("diet_category");
+                String allowedFood = resultSet.getString("allowed_food");
+                String forbiddenFood = resultSet.getString("forbidden_food");
+
+                diet = new Diet(dietId, image, name, description, category, allowedFood, forbiddenFood);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Failed to find a diet with user id: " + userId + e);
+        }
+
+        return diet;
+    }
+
+
     @Override
     public List<Diet> findDietsByCategory(String category) {
 

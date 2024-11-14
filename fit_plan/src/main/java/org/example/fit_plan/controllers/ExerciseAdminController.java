@@ -52,7 +52,7 @@ public class ExerciseAdminController implements Initializable {
 
     private String[] muscleGroup = {"trapsFront", "chest", "shouldersFront", "abdominal", "oblique", "biceps", "forearmFront", "quadriceps", "calfFront", "trapsUpBack", "trapsDownBack", "shoulderBack","lats","glutes","back","hamstring","calfBack","triceps","forearmBack"};
 
-    private String[] genderChoice = {"male"," female"};
+    private String[] genderChoice = {"male","female"};
 
     @FXML
     private Button chooseButton, createButton, updateButton, deleteButton, findExerciseButton, createExerciseButton, updateExerciseButton, deleteExerciseButton;

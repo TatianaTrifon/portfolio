@@ -177,10 +177,32 @@ public class UserAccountController implements Initializable {
     }
 
     @FXML
-    public void goToSettings(){}
+    public void goToSettings(ActionEvent event) throws IOException {
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-settings.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    public void goToSignIn(){}
+    public void goToSignIn(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
 
 
@@ -200,24 +222,73 @@ public class UserAccountController implements Initializable {
 
         Image home = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\home.png");
         homeView.setImage(home);
+        homeView.setOnMouseClicked(event -> {
+            try {
+                goToHome(new ActionEvent(homeView, homeView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image diets = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\diets.png");
         dietsView.setImage(diets);
+        dietsView.setOnMouseClicked(event -> {
+            try {
+                goToDiets(new ActionEvent(dietsView, dietsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image workout = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\workoutPlan.png");
         workoutView.setImage(workout);
+        workoutView.setOnMouseClicked(event -> {
+            try {
+                goToWorkout(new ActionEvent(workoutView, workoutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image dish = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\dishIdeas.png");
         dishView.setImage(dish);
+        dishView.setOnMouseClicked(event -> {
+            try {
+                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image progress = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\progress.png");
         progressView.setImage(progress);
+        progressView.setOnMouseClicked(event -> {
+            try {
+                goToProgress(new ActionEvent(progressView, progressView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image settings = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\settings.png");
         settingsView.setImage(settings);
+        settingsView.setOnMouseClicked(event -> {
+            try {
+                goToSettings(new ActionEvent(settingsView, settingsView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         Image logOut = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\logOut.png");
         logOutView.setImage(logOut);
+        logOutView.setOnMouseClicked(event -> {
+            try {
+                goToSignIn(new ActionEvent(logOutView, logOutView.getScene().getWindow()));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
 
         buttonsPane.setTranslateX(-600);
