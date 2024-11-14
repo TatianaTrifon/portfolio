@@ -8,60 +8,42 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import org.example.fit_plan.dao.DishDAO;
-import org.example.fit_plan.dao.implimentations.DishDAOImpl;
 import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
-import org.example.fit_plan.model.Diet;
-import org.example.fit_plan.model.Dish;
+import org.example.fit_plan.dao.implimentations.UserDAOImpl;
+import org.example.fit_plan.model.User;
 import org.example.fit_plan.model.UserAccount;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-public class UserDishController implements Initializable {
+public class UserSettingsController implements Initializable {
 
     @FXML
-    private ImageView exitImage, menuImage, homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView;
+    private ImageView  homeView, workoutView, dietsView, dishView, progressView, settingsView, logOutView, exitImage, menuImage, dishImageView;
 
     @FXML
-    private AnchorPane mainPane, iconPane, buttonsPane, caloriesResultPane;
+    private AnchorPane mainPane, buttonsPane, iconPane, toolPane;
 
     @FXML
-    ScrollPane pageScrollPane;
+    private JFXButton homeButton,workoutButton,dietsButton,dishButton,progressButton,settingsButton,logOutButton;
+    @FXML
+    private ScrollPane pageScrollPane;
 
     @FXML
-    private JFXButton homeButton, workoutButton, dietsButton, dishButton, progressButton, settingsButton, logOutButton;
+    private TextField emailField;
 
     @FXML
-    private VBox scrollContent;
+    private PasswordField oldPasswordField, newPasswordField;
 
     @FXML
-    private FlowPane dishContainer;
-
-    @FXML
-    private FlowPane ingredientsBox;
-
-    @FXML
-    private TextField searchField, searchDishField;
-
-    @FXML
-    private Button addButton, clearButton, searchButton;
+    private Button updateEmailButton,updatePasswordButton,deleteButton;
 
     private FXMLLoader root;
 
@@ -69,24 +51,25 @@ public class UserDishController implements Initializable {
 
     private Scene scene;
 
-    private int userId;
+    private UserAccount userAccount;
 
-    List<String> selectedIngredients = new ArrayList<>();
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
 
+        UserDAOImpl userDAO = new UserDAOImpl();
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+        User user = userDAO.findById(userAccount.getUserId());
+
+        emailField.setText(user.getEmail());
+
 
     }
+
 
     @FXML
     public void goToHome(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
         scene = new Scene(root.load());
-
-        UserAccountController controller = root.getController();
-        controller.setUserId(userId);
-
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -99,7 +82,7 @@ public class UserDishController implements Initializable {
         scene = new Scene(root.load());
 
         UserExerciseController controller = root.getController();
-        controller.setUserId(userId);
+        controller.setUserId(userAccount.getUserId());
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -108,11 +91,14 @@ public class UserDishController implements Initializable {
 
     @FXML
     public void goToDiets(ActionEvent event) throws IOException {
+
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-diet.fxml"));
+
+
         scene = new Scene(root.load());
 
         UserDietController controller = root.getController();
-        controller.setUserId(userId);
+        controller.setUserId(userAccount.getUserId());
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -122,13 +108,14 @@ public class UserDishController implements Initializable {
 
     @FXML
     public void goToDish(ActionEvent event) throws IOException {
+
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-dish.fxml"));
 
 
         scene = new Scene(root.load());
 
         UserDishController controller = root.getController();
-        controller.setUserId(userId);
+        controller.setUserId(userAccount.getUserId());
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -147,7 +134,6 @@ public class UserDishController implements Initializable {
 
         UserProgressController controller = root.getController();
 
-        UserAccount userAccount = userAccountDAO.findById(userId);
         controller.setUserAccount(userAccount);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -165,9 +151,8 @@ public class UserDishController implements Initializable {
 
         scene = new Scene(root.load());
 
-        UserSettingsController controller = root.getController();
+        UserProgressController controller = root.getController();
 
-        UserAccount userAccount = userAccountDAO.findById(userId);
         controller.setUserAccount(userAccount);
 
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -176,156 +161,103 @@ public class UserDishController implements Initializable {
     }
 
     @FXML
-    public void goToSignIn(ActionEvent event) throws IOException {
+    public void goToSignIn() throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
         scene = new Scene(root.load());
-        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage = (Stage) mainPane.getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    @FXML
-    public void addIngredientButton() {
 
-        String ingredient = searchField.getText();
-        selectedIngredients.add(ingredient);
-
-
-        Button ingredientButton = new Button(ingredient);
-        ingredientButton.setStyle("-fx-background-color: #e0e0e0; -fx-text-fill: #333; -fx-min-width: 80; -fx-min-height: 32; -fx-opacity: 0.7; -fx-font-size: 14;");
-
-        filterDishes();
-
-        ingredientButton.setOnAction(event -> {
-            selectedIngredients.remove(ingredient);
-            ingredientsBox.getChildren().remove(ingredientButton);
-            filterDishes();
-        });
-
-        ingredientsBox.getChildren().add(ingredientButton);
-
-    }
 
     @FXML
-    public void clearIngredientsButton() {
+    public void updateUser(){
 
-        DishDAOImpl dishDAO = new DishDAOImpl();
+        UserDAOImpl userDAO = new UserDAOImpl();
+        User user = userDAO.findById(userAccount.getUserId());
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alertError = new Alert(Alert.AlertType.ERROR);
+        String email = emailField.getText();
 
-        selectedIngredients.clear();
-        ingredientsBox.getChildren().clear();
-        showDishes(dishDAO.findAll());
+        if((oldPasswordField.getText()).isEmpty()){
+
+
+            user.setEmail(email);
+
+            User updatedUser = userDAO.update(user);
+
+            if(updatedUser != null){
+                alert.setContentText("Account updated successfully!");
+                alert.showAndWait();
+            } else {
+                alert.setAlertType(Alert.AlertType.ERROR);
+                alert.setContentText("Failed to update the account!");
+                alert.showAndWait();
+            }
+        } else if ((oldPasswordField.getText()).equals(user.getPassword())){
+
+            String newPassword = newPasswordField.getText();
+
+            user.setEmail(email);
+            user.setPassword(newPassword);
+
+            User updatedUser = userDAO.update(user);
+
+            if(updatedUser != null){
+                alert.setContentText("Account updated successfully!");
+                alert.showAndWait();
+                System.out.println(updatedUser.getPassword());
+            } else {
+
+                alertError.setContentText("Failed to update the account!");
+                alertError.showAndWait();
+            }
+
+        } else {
+
+            alertError.setContentText("The old password is wrong. Try again!");
+            alertError.showAndWait();
+        }
+
+
+
     }
 
     @FXML
-    public void searchDietButton() {
+    public void deleteAccount() throws IOException {
 
-        DishDAOImpl dishDAO = new DishDAOImpl();
+        UserDAOImpl userDAO = new UserDAOImpl();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
 
-        showDishes(dishDAO.findByName(searchDishField.getText()));
+        alert.setContentText("Are you sure you want to delete your account?");
 
-        searchDishField.clear();
-    }
+        if(alert.showAndWait().get() == ButtonType.OK){
+          boolean isDeleted =  userDAO.deleteById(userAccount.getUserId());
 
+          if(isDeleted){
+              alert.setAlertType(Alert.AlertType.INFORMATION);
+              alert.setContentText("Your account was deleted successfully!");
+              alert.showAndWait();
 
-    private void filterDishes() {
+              goToSignIn();
 
+          } else {
+              alert.setAlertType(Alert.AlertType.ERROR);
+              alert.setContentText("Failed to delete the account!");
+              alert.showAndWait();
+          }
 
-        DishDAOImpl dishDAO = new DishDAOImpl();
-
-        List<Dish> filteredDishes = new ArrayList<>(dishDAO.findAll());
-
-        for (String ingredient : selectedIngredients) {
-            filteredDishes.retainAll(dishDAO.findByIngredient(ingredient));
-        }
-
-        showDishes(filteredDishes);
-        searchField.clear();
-    }
-
-
-    public void goToDishDetails(Dish dish) {
-
-        try {
-            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dish-details.fxml"));
-
-            Stage currentStage = (Stage) mainPane.getScene().getWindow();
-
-            Stage dishDetailsStage = new Stage();
-            dishDetailsStage.setScene(new Scene(root.load()));
-
-            DishDetailsController controller = root.getController();
-            controller.setDish(dish);
-            controller.setUserId(userId);
-            controller.setPreviousStage(currentStage);
-
-            currentStage.hide();
-            dishDetailsStage.show();
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
-
-    public void showDishes(List<Dish> dishes) {
-        dishContainer.getChildren().clear();
-        dishContainer.setHgap(25);
-        dishContainer.setVgap(20);
-
-
-        double dishBoxWidth = 350;
-        double dishBoxHeight = 500;
-
-        for (Dish dish : dishes) {
-            VBox dishBox = new VBox(10);
-            dishBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-            dishBox.setPrefWidth(dishBoxWidth);
-            dishBox.setPrefHeight(dishBoxHeight);
-            dishBox.setMinWidth(dishBoxWidth);
-            dishBox.setMinHeight(dishBoxHeight);
-            dishBox.setMaxWidth(dishBoxWidth);
-            dishBox.setMaxHeight(dishBoxHeight);
-
-            dishBox.setClip(new Rectangle(dishBoxWidth , dishBoxHeight - 7));
-
-            Image image = new Image(new ByteArrayInputStream(dish.getPicture()));
-            ImageView picture = new ImageView(image);
-            picture.setFitHeight(300);
-            picture.setFitWidth(325);
-
-            Label dietName = new Label(dish.getDishName());
-            dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
-            dietName.setWrapText(true);
-
-
-
-            Text ingredients = new Text(dish.getIngredients());
-            ingredients.setStyle("-fx-font-size: 14;");
-            ingredients.setWrappingWidth(280);
-
-
-
-            Label calories = new Label(String.valueOf(dish.getCalories()) + "kcal");
-            calories.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
-            calories.setWrapText(true);
-
-
-            dishBox.getChildren().addAll(picture, dietName, ingredients,  calories);
-
-
-            dishBox.setOnMouseClicked(event -> goToDishDetails(dish));
-
-            dishContainer.getChildren().add(dishBox);
-        }
-    }
-
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         pageScrollPane.setFitToWidth(true);
-        pageScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER); // Disable horizontal scrolling
+        pageScrollPane.setFitToHeight(true);
 
 
         Image exit = new Image("file:/C:\\Users\\User\\IdeaProjects\\portfolio\\fit_plan\\src\\main\\java\\org\\example\\fit_plan\\images\\exit.png");
@@ -368,7 +300,7 @@ public class UserDishController implements Initializable {
         dishView.setImage(dish);
         dishView.setOnMouseClicked(event -> {
             try {
-                goToDish(new ActionEvent(dishView, dishView.getScene().getWindow()));
+                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -398,7 +330,7 @@ public class UserDishController implements Initializable {
         logOutView.setImage(logOut);
         logOutView.setOnMouseClicked(event -> {
             try {
-                goToSignIn(new ActionEvent(logOutView, logOutView.getScene().getWindow()));
+                goToSignIn();
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -421,10 +353,6 @@ public class UserDishController implements Initializable {
 
             paneTransition.play();
         });
-
-        DishDAOImpl dishDAOImpl = new DishDAOImpl();
-
-        showDishes(dishDAOImpl.findAll());
 
     }
 

@@ -48,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
              PreparedStatement updateUser = conn.prepareStatement(sql)) {
 
             updateUser.setString(1, user.getEmail());
-            updateUser.setString(2, user.getUsername());
+            updateUser.setString(2, user.getPassword());
             updateUser.setInt(3, user.getUserId());
 
             updateUser.executeUpdate();
@@ -64,13 +64,33 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public boolean deleteById(Integer id) {
 
+        String accountSql = "DELETE FROM user_account WHERE user_id = ?";
+        String userAccountDish = "DELETE FROM user_account_dishes WHERE user_id = ?";
+        String userAccountExercise = "DELETE FROM user_account_exercises WHERE user_id = ?";
         String sql = "DELETE FROM user WHERE user_id = ?";
+        String weightSql = "DELETE FROM weight_history WHERE user_id = ?";
 
         try (Connection conn = jdbcConnection.getConnection();
-             PreparedStatement deleteUser = conn.prepareStatement(sql)) {
+             PreparedStatement accountExercise = conn.prepareStatement(userAccountExercise);
+             PreparedStatement accountDish = conn.prepareCall(userAccountDish);
+             PreparedStatement weight = conn.prepareCall(weightSql);
+             PreparedStatement account = conn.prepareCall(accountSql);
+             PreparedStatement userAcc = conn.prepareCall(sql)) {
 
-            deleteUser.setInt(1, id);
-            deleteUser.executeUpdate();
+            accountExercise.setInt(1, id);
+            accountExercise.executeUpdate();
+
+            accountDish.setInt(1, id);
+            accountDish.executeUpdate();
+
+            weight.setInt(1, id);
+            weight.executeUpdate();
+
+            account.setInt(1, id);
+            account.executeUpdate();
+
+            userAcc.setInt(1, id);
+            userAcc.executeUpdate();
 
 
         } catch (SQLException e) {

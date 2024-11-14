@@ -155,7 +155,7 @@ public class UserDietController implements Initializable {
 
         scene = new Scene(root.load());
 
-        UserProgressController controller = root.getController();
+        UserSettingsController controller = root.getController();
 
         UserAccount userAccount = userAccountDAO.findById(userId);
         controller.setUserAccount(userAccount);
@@ -300,7 +300,7 @@ public class UserDietController implements Initializable {
         dishView.setImage(dish);
         dishView.setOnMouseClicked(event -> {
             try {
-                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+                goToDish(new ActionEvent(dishView, dishView.getScene().getWindow()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

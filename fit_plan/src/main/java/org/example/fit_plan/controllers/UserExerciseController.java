@@ -3,6 +3,7 @@ package org.example.fit_plan.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXToggleButton;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -172,7 +173,7 @@ public class UserExerciseController implements Initializable {
 
         scene = new Scene(root.load());
 
-        UserProgressController controller = root.getController();
+        UserSettingsController controller = root.getController();
 
         UserAccount userAccount = userAccountDAO.findById(userId);
         controller.setUserAccount(userAccount);
@@ -1149,7 +1150,7 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
         dishView.setImage(dish);
         dishView.setOnMouseClicked(event -> {
             try {
-                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+                goToDish(new ActionEvent(dishView, dishView.getScene().getWindow()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -1286,6 +1287,7 @@ musclePane.getChildren().addAll(MuscleGroupWoman.getAllMusclesWomen());
             exerciseBox.setMaxWidth(327);
 
             File tempFile = null;
+            
             try {
                 tempFile = File.createTempFile("exercise_video_", ".mp4");
                 try (FileOutputStream fos = new FileOutputStream(tempFile)) {

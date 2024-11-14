@@ -15,6 +15,10 @@ public interface UserAccountDAO extends DAO<UserAccount> {
 
     boolean deleteDietById(Integer id);
 
+    boolean deleteExerciseById(Integer exerciseId);
+
+    boolean deleteDishById(Integer dishId);
+
     UserAccount findById(Integer id);
 
 

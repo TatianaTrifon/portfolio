@@ -211,7 +211,7 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
         List<Exercise> exercises = new ArrayList<>();
 
-        String sql = "SELECT exercise.exercise_name, exercise.exercise_description, exercise.muscle_category, exercise.media, exercise.sets FROM exercise JOIN user_account_exercises ON exercise.exercise_id = user_account_exercises.exercise_id WHERE user_account_exercises.user_id = ? ";
+        String sql = "SELECT exercise.exercise_id, exercise.exercise_name, exercise.exercise_description, exercise.muscle_category, exercise.media, exercise.sets FROM exercise JOIN user_account_exercises ON exercise.exercise_id = user_account_exercises.exercise_id WHERE user_account_exercises.user_id = ? ";
 
         try(Connection conn = jdbcConnection.getConnection();
         PreparedStatement findExercises = conn.prepareStatement(sql)){
@@ -222,13 +222,14 @@ public class ExerciseDAOImpl implements ExerciseDAO {
 
             while(resultSet.next()){
 
+                int exerciseId = resultSet.getInt("exercise_id");
                 String name = resultSet.getString("exercise_name");
                 String description = resultSet.getString("exercise_description");
                 String muscleCategory = resultSet.getString("muscle_category");
                 byte[] media = resultSet.getBytes("media");
                 String sets = resultSet.getString("sets");
 
-                exercises.add(new Exercise(name,description,muscleCategory,media,sets));
+                exercises.add(new Exercise(exerciseId,name,description,muscleCategory,media,sets));
             }
 
 

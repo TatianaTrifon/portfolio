@@ -52,4 +52,13 @@ public class Exercise {
         this.sets = sets;
         this.gender = gender;
     }
+
+    public Exercise(int exerciseId, String exerciseName, String exerciseDescription, String muscleCategory, byte[] video, String sets) {
+        this.exerciseId = exerciseId;
+        this.exerciseName = exerciseName;
+        this.exerciseDescription = exerciseDescription;
+        this.muscleCategory = muscleCategory;
+        this.video = video;
+        this.sets = sets;
+    }
 }

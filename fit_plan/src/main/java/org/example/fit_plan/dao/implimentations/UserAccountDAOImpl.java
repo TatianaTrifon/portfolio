@@ -141,6 +141,43 @@ public class UserAccountDAOImpl implements UserAccountDAO {
     }
 
     @Override
+    public boolean deleteExerciseById(Integer exerciseId) {
+        String userAccountExercise = "DELETE FROM user_account_exercises WHERE exercise_id = ?";
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement deleteUserExercise = conn.prepareStatement(userAccountExercise)) {
+
+
+            deleteUserExercise.setInt(1, exerciseId);
+            deleteUserExercise.executeUpdate();
+
+
+        } catch (SQLException e) {
+            LOGGER.error("Failed to delete user account with id: " + exerciseId + e);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean deleteDishById(Integer dish_id) {
+        String userAccountDish = "DELETE FROM user_account_dishes WHERE dish_id = ?;";
+
+        try (Connection conn = jdbcConnection.getConnection();
+             PreparedStatement deleteUserDish = conn.prepareStatement(userAccountDish)) {
+
+            deleteUserDish.setInt(1, dish_id);
+            deleteUserDish.executeUpdate();
+
+
+        } catch (SQLException e) {
+            LOGGER.error("Failed to delete user account with id: " + dish_id + e);
+        }
+
+        return true;
+    }
+
+    @Override
     public UserAccount findById(Integer id) {
 
         UserAccount userAccount = new UserAccount();

@@ -2,6 +2,7 @@ package org.example.fit_plan.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -58,7 +59,7 @@ public class UserProgressController implements Initializable {
     private ScrollPane pageScrollPane;
 
     @FXML
-    private VBox dietScrollContent,dishScrollContent,exerciseScrollContent;
+    private VBox dietScrollContent,dishScrollContent,exerciseScrollContent, mainContentBox;
 
     @FXML
     private HBox dietContainer,dishContainer,exerciseContainer;
@@ -110,6 +111,8 @@ public class UserProgressController implements Initializable {
 
         loadInitialWeightData();
 
+        contentPane.getChildren().remove(mainContentBox);
+
         DietDAOImpl dietDAO = new DietDAOImpl();
         Diet diet = dietDAO.findDietByUserId(userAccount.getUserId());
         showDiets(diet);
@@ -121,6 +124,8 @@ public class UserProgressController implements Initializable {
         ExerciseDAOImpl exerciseDAO = new ExerciseDAOImpl();
         List<Exercise> exercises = exerciseDAO.findExerciseByUserAccountId(userAccount.getUserId());
         showExercises(exercises);
+
+        contentPane.getChildren().add(mainContentBox);
 
     }
 
@@ -214,7 +219,7 @@ public class UserProgressController implements Initializable {
 
         scene = new Scene(root.load());
 
-        UserProgressController controller = root.getController();
+        UserSettingsController controller = root.getController();
 
 
         controller.setUserAccount(userAccount);
@@ -298,14 +303,14 @@ public class UserProgressController implements Initializable {
     public void goToDietDetails(Diet diet){
 
         try {
-            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/diet-details.fxml"));
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/diet-details-progress.fxml"));
 
             Stage currentStage = (Stage) mainPane.getScene().getWindow();
 
             Stage dietDetailsStage = new Stage();
             dietDetailsStage.setScene(new Scene(root.load()));
 
-            DietDetailsController controller = root.getController();
+            DietDetailsProgressController controller = root.getController();
             controller.setDiet(diet);
             controller.setUserId(userAccount.getUserId());
             controller.setPreviousStage(currentStage);
@@ -324,57 +329,63 @@ public class UserProgressController implements Initializable {
         dietContainer.getChildren().clear();
         dietContainer.setSpacing(20);
 
+        VBox dietBox = new VBox(10);
+
         if (diet == null) {
             System.out.println("No diet found for the given user.");
-            return;
-        }
+            dietScrollContent.setVisible(false);
+            dietContainer.setVisible(false);
+            dietBox.setVisible(false);
 
-        VBox dietBox = new VBox(10);
-        dietBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
-        dietBox.setMaxHeight(278);
-        dietBox.setMaxWidth(344);
-
-        if (diet.getPicture() != null) {
-            Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
-            ImageView picture = new ImageView(image);
-            picture.setFitHeight(275);
-            picture.setFitWidth(340);
-            dietBox.getChildren().add(picture);
         } else {
-            System.out.println("No image available for this diet.");
+
+
+            dietBox.setStyle("-fx-border-color: #ccc; -fx-border-width: 1; -fx-padding: 10; -fx-background-color: #f9f9f9;");
+            dietBox.setMaxHeight(278);
+            dietBox.setMaxWidth(344);
+
+            if (diet.getPicture() != null) {
+                Image image = new Image(new ByteArrayInputStream(diet.getPicture()));
+                ImageView picture = new ImageView(image);
+                picture.setFitHeight(275);
+                picture.setFitWidth(340);
+                dietBox.getChildren().add(picture);
+            } else {
+                System.out.println("No image available for this diet.");
+            }
+
+            Label dietName = new Label(diet.getDietName());
+            dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
+            dietName.setWrapText(true);
+
+            Label dietDescription = new Label(diet.getDietDescription());
+            dietDescription.setStyle("-fx-font-size: 14;");
+            dietDescription.setWrapText(true);
+
+            Label dietCategory = new Label(diet.getDietCategory());
+            dietCategory.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
+            dietCategory.setWrapText(true);
+
+            dietBox.getChildren().addAll(dietName, dietDescription, dietCategory);
+            dietBox.setOnMouseClicked(event -> goToDietDetails(diet));
+
+            dietContainer.setAlignment(Pos.CENTER);
+            dietContainer.getChildren().addAll(dietBox);
         }
-
-        Label dietName = new Label(diet.getDietName());
-        dietName.setStyle("-fx-font-size: 18; -fx-font-weight: bold;");
-        dietName.setWrapText(true);
-
-        Label dietDescription = new Label(diet.getDietDescription());
-        dietDescription.setStyle("-fx-font-size: 14;");
-        dietDescription.setWrapText(true);
-
-        Label dietCategory = new Label(diet.getDietCategory());
-        dietCategory.setStyle("-fx-font-size: 14; -fx-text-fill: #666;");
-        dietCategory.setWrapText(true);
-
-        dietBox.getChildren().addAll(dietName, dietDescription, dietCategory);
-        dietBox.setOnMouseClicked(event -> goToDietDetails(diet));
-
-        dietContainer.setAlignment(Pos.CENTER);
-        dietContainer.getChildren().addAll(dietBox);
     }
 
 
     public void goToDishDetails(Dish dish) {
 
         try {
-            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dish-details.fxml"));
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/dish-details-progress.fxml"));
 
             Stage currentStage = (Stage) mainPane.getScene().getWindow();
 
             Stage dishDetailsStage = new Stage();
             dishDetailsStage.setScene(new Scene(root.load()));
 
-            DishDetailsController controller = root.getController();
+            DishDetailsProgressContainer controller = root.getController();
             controller.setDish(dish);
             controller.setUserId(userAccount.getUserId());
             controller.setPreviousStage(currentStage);
@@ -442,14 +453,14 @@ public class UserProgressController implements Initializable {
     public void goToExerciseDetails(Exercise exercise) {
 
         try {
-            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/exercise-details.fxml"));
+            root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/exercise-details-progress.fxml"));
 
             Stage currentStage = (Stage) mainPane.getScene().getWindow();
 
             Stage dietDetailsStage = new Stage();
             dietDetailsStage.setScene(new Scene(root.load()));
 
-            ExerciseDetailsController controller = root.getController();
+            ExerciseDetailsProgressController controller = root.getController();
             controller.setExercise(exercise);
             controller.setUserId(userAccount.getUserId());
             controller.setPreviousStage(currentStage);
@@ -544,6 +555,9 @@ public class UserProgressController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+
+
+
         pageScrollPane.setFitToWidth(true);
         pageScrollPane.setFitToHeight(false);
 
@@ -587,7 +601,7 @@ public class UserProgressController implements Initializable {
         dishView.setImage(dish);
         dishView.setOnMouseClicked(event -> {
             try {
-                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+                goToDish(new ActionEvent(dishView, dishView.getScene().getWindow()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -642,19 +656,6 @@ public class UserProgressController implements Initializable {
         });
 
 
-        VBox mainContentVBox = new VBox(30);
-        mainContentVBox.setPadding(new Insets(550, 20, 20, 20));
-
-
-        mainContentVBox.getChildren().addAll(dietScrollContent, dishScrollContent, exerciseScrollContent);
-
-
-        contentPane.getChildren().remove(mainContentVBox);
-        contentPane.getChildren().add(mainContentVBox);
-
-        heightField.setEditable(true);
-        weightField.setEditable(true);
-        activityComboBox.setDisable(false);
     }
 
 

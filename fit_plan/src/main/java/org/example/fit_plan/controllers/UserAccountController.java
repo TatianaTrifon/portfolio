@@ -185,7 +185,7 @@ public class UserAccountController implements Initializable {
 
         scene = new Scene(root.load());
 
-        UserProgressController controller = root.getController();
+        UserSettingsController controller = root.getController();
 
         UserAccount userAccount = userAccountDAO.findById(userId);
         controller.setUserAccount(userAccount);
@@ -254,7 +254,7 @@ public class UserAccountController implements Initializable {
         dishView.setImage(dish);
         dishView.setOnMouseClicked(event -> {
             try {
-                goToDish(new ActionEvent(dish, dishView.getScene().getWindow()));
+                goToDish(new ActionEvent(dishView, dishView.getScene().getWindow()));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -337,7 +337,7 @@ public class UserAccountController implements Initializable {
 
         UserAccount existingAccount = userAccountDAOImpl.findById(userId);
 
-        if(existingAccount.getUserId() == 0) {
+        if(existingAccount.getGender() == null) {
            UserAccount userAccount = new UserAccount(userId, age, gender, height, weight, activity);
             userAccountDAOImpl.create(userAccount);
         }

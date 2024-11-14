@@ -238,7 +238,7 @@ public class DishDAOImpl implements DishDAO {
     public List<Dish> findDishByUserAccountId(Integer id) {
         List<Dish> dishes = new ArrayList<>();
 
-        String sql = "SELECT dish.picture, dish.dish_name, dish.ingredients, dish.instructions, dish.calories, dish.nutrients " +
+        String sql = "SELECT dish.dish_id, dish.picture, dish.dish_name, dish.ingredients, dish.instructions, dish.calories, dish.nutrients " +
                 "FROM dish JOIN user_account_dishes ON dish.dish_id = user_account_dishes.dish_id " +
                 "WHERE user_account_dishes.user_id = ?";
 
@@ -250,6 +250,7 @@ public class DishDAOImpl implements DishDAO {
             ResultSet resultSet = findDish.executeQuery();
 
             while (resultSet.next()) {
+                int dishId = resultSet.getInt("dish_id");
                 byte[] picture = resultSet.getBytes("picture");
                 String name = resultSet.getString("dish_name");
                 String ingredients = resultSet.getString("ingredients");
@@ -257,7 +258,7 @@ public class DishDAOImpl implements DishDAO {
                 double calories = resultSet.getDouble("calories");
                 String nutrients = resultSet.getString("nutrients");
 
-                dishes.add(new Dish(picture, name, ingredients, instructions, calories, nutrients));
+                dishes.add(new Dish(dishId, picture, name, ingredients, instructions, calories, nutrients));
             }
 
         } catch (SQLException e) {

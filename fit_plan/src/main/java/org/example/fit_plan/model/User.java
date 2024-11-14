@@ -24,4 +24,10 @@ public class User {
         this.username = username;
         this.password = password;
     }
+
+    public User(int userId, String email, String password) {
+        this.userId = userId;
+        this.email = email;
+        this.password = password;
+    }
 }

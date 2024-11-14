@@ -25,6 +25,7 @@ import javafx.util.Duration;
 import org.example.fit_plan.dao.implimentations.DishDAOImpl;
 import org.example.fit_plan.dao.implimentations.UserAccountDAOImpl;
 import org.example.fit_plan.model.Dish;
+import org.example.fit_plan.model.UserAccount;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -100,6 +101,10 @@ public class DishDetailsController implements Initializable {
     public void goToHome(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-account.fxml"));
         scene = new Scene(root.load());
+
+        UserAccountController controller = root.getController();
+        controller.setUserId(userId);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
@@ -110,25 +115,97 @@ public class DishDetailsController implements Initializable {
     public void goToWorkout(ActionEvent event) throws IOException {
         root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-exercise.fxml"));
         scene = new Scene(root.load());
+
+        UserExerciseController controller = root.getController();
+        controller.setUserId(userId);
+
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
     @FXML
-    public void goToDiets(){}
+    public void goToDiets(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-diet.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserDietController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     @FXML
-    public void goToDish(){}
+    public void goToDish(ActionEvent event) throws IOException {
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-dish.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserDishController controller = root.getController();
+        controller.setUserId(userId);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    public void goToProgress(){}
+    public void goToProgress(ActionEvent event) throws IOException {
+
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-progress.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserProgressController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+
+    }
 
     @FXML
-    public void goToSettings(){}
+    public void goToSettings(ActionEvent event) throws IOException {
+        UserAccountDAOImpl userAccountDAO = new UserAccountDAOImpl();
+
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/user-settings.fxml"));
+
+
+        scene = new Scene(root.load());
+
+        UserSettingsController controller = root.getController();
+
+        UserAccount userAccount = userAccountDAO.findById(userId);
+        controller.setUserAccount(userAccount);
+
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @FXML
-    public void goToSignIn(){}
+    public void goToSignIn(ActionEvent event) throws IOException {
+        root = new FXMLLoader(getClass().getResource("/org/example/fit_plan/sign-in.fxml"));
+        scene = new Scene(root.load());
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
 
 
 
