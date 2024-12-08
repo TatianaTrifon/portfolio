@@ -12,9 +12,11 @@ user_address VARCHAR(100) NOT NULL
 CREATE TABLE IF NOT EXISTS products(
 product_id INT PRIMARY KEY AUTO_INCREMENT,
 product_name VARCHAR(50) NOT NULL,
+product_category VARCHAR(50) NOT NULL,
 product_size VARCHAR (5) NOT NULL,
 product_color VARCHAR(30) NOT NULL,
-product_quantity INT NOT NULL
+product_quantity INT NOT NULL,
+product_image LONGBLOB NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS brands(
@@ -43,7 +45,16 @@ CONSTRAINT product_fk FOREIGN KEY (product_id) REFERENCES products(product_id),
 CONSTRAINT brand_fk FOREIGN KEY (brand_id) REFERENCES brands(brand_id)
 );
 
+select * from user;
+select * from products;
+select * from brands;
+
 SELECT * FROM brands_product;
+
+DROP TABLE products;
+DROP TABLE purchase;
+DROP TABLE brands_product;
+
 
 
 DELETE FROM products;
